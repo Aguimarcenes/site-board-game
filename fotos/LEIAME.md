@@ -20,6 +20,12 @@ existir, a ilustração desenhada continua no lugar dele.
 | `orla`          | Star Wars: Orla Exterior |
 | `marte`         | Terraforming Mars        |
 
+Mais uma, fora da lista dos jogos:
+
+| Arquivo | O que é                                                        |
+|---------|----------------------------------------------------------------|
+| `eu`    | Sua foto, no "Quem sou". Recorte quadrada, o rosto centralizado |
+
 O site tenta `fotos/<id>.webp` primeiro e cai em `fotos/<id>.jpg`. Prefira webp:
 pesa menos da metade pelo mesmo resultado.
 

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Guarda-Jogos — Aluguel de jogos de tabuleiro em São João del-Rei</title>
-<meta name="description" content="Alugue jogos de tabuleiro em São João del-Rei a partir de R$ 15. Retirada no centro ou entrega em casa.">
+<meta name="description" content="Alugue jogos de tabuleiro em São João del-Rei e região a partir de R$ 15. Retirada na Vila Belizário ou na Colônia, com entrega e busca.">
 <style>
   :root{
     --bg:#14100c; --bg2:#1e1810; --bg3:#2b2318;
@@ -300,9 +300,11 @@
   .caixa .capa svg{display:block;width:100%;height:100%}
   /* a foto entra por cima da ilustração; se o arquivo não existir, ela se remove sozinha */
   /* contain, não cover: caixa de jogo vem em formatos diferentes (quadrada,
-     retrato, deitada) e cortar a arte é pior do que deixar folga. A folga usa
-     a cor do jogo, definida no background de .capa. */
+     retrato, deitada) e cortar a arte é pior do que deixar folga. */
   .caixa .capa .foto{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+  /* quando a foto carrega, o fundo e a moldura saem: fica só a caixa, sem
+     tarja colorida em volta. A cor do jogo continua valendo na ilustração. */
+  .caixa .capa.com-foto{background:transparent;box-shadow:none}
   .caixa .lombada{
     left:calc(50% - var(--dh));width:var(--d);height:100%;
     transform:rotateY(90deg) translateZ(var(--wh));
@@ -430,10 +432,14 @@
   /* ---------- QUEM SOU ---------- */
   .perfil{display:flex;align-items:center;gap:15px;margin-bottom:22px}
   .avatar{
-    width:66px;height:66px;border-radius:50%;flex:none;background:var(--wood);
+    width:86px;height:86px;border-radius:50%;flex:none;background:var(--wood);
     border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;
-    font-family:var(--serif);font-size:26px;color:var(--gold);
+    font-family:var(--serif);font-size:32px;color:var(--gold);
+    position:relative;overflow:hidden;
   }
+  /* a foto cobre a inicial; se o arquivo não existir, a inicial fica */
+  .avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  @media(min-width:900px){.avatar{width:104px;height:104px;font-size:38px}}
   .provas{border-top:1px solid var(--line);margin-top:22px;padding-top:20px;
           display:flex;flex-direction:column;gap:14px}
   .provas div{display:flex;gap:12px;align-items:center;font-size:14px;color:var(--muted)}
@@ -507,7 +513,7 @@
         <div class="base"></div>
       </div>
       <p class="dica" id="dica">toque nas portas para abrir</p>
-      <p class="rodape-porta">Retirada no centro ou entrega em casa</p>
+      <p class="rodape-porta">São João del-Rei e região · levo e busco na sua casa</p>
     </div>
   </section>
 
@@ -574,7 +580,7 @@
       <h2 style="margin-top:14px">Noite de jogos na sua casa</h2>
       <p class="lede" style="margin-top:10px;max-width:560px">
         Chego com os 13 jogos, monto a mesa, ensino as regras e fico até o fim. Você só chama a galera.
-        Atendo São João del-Rei e Tiradentes.
+        Atendo São João del-Rei e região.
       </p>
       <div class="pacotes">
         <div class="pacote"><h4>República</h4><p>Até 12 pessoas · 4 horas</p></div>
@@ -614,25 +620,29 @@
   <section class="tela" id="t-quem">
     <div class="wrap" style="max-width:620px">
       <div class="perfil">
-        <div class="avatar">A</div>
+        <div class="avatar">A<img src="fotos/eu.webp" data-jpg="fotos/eu.jpg" alt="Aguinaldo"
+          onerror="if(this.dataset.jpg){this.src=this.dataset.jpg;delete this.dataset.jpg}else{this.remove()}"></div>
         <div>
           <h3 style="margin-bottom:3px">Aguinaldo</h3>
-          <p style="font-size:13px;color:var(--muted)">São João del-Rei · desde 2026</p>
+          <p style="font-size:13px;color:var(--muted)">São João del-Rei e região · desde 2026</p>
         </div>
       </div>
       <p class="lede" style="margin-bottom:14px">
-        Comecei com 13 jogos que são meus mesmo, comprados um a um ao longo de anos.
-        Não é loja grande, não tem galpão: sou eu e a minha estante.
+        Sou apaixonado por jogo de tabuleiro. Os 13 que estão nessa estante são meus há anos,
+        comprados um a um — cada um escolhido com calma, esperado, e jogado muitas vezes antes
+        de entrar aqui.
       </p>
       <p class="lede">
-        Abri isso porque jogo de tabuleiro aqui custa R$ 400 e quase ninguém compra sem experimentar.
-        Alugando por R$ 15, você descobre antes.
+        Abri o Guarda-Jogos por um motivo simples: jogo bom não é pra ficar guardado. Aqui um
+        jogo custa R$ 400, quase ninguém compra sem experimentar, e por isso quase ninguém
+        conhece. Quero levar a palavra dos jogos de tabuleiro para o máximo de gente que eu
+        conseguir em São João del-Rei e região.
       </p>
       <div class="provas">
-        <div><span class="ic">&#9906;</span>Retirada no centro, combinada antes</div>
-        <div><span class="ic">&#9993;</span>Entrego em toda a cidade</div>
+        <div><span class="ic">&#9906;</span>Dois pontos de coleta: Vila Belizário e Colônia</div>
+        <div><span class="ic">&#9993;</span>Levo e busco na sua casa</div>
         <div><span class="ic">&#9679;</span>Pix na hora da entrega, sem caução</div>
-        <div><span class="ic">&#9873;</span>@guardajogos — me chama por lá</div>
+        <div><span class="ic">&#9990;</span>WhatsApp (11) 94593-2080</div>
       </div>
       <div class="caixinha">
         <h4>E se estragar alguma coisa?</h4>
@@ -1040,6 +1050,7 @@ const unico=svg=>{const k=++contadorId;
    quando o arquivo não existe. */
 const capaHTML=j=>`<div class="face capa">${unico(CAPAS[j.id])}`+
   `<img class="foto" src="fotos/${j.id}.webp" data-jpg="fotos/${j.id}.jpg" alt="Caixa do jogo ${j.nome}" `+
+  `onload="this.parentElement.classList.add('com-foto')" `+
   `onerror="if(this.dataset.jpg){this.src=this.dataset.jpg;delete this.dataset.jpg}else{this.remove()}">`+
   `</div>`;
 
@@ -1254,7 +1265,7 @@ function abrirJogo(id){
 }
 
 /* ---- WhatsApp (número de exemplo — troque antes de publicar) ---- */
-const ZAP="5532999999999";
+const ZAP="5511945932080";
 document.addEventListener("click",e=>{
   const b=e.target.closest("[data-zap]");
   if(b) window.open(`https://wa.me/${ZAP}?text=${encodeURIComponent(b.dataset.zap)}`,"_blank","noopener");
@@ -1314,14 +1325,14 @@ document.getElementById("in-pedido").addEventListener("keydown",e=>{
    DÚVIDAS
    ============================================================ */
 const DUVIDAS=[
-  ["Onde eu retiro o jogo?","No centro de São João del-Rei. Mando a localização exata pelo WhatsApp assim que você fecha o pedido."],
-  ["Vocês entregam em casa?","Entrego em toda São João del-Rei. Até 3 km sai de graça; mais longe que isso, R$ 8 ida e volta."],
+  ["Onde eu retiro o jogo?","Tenho dois pontos de coleta: <b>Vila Belizário</b> e <b>Colônia</b>. Você escolhe o mais perto e eu mando a localização exata pelo WhatsApp."],
+  ["Vocês entregam em casa?","Sim, e busco também. Atendo São João del-Rei e região — combinamos o valor pelo WhatsApp de acordo com a distância."],
   ["Quanto tempo fico com o jogo?","Sete dias corridos. Levando três ou mais de uma vez, são dez dias."],
   ["Posso ficar mais tempo?","Se ninguém estiver na fila daquele jogo, pode. A renovação sai 30% mais barata."],
   ["Precisa pagar caução?","Não. Pix na hora da entrega e pronto."],
   ["E se eu perder uma peça?","Me avisa. Peça pequena eu reponho sem cobrar. Só peço cuidado com as caixas."],
   ["Nunca joguei nada disso.","Melhor ainda. Eu ensino na hora da entrega, ou mando um vídeo de cinco minutos."],
-  ["Atende fora de São João del-Rei?","Tiradentes eu atendo. Outras cidades, só combinando retirada aqui."]
+  ["Atende fora de São João del-Rei?","Atendo a região toda. Me diz de onde você é e a gente combina: ou eu levo, ou você retira num dos dois pontos."]
 ];
 document.getElementById("duvidas").innerHTML=DUVIDAS.map(([q,a])=>`
   <div class="duvida">
