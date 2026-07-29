@@ -4,34 +4,37 @@ Jogue os arquivos aqui com estes nomes exatos. Assim que o arquivo existir, ele
 aparece no site sozinho — não precisa mexer em nada no código. Se um arquivo não
 existir, a ilustração desenhada continua no lugar dele.
 
-| Arquivo            | Jogo                     |
-|--------------------|--------------------------|
-| `saboteur.jpg`     | Saboteur                 |
-| `coup.jpg`         | Coup                     |
-| `decisoes.jpg`     | Decisões de Merda        |
-| `dixit.jpg`        | Dixit                    |
-| `azul.jpg`         | Azul                     |
-| `duel.jpg`         | 7 Wonders Duel           |
-| `ticket.jpg`       | Ticket to Ride: Europa   |
-| `wingspan.jpg`     | Wingspan                 |
-| `terranova.jpg`    | Terra Nova               |
-| `orla.jpg`         | Star Wars: Orla Exterior |
-| `marte.jpg`        | Terraforming Mars        |
+| Arquivo         | Jogo                     |
+|-----------------|--------------------------|
+| `saboteur`      | Saboteur                 |
+| `coup`          | Coup                     |
+| `decisoes`      | Decisões de Merda        |
+| `dixit`         | Dixit                    |
+| `quartz`        | Quartz                   |
+| `azul`          | Azul                     |
+| `duel`          | 7 Wonders Duel           |
+| `ticket`        | Ticket to Ride: Europa   |
+| `wingspan`      | Wingspan                 |
+| `oak`           | Oak                      |
+| `terranova`     | Terra Nova               |
+| `orla`          | Star Wars: Orla Exterior |
+| `marte`         | Terraforming Mars        |
+
+O site tenta `fotos/<id>.webp` primeiro e cai em `fotos/<id>.jpg`. Prefira webp:
+pesa menos da metade pelo mesmo resultado.
 
 Pode adicionar uma de cada vez. As que faltarem seguem com a ilustração.
 
 ## Formato
 
-- **Proporção quadrada, 1:1.** Caixa de jogo moderno é quadrada (30 x 30 cm), e
-  o site foi feito para isso. Recorte a foto num quadrado antes de salvar.
-- **1000 x 1000 pixels** é mais que suficiente. Acima disso só deixa o site lento.
-- **JPG com qualidade 80.** Mire em até 200 KB por arquivo.
-- Se preferir PNG ou WebP, troque a extensão em `capaHTML`, no início do bloco
-  de script do `index.html`.
-
-Caixa que não é quadrada (Coup e Saboteur são menores, Dixit e 7 Wonders Duel
-são deitadas): recorte no quadrado mesmo, deixando uma folga da cor do fundo em
-volta. Fica parecendo a caixa apoiada na prateleira, e não some pedaço da arte.
+- **Mínimo 600 x 600 pixels.** Abaixo disso a foto sai borrada na ficha do jogo,
+  que mostra a caixa em 300 px e dobra em tela retina. **1000 x 1000** é o ideal.
+- **Não precisa ser quadrada.** O site encaixa a foto inteira sem cortar nada e
+  preenche a folga com a cor do jogo. Caixa de Coup em retrato, Dixit deitada:
+  todas funcionam.
+- **Qualidade 80.** Mire em até 100 KB por arquivo em webp.
+- Recorte fora a mesa, a parede e o que não é a caixa. O que sobrar de fundo na
+  foto aparece no site.
 
 ## Depois de adicionar uma foto, recarregue com força
 
