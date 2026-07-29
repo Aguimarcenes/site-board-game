@@ -1,0 +1,14 @@
+# modelos 3D pesados — o site usa PNG renderizado, não o modelo vivo
+*.glb
+*.stl
+*.3mf
+
+# sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# editores
+.vscode/
+.idea/
+*.swp

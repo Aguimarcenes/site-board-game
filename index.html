@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guarda-Jogos — Aluguel de jogos de tabuleiro em São João del-Rei</title>
+<meta name="description" content="Alugue jogos de tabuleiro em São João del-Rei a partir de R$ 15. Retirada no centro ou entrega em casa.">
+<style>
+  :root{
+    --bg:#14100c; --bg2:#1e1810; --bg3:#2b2318;
+    --wood:#4a2f18; --wood2:#6b4526; --wood3:#8a5c33;
+    --gold:#e3bd6d; --gold2:#a3803a;
+    --cream:#f2e7d2; --muted:#9a8b74; --muted2:#7d7059;
+    --line:#2e2618; --line2:#3d3226;
+    --ok:#6bbf7e; --okbg:#1a2b1e;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,"Segoe UI",Roboto,system-ui,sans-serif;
+    --navh:64px;
+    /* nogueira tingida — paleta tirada do guarda-roupa de referência */
+    --n0:#b06a38; --n1:#8a4a26; --n2:#6e3618; --n3:#52280f; --n4:#361805; --n5:#1e0d03;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:var(--sans); background:var(--bg); color:var(--cream);
+    min-height:100vh; overflow-x:hidden; line-height:1.5;
+  }
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input,select{font-family:inherit;font-size:15px}
+
+  /* ---------- NAVEGAÇÃO ---------- */
+  .topo{display:none}
+  @media(min-width:900px){
+    .topo{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:20px 40px; border-bottom:1px solid var(--line);
+      position:sticky; top:0; background:rgba(20,16,12,.94);
+      backdrop-filter:blur(10px); z-index:50;
+    }
+    .topo .marca{font-family:var(--serif);font-size:22px;color:var(--gold);letter-spacing:.04em}
+    .topo nav{display:flex;gap:30px}
+    .topo nav button{font-size:15px;color:var(--muted);padding:4px 0;border-bottom:2px solid transparent}
+    .topo nav button:hover{color:var(--cream)}
+    .topo nav button.on{color:var(--gold);border-bottom-color:var(--gold)}
+  }
+
+  .rodape{
+    position:fixed; left:0; right:0; bottom:0; z-index:50;
+    display:flex; background:rgba(20,16,12,.97); backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);
+    padding:8px 0 calc(8px + env(safe-area-inset-bottom));
+  }
+  .rodape button{flex:1;text-align:center;color:var(--muted2);padding:2px 0}
+  .rodape button.on{color:var(--gold)}
+  .rodape .ic{display:block;font-size:20px;line-height:1;margin-bottom:3px}
+  .rodape .tx{font-size:11px}
+  @media(min-width:900px){.rodape{display:none}}
+
+  main{padding-bottom:calc(var(--navh) + 20px)}
+  @media(min-width:900px){main{padding-bottom:60px}}
+
+  .tela{display:none;animation:entra .35s ease}
+  .tela.ativa{display:block}
+  @keyframes entra{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .wrap{max-width:1120px;margin:0 auto;padding:24px 18px}
+  @media(min-width:900px){.wrap{padding:44px 40px}}
+
+  /* ---------- TIPOGRAFIA ---------- */
+  .kicker{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted2)}
+  .kicker.ouro{color:var(--gold)}
+  h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.2}
+  h1{font-size:clamp(28px,7vw,52px);color:var(--gold);letter-spacing:.04em}
+  h2{font-size:clamp(22px,5vw,34px);color:var(--cream)}
+  h3{font-size:clamp(19px,4vw,24px);color:var(--cream)}
+  .lede{color:var(--muted);font-size:15px;line-height:1.65}
+
+  /* ---------- BOTÕES ---------- */
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:9px;
+    width:100%;padding:15px;border-radius:7px;font-size:15px;font-weight:600;
+    transition:transform .15s,filter .15s;
+  }
+  .btn:active{transform:scale(.985)}
+  .btn.ouro{background:var(--gold);color:#3a2408}
+  .btn.ouro:hover{filter:brightness(1.07)}
+  .btn.fant{border:1px solid var(--line2);color:var(--muted);font-weight:500}
+  .btn.fant:hover{color:var(--gold);border-color:var(--gold2)}
+  .btn.mini{width:auto;padding:11px 20px;font-size:14px}
+
+  /* ---------- TELA 1: A PORTA ---------- */
+  #t-porta .cena{
+    /* -20px porque o main já reserva navh+20 no rodapé; sem isso sobra rolagem */
+    min-height:calc(100vh - var(--navh) - 20px); display:flex; flex-direction:column;
+    align-items:center; justify-content:center; padding:30px 18px 50px;
+    perspective:1800px; position:relative; overflow:hidden;
+  }
+  /* desconta o cabeçalho fixo (82) e o padding do main (60) */
+  @media(min-width:900px){#t-porta .cena{min-height:calc(100vh - 142px)}}
+  .feixe{
+    position:absolute;left:50%;top:52%;width:150vw;height:70vh;translate:-50% 0;
+    clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);
+    background:linear-gradient(180deg,rgba(255,196,110,.26),transparent 80%);
+    filter:blur(24px);opacity:0;transition:opacity 1.4s .4s;pointer-events:none;
+  }
+  body.aberto .feixe{opacity:1}
+
+  .cabecalho{text-align:center;margin-bottom:26px;position:relative;z-index:3;transition:.7s}
+  body.aberto .cabecalho{opacity:.4}
+  .cabecalho .local{font-size:11px;letter-spacing:.28em;color:var(--muted);margin-bottom:8px}
+  .cabecalho .sub{font-size:14px;color:var(--muted);margin-top:8px}
+
+  .armario{
+    --k:1;                            /* fator de escala de todo o entalhe */
+    --col:calc(30px * var(--k));      /* largura da coluna lateral */
+    --gav:calc(24px * var(--k));      /* altura da gaveta */
+    position:relative;z-index:3;
+    /* a proporção 3:4 é travada: o vh entra limitando a LARGURA, nunca a altura,
+       senão o entalhe das portas estica */
+    width:min(300px,74vw,40vh); aspect-ratio:3/4;
+    transform-style:preserve-3d;
+  }
+  /* no desktop o armário é dimensionado pelo que sobra da altura depois do
+     cabeçalho fixo, do título e das legendas — daí o desconto de 470px */
+  @media(min-width:900px){.armario{--k:1.5;width:min(460px,calc((100vh - 452px) * .75))}}
+
+  /* ---- carcaça em nogueira ---- */
+  .corpo{
+    position:absolute;inset:0;border-radius:calc(3px * var(--k));
+    background:
+      repeating-linear-gradient(93deg,rgba(0,0,0,.22) 0 1px,rgba(255,190,120,.045) 1px 4px,rgba(0,0,0,.10) 4px 7px),
+      linear-gradient(100deg,var(--n1) 0%,var(--n2) 38%,var(--n3) 72%,var(--n4) 100%);
+    box-shadow:0 calc(30px * var(--k)) calc(60px * var(--k)) rgba(0,0,0,.75),
+               inset 0 0 0 1px rgba(0,0,0,.5);
+  }
+
+  /* ---- cornija: laje, fileira de dentículos, laje ---- */
+  .cornija{
+    position:absolute;top:calc(-20px * var(--k));left:calc(-11px * var(--k));right:calc(-11px * var(--k));
+    height:calc(28px * var(--k));z-index:8;
+    display:flex;flex-direction:column;
+    filter:drop-shadow(0 calc(6px * var(--k)) calc(10px * var(--k)) rgba(0,0,0,.6));
+  }
+  .cornija i{display:block;flex:none}
+  .cornija .laje{
+    height:calc(7px * var(--k));
+    background:linear-gradient(180deg,var(--n0),var(--n2) 60%,var(--n4));
+    border-radius:calc(3px * var(--k)) calc(3px * var(--k)) 0 0;
+    box-shadow:inset 0 1px 0 rgba(255,205,150,.4);
+  }
+  .cornija .denticulos{
+    flex:1;
+    background:repeating-linear-gradient(90deg,
+      var(--n4) 0 calc(2px * var(--k)),
+      var(--n1) calc(2px * var(--k)) calc(5px * var(--k)));
+    box-shadow:inset 0 calc(2px * var(--k)) calc(3px * var(--k)) rgba(0,0,0,.6),
+               inset 0 calc(-2px * var(--k)) calc(3px * var(--k)) rgba(0,0,0,.5);
+  }
+  .cornija .friso{
+    height:calc(5px * var(--k));
+    background:linear-gradient(180deg,var(--n1),var(--n4));
+  }
+
+  /* ---- colunas caneladas com capitel ---- */
+  .coluna{
+    position:absolute;top:calc(6px * var(--k));bottom:var(--gav);width:var(--col);z-index:6;
+    background:linear-gradient(90deg,var(--n4),var(--n1) 40%,var(--n0) 52%,var(--n2) 68%,var(--n4));
+  }
+  .coluna.esq{left:0}
+  .coluna.dir{right:0}
+  .coluna .capitel{
+    position:absolute;top:0;left:calc(-2px * var(--k));right:calc(-2px * var(--k));
+    height:calc(26px * var(--k));
+    background:linear-gradient(180deg,var(--n0),var(--n2) 55%,var(--n4));
+    box-shadow:0 calc(2px * var(--k)) calc(4px * var(--k)) rgba(0,0,0,.5);
+  }
+  .coluna .capitel::after{           /* voluta esculpida no capitel */
+    content:"";position:absolute;left:50%;top:50%;translate:-50% -50%;
+    width:calc(13px * var(--k));height:calc(13px * var(--k));border-radius:50%;
+    border:calc(2px * var(--k)) solid var(--n0);
+    border-right-color:transparent;border-bottom-color:transparent;
+    opacity:.75;
+  }
+  .coluna .caneluras{
+    position:absolute;left:calc(6px * var(--k));right:calc(6px * var(--k));
+    top:calc(30px * var(--k));bottom:calc(30px * var(--k));
+    background:repeating-linear-gradient(90deg,
+      var(--n4) 0 calc(1px * var(--k)),
+      var(--n1) calc(1px * var(--k)) calc(3px * var(--k)),
+      var(--n0) calc(3px * var(--k)) calc(4px * var(--k)));
+    box-shadow:inset 0 0 calc(5px * var(--k)) rgba(0,0,0,.5);
+  }
+  .coluna .plinto{
+    position:absolute;bottom:0;left:calc(-2px * var(--k));right:calc(-2px * var(--k));
+    height:calc(24px * var(--k));
+    background:linear-gradient(180deg,var(--n0),var(--n3));
+    box-shadow:0 calc(-2px * var(--k)) calc(4px * var(--k)) rgba(0,0,0,.4);
+  }
+
+  /* ---- interior iluminado ---- */
+  .interior{
+    position:absolute;left:var(--col);right:var(--col);
+    top:calc(8px * var(--k));bottom:var(--gav);
+    background:
+      radial-gradient(ellipse 90% 55% at 50% 2%,rgba(255,196,110,.55),transparent 68%),
+      linear-gradient(180deg,#5a3410,#2a1605 55%,#0e0702);
+    box-shadow:inset 0 0 calc(50px * var(--k)) rgba(0,0,0,.92),
+               inset 0 0 0 1px rgba(0,0,0,.7);
+  }
+
+  /* ---- gaveta da base ---- */
+  .gaveta{
+    position:absolute;left:calc(4px * var(--k));right:calc(4px * var(--k));
+    bottom:calc(3px * var(--k));height:calc(19px * var(--k));z-index:7;
+    background:linear-gradient(180deg,var(--n1),var(--n3) 70%,var(--n4));
+    box-shadow:inset 0 1px 0 rgba(255,200,140,.3),inset 0 0 0 1px rgba(0,0,0,.45);
+    display:flex;align-items:center;justify-content:space-around;
+  }
+  .gaveta span{
+    width:calc(7px * var(--k));height:calc(7px * var(--k));border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,var(--n0),var(--n4));
+    box-shadow:0 1px 2px rgba(0,0,0,.6);
+  }
+
+  .base{
+    position:absolute;bottom:calc(-13px * var(--k));left:calc(-7px * var(--k));right:calc(-7px * var(--k));
+    height:calc(16px * var(--k));z-index:8;
+    background:linear-gradient(180deg,var(--n1),var(--n4));
+    clip-path:polygon(0 0,100% 0,100% 55%,88% 100%,72% 100%,64% 55%,36% 55%,28% 100%,12% 100%,0 55%);
+    filter:drop-shadow(0 calc(8px * var(--k)) calc(12px * var(--k)) rgba(0,0,0,.7));
+  }
+
+  /* ---- portas ---- */
+  .porta{
+    position:absolute;top:calc(8px * var(--k));bottom:var(--gav);
+    width:calc(50% - var(--col));z-index:9;cursor:pointer;padding:calc(5px * var(--k));
+    background:
+      repeating-linear-gradient(92deg,rgba(0,0,0,.2) 0 1px,rgba(255,190,120,.05) 1px 4px),
+      linear-gradient(112deg,var(--n1) 0%,var(--n2) 40%,var(--n3) 75%,var(--n4) 100%);
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.55),0 calc(8px * var(--k)) calc(18px * var(--k)) rgba(0,0,0,.55);
+    transition:transform 1.5s cubic-bezier(.55,.03,.15,1);
+  }
+  .porta.esq{left:var(--col);transform-origin:left center}
+  .porta.dir{right:var(--col);transform-origin:right center}
+  body.aberto .porta.esq{transform:rotateY(-118deg)}
+  body.aberto .porta.dir{transform:rotateY(118deg)}
+
+  .porta .entalhe{display:block;width:100%;height:100%}
+  .porta .macaneta{                  /* puxador de madeira torneado */
+    position:absolute;top:50%;translate:0 -50%;
+    width:calc(9px * var(--k));height:calc(9px * var(--k));border-radius:50%;
+    background:radial-gradient(circle at 34% 30%,var(--n0),var(--n2) 55%,var(--n5));
+    box-shadow:0 calc(2px * var(--k)) calc(4px * var(--k)) rgba(0,0,0,.7);
+  }
+  .porta.esq .macaneta{right:calc(4px * var(--k))}
+  .porta.dir .macaneta{left:calc(4px * var(--k))}
+
+  .dica{margin-top:34px;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);
+        position:relative;z-index:3;animation:pulsa 2.6s infinite;transition:.4s}
+  @keyframes pulsa{50%{opacity:.3}}
+  body.aberto .dica{opacity:0}
+  .rodape-porta{margin-top:16px;font-size:13px;color:var(--muted2);position:relative;z-index:3}
+
+  /* ---------- TELA 2: A PERGUNTA ---------- */
+  .opcoes{display:flex;flex-direction:column;gap:11px;margin:18px 0 30px}
+  @media(min-width:700px){.opcoes{flex-direction:row}}
+  .opcao{
+    flex:1;display:flex;align-items:center;gap:12px;text-align:left;
+    background:var(--bg2);border:1px solid var(--line2);border-radius:8px;padding:16px;
+    font-size:15px;color:var(--cream);transition:.18s;
+  }
+  .opcao:hover{border-color:var(--gold2)}
+  .opcao.on{background:var(--gold);border-color:var(--gold);color:#3a2408;font-weight:600}
+  .opcao small{display:block;font-size:12px;color:var(--muted);font-weight:400;margin-top:2px}
+  .opcao.on small{color:#6b4a15}
+  .fichas{display:flex;gap:9px;flex-wrap:wrap}
+  .ficha{
+    border:1px solid var(--line2);color:var(--muted);border-radius:22px;padding:10px 17px;font-size:14px;transition:.18s;
+  }
+  .ficha:hover{border-color:var(--gold2);color:var(--cream)}
+  .ficha.on{background:var(--gold);border-color:var(--gold);color:#3a2408;font-weight:600}
+  .pular{margin-top:30px;font-size:14px;color:var(--muted2);text-decoration:underline}
+
+  /* ---------- CAIXA 3D ---------- */
+  .caixa{
+    --w:100%;--d:16px;--dh:8px;--wh:50%;
+    /* caixa de jogo moderno é quadrada (30x30). As fotos entram sem corte. */
+    position:relative;width:100%;aspect-ratio:1/1;
+    transform-style:preserve-3d;transform:rotateY(-18deg);
+    transition:transform .5s cubic-bezier(.2,.9,.25,1.05);
+  }
+  .caixa .face{position:absolute;top:0;overflow:hidden}
+  .caixa .capa{
+    left:0;width:100%;height:100%;transform:translateZ(var(--dh));border-radius:2px;
+    /* a ilustração 3:4 sobra nas laterais dentro do quadrado; a cor do jogo preenche a folga */
+    background:var(--c2);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 10px 20px rgba(0,0,0,.5);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .caixa .capa svg{display:block;width:100%;height:100%}
+  /* a foto entra por cima da ilustração; se o arquivo não existir, ela se remove sozinha */
+  .caixa .capa .foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .caixa .lombada{
+    left:calc(50% - var(--dh));width:var(--d);height:100%;
+    transform:rotateY(90deg) translateZ(var(--wh));
+    background:linear-gradient(180deg,var(--c1),var(--c2) 70%,#000);
+  }
+
+  /* ---------- PRATELEIRA ---------- */
+  .filtro-topo{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+  .filtro-topo .ficha{padding:7px 14px;font-size:13px}
+  .contagem{font-family:var(--serif);font-size:clamp(20px,4.4vw,26px);color:var(--cream);margin:14px 0 22px}
+
+  .fileira{margin-bottom:30px}
+  .jogos{display:flex;gap:12px;align-items:flex-end;padding:0 4px}
+  .jogos .vaga{flex:1}
+  .tabua{
+    height:11px;border-radius:2px;margin:0 -4px;
+    background:linear-gradient(180deg,var(--wood3) 0%,var(--wood2) 35%,#241405 100%);
+    box-shadow:0 8px 16px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,215,160,.28);
+  }
+  /* flex:1 1 0 mantém a mesma largura em todas as fileiras, inclusive na última incompleta */
+  .item{flex:1 1 0;min-width:0;text-align:left;perspective:700px}
+  .item .caixa{transform:rotateY(-18deg)}
+  .item:hover .caixa{transform:rotateY(0) translateY(-10px) scale(1.04)}
+  .item.fora .caixa{opacity:.34}
+  .item .nome{font-size:12px;color:var(--cream);margin-top:10px;line-height:1.3}
+  .item.fora .nome{color:var(--muted2)}
+  .item .estado{font-size:11px;margin-top:3px;display:flex;align-items:center;gap:5px;color:var(--muted)}
+  .ponto{width:6px;height:6px;border-radius:50%;background:var(--ok);flex:none}
+  .item.fora .ponto{background:var(--muted2)}
+  @media(min-width:900px){
+    .item .nome{font-size:14px}
+    .item .estado{font-size:12px}
+  }
+
+  .legenda{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+  .legenda div{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted)}
+
+  /* ---------- FICHA DO JOGO ---------- */
+  .voltar{display:flex;align-items:center;gap:7px;font-size:14px;color:var(--muted);margin-bottom:22px}
+  .voltar:hover{color:var(--gold)}
+  .ficha-grid{display:flex;flex-direction:column;gap:26px}
+  @media(min-width:900px){
+    .ficha-grid{flex-direction:row;gap:56px;align-items:flex-start}
+    .ficha-grid .visual{flex:0 0 320px;position:sticky;top:110px}
+    .ficha-grid .dados{flex:1;max-width:520px}
+  }
+  .visual{perspective:1200px}
+  .visual .caixa{animation:gira 20s linear infinite;transform-origin:center}
+  .visual:hover .caixa{animation-play-state:paused}
+  @keyframes gira{
+    0%{transform:rotateX(4deg) rotateY(-16deg)}
+    100%{transform:rotateX(4deg) rotateY(344deg)}
+  }
+  .visual .caixa{--d:34px;--dh:17px}
+  .visual .verso{
+    left:0;width:100%;height:100%;transform:rotateY(180deg) translateZ(var(--dh));
+    background:linear-gradient(160deg,var(--c1),var(--c2) 60%,#0a0705);
+    padding:26px 22px;display:flex;flex-direction:column;gap:12px;border-radius:2px;
+  }
+  .verso p{font-size:12px;line-height:1.55;color:rgba(255,255,255,.82)}
+  .visual .caixa{width:min(260px,66vw);margin:0 auto}
+  @media(min-width:900px){.visual .caixa{width:300px}}
+
+  .meta{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 20px}
+  .meta span{font-size:12px;color:#e6d3ac;border:1px solid rgba(227,189,109,.3);
+             border-radius:20px;padding:6px 13px;background:rgba(227,189,109,.06)}
+  .fala{
+    background:var(--bg2);border-left:2px solid var(--gold);padding:16px 17px;margin-bottom:18px;
+  }
+  .fala p{font-family:var(--serif);font-size:15px;line-height:1.65;color:#c9b99f}
+  .fala .assina{font-size:12px;color:var(--muted2);margin-top:10px;font-family:var(--sans)}
+  .aviso{display:flex;align-items:center;gap:10px;border-radius:7px;padding:13px 15px;margin-bottom:12px;font-size:14px}
+  .aviso.livre{background:var(--okbg);color:#a8d9b4}
+  .aviso.preso{background:var(--bg3);color:var(--cream);flex-direction:column;align-items:flex-start;gap:6px}
+  .aviso.preso .quando{display:flex;align-items:center;gap:9px;font-weight:600}
+  .aviso.preso small{color:var(--muted);font-size:12px;line-height:1.5;font-weight:400}
+  .extra{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);margin-bottom:22px}
+  .valor{display:flex;align-items:baseline;gap:10px;margin-bottom:16px}
+  .valor b{font-family:var(--serif);font-size:36px;font-weight:400;color:var(--gold)}
+  .valor small{font-size:13px;color:var(--muted2)}
+  .acoes{display:flex;flex-direction:column;gap:10px}
+  .alternativas{margin-top:30px;border-top:1px solid var(--line);padding-top:22px}
+  .alt-lista{display:flex;gap:16px;margin-top:14px}
+  .alt{flex:1;display:flex;gap:11px;align-items:center;text-align:left}
+  .alt .mini-caixa{width:40px;flex:none;perspective:400px}
+  .alt span{font-size:13px;color:var(--muted)}
+
+  /* ---------- MURAL DE PEDIDOS ---------- */
+  .campo{display:flex;gap:9px;margin:18px 0 32px}
+  .campo input{
+    flex:1;background:var(--bg2);border:1px solid var(--line2);border-radius:7px;
+    padding:14px 15px;color:var(--cream);
+  }
+  .campo input::placeholder{color:var(--muted2)}
+  .campo input:focus{outline:none;border-color:var(--gold2)}
+  .ranking{display:flex;flex-direction:column;gap:16px}
+  .linha{display:flex;align-items:center;gap:13px}
+  .linha .pos{font-family:var(--serif);font-size:19px;color:var(--gold);width:24px;flex:none}
+  .linha.baixa .pos{color:var(--muted2)}
+  .linha .corpo-linha{flex:1;min-width:0}
+  .linha .titulo{font-size:15px;color:var(--cream);margin-bottom:6px}
+  .linha.baixa .titulo{color:var(--muted)}
+  .barra{height:5px;background:var(--line);border-radius:3px;overflow:hidden}
+  .barra i{display:block;height:100%;background:var(--gold);border-radius:3px;transition:width .4s}
+  .linha.baixa .barra i{background:var(--muted2)}
+  .linha .votos{font-size:13px;color:var(--muted);width:52px;text-align:right;flex:none}
+  .linha .votar{font-size:12px;color:var(--gold);border:1px solid var(--line2);border-radius:20px;padding:5px 11px;flex:none}
+  .linha .votar:hover{border-color:var(--gold)}
+  .linha .votar.feito{color:var(--muted2);border-color:var(--line)}
+  .prova{display:flex;gap:11px;align-items:center;background:var(--okbg);border-radius:7px;padding:14px 15px;margin-top:28px}
+  .prova p{font-size:13px;color:#a8d9b4;line-height:1.5}
+
+  /* ---------- DÚVIDAS ---------- */
+  .duvida{border-bottom:1px solid var(--line)}
+  .duvida button{
+    width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;
+    text-align:left;padding:18px 0;font-size:16px;color:var(--cream);font-weight:500;
+  }
+  .duvida .sinal{color:var(--gold);font-size:20px;flex:none;transition:transform .25s}
+  .duvida.on .sinal{transform:rotate(45deg)}
+  .duvida .resp{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
+  .duvida.on .resp{max-height:280px;padding-bottom:18px}
+  .duvida .resp p{font-size:14px;color:var(--muted);line-height:1.7}
+
+  /* ---------- QUEM SOU ---------- */
+  .perfil{display:flex;align-items:center;gap:15px;margin-bottom:22px}
+  .avatar{
+    width:66px;height:66px;border-radius:50%;flex:none;background:var(--wood);
+    border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-size:26px;color:var(--gold);
+  }
+  .provas{border-top:1px solid var(--line);margin-top:22px;padding-top:20px;
+          display:flex;flex-direction:column;gap:14px}
+  .provas div{display:flex;gap:12px;align-items:center;font-size:14px;color:var(--muted)}
+  .provas .ic{color:var(--gold);font-size:17px;width:20px;flex:none;text-align:center}
+  .caixinha{background:var(--bg2);border-radius:8px;padding:16px 17px;margin-top:22px}
+  .caixinha h4{font-size:15px;color:var(--cream);margin-bottom:7px;font-weight:600}
+  .caixinha p{font-size:13px;color:var(--muted);line-height:1.6}
+
+  /* ---------- EVENTOS ---------- */
+  .pacotes{display:flex;flex-direction:column;gap:11px;margin:22px 0 30px}
+  @media(min-width:700px){.pacotes{flex-direction:row}}
+  .pacote{flex:1;background:var(--bg2);border:1px solid var(--line2);border-radius:8px;padding:17px}
+  .pacote h4{font-size:16px;color:var(--cream);margin-bottom:5px;font-weight:600}
+  .pacote p{font-size:13px;color:var(--muted);line-height:1.5}
+  .form-linha{display:flex;gap:10px;margin-bottom:11px}
+  .form-linha input{
+    flex:1;min-width:0;background:var(--bg2);border:1px solid var(--line2);border-radius:7px;
+    padding:14px 15px;color:var(--cream);
+  }
+  .form-linha input::placeholder{color:var(--muted2)}
+  .form-linha input:focus{outline:none;border-color:var(--gold2)}
+
+  /* ---------- AVISO FLUTUANTE ---------- */
+  .toast{
+    position:fixed;left:50%;bottom:calc(var(--navh) + 18px);translate:-50% 12px;z-index:200;
+    display:flex;align-items:center;gap:11px;max-width:calc(100vw - 36px);
+    background:var(--bg3);border:1px solid var(--gold2);border-radius:8px;
+    padding:15px 20px;font-size:14px;box-shadow:0 20px 40px rgba(0,0,0,.6);
+    opacity:0;pointer-events:none;transition:opacity .3s,translate .3s;
+  }
+  .toast.ver{opacity:1;translate:-50% 0}
+  @media(min-width:900px){.toast{bottom:30px}}
+
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.15s!important}}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="marca">Guarda-Jogos</div>
+  <nav>
+    <button data-ir="prateleira" class="on">Prateleira</button>
+    <button data-ir="pedidos">Pedidos</button>
+    <button data-ir="eventos">Eventos</button>
+    <button data-ir="duvidas">Dúvidas</button>
+    <button data-ir="quem">Quem sou</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- 1 · A PORTA -->
+  <section class="tela ativa" id="t-porta">
+    <div class="cena">
+      <div class="feixe"></div>
+      <div class="cabecalho">
+        <p class="local">SÃO JOÃO DEL-REI</p>
+        <h1>Guarda-Jogos</h1>
+        <p class="sub">12 jogos esperando a sua turma</p>
+      </div>
+      <div class="armario" id="armario">
+        <div class="corpo"></div>
+        <div class="interior"></div>
+        <div class="coluna esq"><i class="capitel"></i><i class="caneluras"></i><i class="plinto"></i></div>
+        <div class="coluna dir"><i class="capitel"></i><i class="caneluras"></i><i class="plinto"></i></div>
+        <button class="porta esq" aria-label="Abrir o armário"><span class="macaneta"></span></button>
+        <button class="porta dir" aria-label="Abrir o armário"><span class="macaneta"></span></button>
+        <div class="gaveta"><span></span><span></span></div>
+        <div class="cornija"><i class="laje"></i><i class="denticulos"></i><i class="friso"></i></div>
+        <div class="base"></div>
+      </div>
+      <p class="dica" id="dica">toque nas portas para abrir</p>
+      <p class="rodape-porta">Retirada no centro ou entrega em casa</p>
+    </div>
+  </section>
+
+  <!-- 2 · A PERGUNTA -->
+  <section class="tela" id="t-perguntar">
+    <div class="wrap">
+      <p class="kicker">ANTES DE MOSTRAR OS JOGOS</p>
+      <h2 style="margin-top:14px">Vocês são quantos?</h2>
+      <div class="opcoes" id="op-grupo">
+        <button class="opcao" data-g="dupla">Só nós dois<small>Jogo pra duas pessoas</small></button>
+        <button class="opcao" data-g="trio">3 ou 4 pessoas<small>A mesa mais comum</small></button>
+        <button class="opcao" data-g="turma">5 ou mais<small>República, festa, turma grande</small></button>
+      </div>
+      <h2>Quanto tempo têm?</h2>
+      <div class="fichas" id="op-tempo" style="margin-top:16px">
+        <button class="ficha" data-t="curto">Meia hora</button>
+        <button class="ficha" data-t="medio">Umas duas horas</button>
+        <button class="ficha" data-t="longo">A noite toda</button>
+      </div>
+      <button class="pular" data-ir="prateleira">Ou me mostra tudo de uma vez</button>
+    </div>
+  </section>
+
+  <!-- 3 · A PRATELEIRA -->
+  <section class="tela" id="t-prateleira">
+    <div class="wrap">
+      <div class="filtro-topo" id="filtro-topo"></div>
+      <p class="contagem" id="contagem"></p>
+      <div id="estante"></div>
+      <div class="legenda" id="legenda"></div>
+    </div>
+  </section>
+
+  <!-- 4 · FICHA DO JOGO -->
+  <section class="tela" id="t-jogo">
+    <div class="wrap">
+      <button class="voltar" data-ir="prateleira">&larr; Voltar para a prateleira</button>
+      <div class="ficha-grid" id="ficha"></div>
+    </div>
+  </section>
+
+  <!-- 5 · MURAL DE PEDIDOS -->
+  <section class="tela" id="t-pedidos">
+    <div class="wrap">
+      <h2>Faltou algum jogo?</h2>
+      <p class="lede" style="margin-top:10px">Escreve aqui. Os mais pedidos são os próximos que eu compro — sem chute.</p>
+      <div class="campo">
+        <input id="in-pedido" placeholder="Nome do jogo" aria-label="Nome do jogo que você quer">
+        <button class="btn ouro mini" id="bt-pedir">Pedir</button>
+      </div>
+      <p class="kicker">O QUE A CIDADE ESTÁ PEDINDO</p>
+      <div class="ranking" id="ranking" style="margin-top:18px"></div>
+      <div class="prova">
+        <span style="color:var(--ok);font-size:19px">&#10003;</span>
+        <p>Dixit entrou na prateleira em julho porque 14 pessoas pediram.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · EVENTOS -->
+  <section class="tela" id="t-eventos">
+    <div class="wrap">
+      <p class="kicker">LEVO O ARMÁRIO ATÉ VOCÊ</p>
+      <h2 style="margin-top:14px">Noite de jogos na sua casa</h2>
+      <p class="lede" style="margin-top:10px;max-width:560px">
+        Chego com os 12 jogos, monto a mesa, ensino as regras e fico até o fim. Você só chama a galera.
+        Atendo São João del-Rei e Tiradentes.
+      </p>
+      <div class="pacotes">
+        <div class="pacote"><h4>República</h4><p>Até 12 pessoas · 4 horas</p></div>
+        <div class="pacote"><h4>Aniversário</h4><p>Jogos escolhidos pelo perfil da turma</p></div>
+        <div class="pacote"><h4>Pousada em Tiradentes</h4><p>Acervo hospedado o fim de semana</p></div>
+      </div>
+      <p class="kicker">CONTA DA SUA FESTA</p>
+      <div class="fichas" id="op-evento" style="margin:14px 0 18px">
+        <button class="ficha on" data-e="República">República</button>
+        <button class="ficha" data-e="Aniversário">Aniversário</button>
+        <button class="ficha" data-e="Pousada">Pousada</button>
+        <button class="ficha" data-e="Empresa">Empresa</button>
+      </div>
+      <div class="form-linha">
+        <input id="ev-data" placeholder="Data" aria-label="Data do evento">
+        <input id="ev-gente" placeholder="Quantas pessoas" aria-label="Quantas pessoas">
+      </div>
+      <div class="form-linha"><input id="ev-local" placeholder="Bairro ou cidade" aria-label="Bairro ou cidade"></div>
+      <button class="btn ouro" id="bt-evento" style="max-width:420px;margin-top:8px">Pedir orçamento</button>
+      <p style="font-size:13px;color:var(--muted2);margin-top:14px">Respondo no mesmo dia.</p>
+    </div>
+  </section>
+
+  <!-- 7 · DÚVIDAS -->
+  <section class="tela" id="t-duvidas">
+    <div class="wrap">
+      <h2>Dúvidas frequentes</h2>
+      <div id="duvidas" style="margin-top:22px"></div>
+      <div class="caixinha" style="display:flex;gap:12px;align-items:center">
+        <span style="color:var(--gold);font-size:18px">&#9990;</span>
+        <p style="font-size:14px;color:var(--muted)">Ficou outra dúvida? Me chama no WhatsApp.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · QUEM SOU -->
+  <section class="tela" id="t-quem">
+    <div class="wrap" style="max-width:620px">
+      <div class="perfil">
+        <div class="avatar">A</div>
+        <div>
+          <h3 style="margin-bottom:3px">Aguinaldo</h3>
+          <p style="font-size:13px;color:var(--muted)">São João del-Rei · desde 2026</p>
+        </div>
+      </div>
+      <p class="lede" style="margin-bottom:14px">
+        Comecei com 12 jogos que são meus mesmo, comprados um a um ao longo de anos.
+        Não é loja grande, não tem galpão: sou eu e a minha estante.
+      </p>
+      <p class="lede">
+        Abri isso porque jogo de tabuleiro aqui custa R$ 400 e quase ninguém compra sem experimentar.
+        Alugando por R$ 15, você descobre antes.
+      </p>
+      <div class="provas">
+        <div><span class="ic">&#9906;</span>Retirada no centro, combinada antes</div>
+        <div><span class="ic">&#9993;</span>Entrego em toda a cidade</div>
+        <div><span class="ic">&#9679;</span>Pix na hora da entrega, sem caução</div>
+        <div><span class="ic">&#9873;</span>@guardajogos — me chama por lá</div>
+      </div>
+      <div class="caixinha">
+        <h4>E se estragar alguma coisa?</h4>
+        <p>A gente conversa. Peça pequena eu reponho sem cobrar. Desgaste de uso é por minha conta.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="rodape" id="rodape">
+  <button data-ir="prateleira" class="on"><span class="ic">&#9776;</span><span class="tx">Prateleira</span></button>
+  <button data-ir="eventos"><span class="ic">&#9788;</span><span class="tx">Eventos</span></button>
+  <button data-ir="duvidas"><span class="ic">?</span><span class="tx">Dúvidas</span></button>
+  <button data-ir="quem"><span class="ic">&#9924;</span><span class="tx">Quem sou</span></button>
+</nav>
+
+<div class="toast" id="toast"><span id="toast-tx"></span></div>
+
+<script>
+/* ============================================================
+   ACERVO REAL — 11 unidades de aluguel
+   ============================================================ */
+const JOGOS = [
+  {
+    id:"saboteur", nome:"Saboteur", faixa:"Faixa leve", preco:15,
+    min:3, max:12, tempo:"30 min", banda:"curto", serve:["trio","turma"],
+    c1:"#a5762f", c2:"#5a3f14", livre:true, expansao:"Vai junto com a expansão Saboteur 2",
+    fala:"Anões cavando um túnel atrás de ouro, e alguns deles querendo sabotar tudo. Ninguém sabe quem. É o melhor que eu tenho pra república cheia — com a expansão aguenta 12 na mesa e ninguém fica de fora."
+  },
+  {
+    id:"coup", nome:"Coup", faixa:"Faixa leve", preco:15,
+    min:2, max:6, tempo:"15 min", banda:"curto", serve:["trio","turma"],
+    c1:"#b5342e", c2:"#5a1210", livre:true, expansao:null,
+    fala:"Quinze minutos, todo mundo mentindo. Você blefa sobre qual personagem tem na mão até derrubar os outros. Ótimo pra abrir a noite ou pra encher buraco entre dois jogos grandes."
+  },
+  {
+    id:"decisoes", nome:"Decisões de Merda", faixa:"Faixa leve", preco:15,
+    min:3, max:10, tempo:"20 min", banda:"curto", serve:["turma"],
+    c1:"#d4442e", c2:"#6b1a08", livre:true, expansao:null,
+    fala:"Duas opções, as duas horríveis, e você tem que escolher e ainda defender a sua. É jogo de rir alto, não de pensar. Não leve pro almoço de família."
+  },
+  {
+    id:"dixit", nome:"Dixit", faixa:"Faixa média", preco:25,
+    min:3, max:6, tempo:"30 min", banda:"curto", serve:["trio","turma"],
+    c1:"#6b5bb5", c2:"#2a2050", livre:true, expansao:null,
+    fala:"Você descreve uma carta ilustrada com uma frase e torce pra que alguns acertem, mas não todos. Não tem regra pra decorar, não tem conta. Funciona até com quem jura que não gosta de jogo."
+  },
+  {
+    id:"quartz", nome:"Quartz", faixa:"Faixa média", preco:25,
+    min:2, max:5, tempo:"30 min", banda:"curto", serve:["trio","turma"],
+    c1:"#7b4fa8", c2:"#2c1842", livre:true, expansao:null,
+    fala:"Todo mundo desce na mesma mina atrás de cristais. A cada rodada você decide se cava mais fundo ou sai com o que já juntou — e quem estica demais volta de mão vazia. Rápido, tenso e ensina em dois minutos."
+  },
+  {
+    id:"azul", nome:"Azul", faixa:"Faixa média", preco:25,
+    min:2, max:4, tempo:"40 min", banda:"medio", serve:["dupla","trio"],
+    c1:"#1f88ad", c2:"#0c4560", livre:true, expansao:null,
+    fala:"Bonito de doer e mais cruel do que parece. Você pega azulejos pra montar sua parede, e o que sobra vira ponto negativo. Aprende em cinco minutos e dá vontade de jogar de novo na hora."
+  },
+  {
+    id:"duel", nome:"7 Wonders Duel", faixa:"Faixa média", preco:25,
+    min:2, max:2, tempo:"30 min", banda:"curto", serve:["dupla"],
+    c1:"#b58a3a", c2:"#4a3010", livre:true, expansao:"Vai junto com a expansão Pantheon",
+    fala:"Feito só pra dois, e é o melhor jogo pra dois que eu conheço. Trinta minutos e decisão difícil em toda jogada. Se você joga sempre com a mesma pessoa, leva esse."
+  },
+  {
+    id:"ticket", nome:"Ticket to Ride: Europa", faixa:"Faixa premium", preco:35,
+    min:2, max:5, tempo:"60 min", banda:"medio", serve:["dupla","trio","turma"],
+    c1:"#c05a2a", c2:"#5a2510", livre:true, expansao:null,
+    fala:"Você monta linhas de trem pela Europa tentando ligar cidades antes que alguém tome seu caminho. Aprende em dez minutos e serve pra qualquer mesa. Se tem alguém de primeira viagem no grupo, começa por esse."
+  },
+  {
+    id:"wingspan", nome:"Wingspan", faixa:"Faixa premium", preco:35,
+    min:1, max:5, tempo:"60 min", banda:"medio", serve:["dupla","trio","turma"],
+    c1:"#3f9463", c2:"#1a4029", livre:true, expansao:null,
+    fala:"Você atrai aves pros seus habitats e cada uma liga numa corrente de efeitos. Calmo, bonito e viciante. É o que eu mais indico pra quem quer sair dos jogos de festa."
+  },
+  {
+    id:"terranova", nome:"Terra Nova", faixa:"Faixa premium", preco:35,
+    min:2, max:4, tempo:"80 min", banda:"longo", serve:["dupla","trio"],
+    c1:"#5a8f4a", c2:"#1f3d1c", livre:true, expansao:null,
+    fala:"Cada povo transforma o terreno do seu jeito e briga por espaço no mapa. Estratégia média, sem sorte nenhuma. Pra quem já jogou uns dois ou três e quer subir de nível."
+  },
+  {
+    id:"orla", nome:"Star Wars: Orla Exterior", faixa:"Faixa premium", preco:35,
+    min:1, max:4, tempo:"150 min", banda:"longo", serve:["dupla","trio"],
+    c1:"#59606e", c2:"#161a24", livre:true, expansao:null,
+    fala:"Você é um contrabandista na borda da galáxia pegando serviço, fugindo do Império e melhorando a nave. Longo e temático — é aquele jogo de sábado à tarde que vira história pra contar depois."
+  },
+  {
+    id:"marte", nome:"Terraforming Mars", faixa:"Faixa premium", preco:35,
+    min:1, max:5, tempo:"120 min", banda:"longo", serve:["dupla","trio","turma"],
+    c1:"#c2452b", c2:"#5e1608", livre:false, volta:"quinta, 14 de agosto", expansao:null,
+    fala:"Corporações brigando pra deixar Marte habitável. É o mais pesado que eu tenho: duas horas, muita carta e muita conta. Se o grupo curte estratégia de verdade, é esse."
+  }
+];
+
+/* ============================================================
+   CAPAS — ilustração vetorial original de cada jogo
+   ============================================================ */
+const hexa=(cx,cy,r)=>Array.from({length:6},(_,i)=>{
+  const a=Math.PI/180*(60*i);
+  return `${(cx+r*Math.cos(a)).toFixed(1)},${(cy+r*Math.sin(a)).toFixed(1)}`;
+}).join(' ');
+
+const estrelas=(n,semente)=>{let s=semente,o='';
+  const r=()=>(s=(s*9301+49297)%233280)/233280;
+  for(let i=0;i<n;i++) o+=`<circle cx="${(r()*300).toFixed(1)}" cy="${(r()*300).toFixed(1)}" r="${(r()*1.4+.3).toFixed(2)}" fill="#fff" opacity="${(r()*.7+.25).toFixed(2)}"/>`;
+  return o;};
+
+const rotulo=(linhas,y,{tam=30,cor="#fff",esp=".08em",peso=400}={})=>
+  linhas.map((t,i)=>`<text x="150" y="${y+i*(tam*1.1)}" text-anchor="middle" font-family="Georgia,serif" font-size="${tam}" font-weight="${peso}" letter-spacing="${esp}" fill="${cor}">${t}</text>`).join('');
+
+const CAPAS = {
+saboteur:`<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <defs><radialGradient id="sb-luz" cx=".5" cy=".42"><stop offset="0" stop-color="#ffd88a" stop-opacity=".85"/><stop offset="1" stop-color="#ffb040" stop-opacity="0"/></radialGradient></defs>
+  <rect width="300" height="400" fill="#2a1a0a"/>
+  <path d="M0 400 L0 250 Q150 120 300 250 L300 400 Z" fill="#3d2711"/>
+  <path d="M40 400 L40 268 Q150 168 260 268 L260 400 Z" fill="#120a03"/>
+  <circle cx="150" cy="250" r="105" fill="url(#sb-luz)"/>
+  <g fill="#4a3016"><rect x="52" y="268" width="16" height="132"/><rect x="232" y="268" width="16" height="132"/><rect x="52" y="262" width="196" height="14"/></g>
+  <g fill="#e8b23c"><circle cx="128" cy="322" r="13"/><circle cx="158" cy="338" r="9"/><circle cx="176" cy="316" r="7"/></g>
+  <g stroke="#c9c4bb" stroke-width="7" stroke-linecap="round" fill="none">
+    <path d="M104 214 L186 262"/><path d="M186 214 L104 262"/>
+  </g>
+  <g stroke="#6b4a1c" stroke-width="4" fill="none"><path d="M104 214 q-12 -18 4 -26"/><path d="M186 214 q12 -18 -4 -26"/></g>
+  ${rotulo(["SABOTEUR"],376,{tam:34,cor:"#f4e2b8",esp:".14em",peso:700})}
+</svg>`,
+
+coup:`<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="400" fill="#5a1210"/>
+  <g stroke="#8a2320" stroke-width="2" fill="none">
+    ${Array.from({length:16},(_,i)=>`<path d="M150 200 L${150+170*Math.cos(i*Math.PI/8)} ${200+170*Math.sin(i*Math.PI/8)}"/>`).join('')}
+  </g>
+  <circle cx="150" cy="190" r="104" fill="#b5342e"/>
+  <circle cx="150" cy="190" r="104" fill="none" stroke="#e8b23c" stroke-width="3"/>
+  <circle cx="150" cy="190" r="86" fill="none" stroke="#e8b23c" stroke-width="1" opacity=".6"/>
+  <path d="M96 216 L96 168 L118 194 L136 152 L150 190 L164 152 L182 194 L204 168 L204 216 Z" fill="#e8b23c"/>
+  <rect x="96" y="224" width="108" height="12" fill="#e8b23c"/>
+  <g fill="#f4d98a"><circle cx="120" cy="150" r="5"/><circle cx="150" cy="132" r="6"/><circle cx="180" cy="150" r="5"/></g>
+  ${rotulo(["COUP"],346,{tam:48,cor:"#f4e2b8",esp:".3em",peso:700})}
+  ${rotulo(["blefe e traição"],378,{tam:13,cor:"#e0a29a",esp:".24em"})}
+</svg>`,
+
+decisoes:`<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="400" fill="#6b1a08"/>
+  <g fill="#d4442e">
+    <rect x="0" y="40" width="300" height="52"/><rect x="0" y="128" width="300" height="52"/><rect x="0" y="216" width="300" height="52"/>
+  </g>
+  <g stroke="#ffd0a8" stroke-width="9" fill="none" stroke-linecap="round">
+    <path d="M150 296 L150 330"/><path d="M150 330 L96 366"/><path d="M150 330 L204 366"/>
+  </g>
+  <g fill="#ffd0a8"><circle cx="96" cy="372" r="10"/><circle cx="204" cy="372" r="10"/></g>
+  ${rotulo(["DECISÕES"],80,{tam:36,cor:"#2a0a02",esp:".06em",peso:700})}
+  ${rotulo(["DE"],168,{tam:36,cor:"#2a0a02",esp:".2em",peso:700})}
+  ${rotulo(["MERDA"],256,{tam:36,cor:"#2a0a02",esp:".14em",peso:700})}
+</svg>`,
+
+dixit:`<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <defs><radialGradient id="dx-lua" cx=".42" cy=".38"><stop offset="0" stop-color="#fff6d8"/><stop offset="1" stop-color="#e8d08a"/></radialGradient></defs>
+  <rect width="300" height="400" fill="#2a2050"/>
+  <rect y="0" width="300" height="200" fill="#3a2a6b"/>
+  ${estrelas(60,13)}
+  <circle cx="196" cy="104" r="52" fill="url(#dx-lua)"/>
+  <circle cx="174" cy="92" r="12" fill="#e0c880" opacity=".55"/>
+  <circle cx="212" cy="126" r="8" fill="#e0c880" opacity=".45"/>
+  <path d="M0 300 Q80 244 150 268 Q230 296 300 250 L300 400 L0 400 Z" fill="#1a1338"/>
+  <path d="M0 340 Q90 300 170 322 Q240 340 300 312 L300 400 L0 400 Z" fill="#100c26"/>
+  <g stroke="#c9b6ff" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <path d="M118 300 L118 214"/><path d="M100 292 L136 292"/><path d="M100 268 L136 268"/><path d="M100 244 L136 244"/><path d="M100 220 L136 220"/>
+  </g>
+  <g fill="#6b5bb5"><ellipse cx="60" cy="330" rx="26" ry="9"/><ellipse cx="248" cy="306" rx="20" ry="7"/></g>
+  ${rotulo(["DIXIT"],376,{tam:42,cor:"#f2ecff",esp:".26em",peso:700})}
+</svg>`,
+
+quartz:`<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <defs><radialGradient id="qz-luz" cx=".5" cy=".42"><stop offset="0" stop-color="#c9a0f0" stop-opacity=".55"/><stop offset="1" stop-color="#7b4fa8" stop-opacity="0"/></radialGradient></defs>
+  <rect width="300" height="400" fill="#2c1842"/>
+  <path d="M0 400 L0 236 Q150 156 300 236 L300 400 Z" fill="#1c0f2c"/>
+  <path d="M40 400 L40 258 Q150 190 260 258 L260 400 Z" fill="#120818"/>
+  <circle cx="150" cy="250" r="112" fill="url(#qz-luz)"/>
+  ${estrelas(30,53)}
+  <g stroke="#1c0f2c" stroke-width="2.5">
+    <polygon points="150,168 176,222 150,268 124,222" fill="#c07fe8"/>
+    <polygon points="150,168 176,222 150,222" fill="#e0b0ff"/>
+    <polygon points="104,214 124,252 104,288 84,252" fill="#8f5ac4"/>
+    <polygon points="104,214 124,252 104,252" fill="#b98be0"/>
+    <polygon points="196,206 218,248 196,286 174,248" fill="#9d64d4"/>
+    <polygon points="196,206 218,248 196,248" fill="#c49aec"/>
+    <polygon points="66,286 80,312 66,336 52,312" fill="#6b3f96"/>
+    <polygon points="234,282 248,310 234,336 220,310" fill="#6b3f96"/>
+  </g>
+  <g stroke="#f0d8ff" stroke-width="1.5" opacity=".5" fill="none">
+    <path d="M150 168 L150 268"/><path d="M104 214 L104 288"/><path d="M196 206 L196 286"/>
+  </g>
+  ${rotulo(["QUARTZ"],372,{tam:42,cor:"#f0e2ff",esp:".24em",peso:700})}
+</svg>`,
+
+azul:`<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <defs><pattern id="az-p" width="66" height="66" patternUnits="userSpaceOnUse">
+    <rect width="66" height="66" fill="#f4f8fb"/>
+    <path d="M0 0 A66 66 0 0 1 66 66 L66 0 Z" fill="#1c6fa8"/>
+    <path d="M0 66 A66 66 0 0 1 66 0" fill="none" stroke="#0f4a75" stroke-width="3"/>
+    <circle cx="33" cy="33" r="10" fill="#f4f8fb"/><circle cx="33" cy="33" r="5" fill="#1c6fa8"/>
+    <circle cx="0" cy="0" r="6" fill="#0f4a75"/><circle cx="66" cy="66" r="6" fill="#0f4a75"/>
+  </pattern></defs>
+  <rect width="300" height="400" fill="#e4eef6"/>
+  <rect x="18" y="18" width="264" height="264" fill="url(#az-p)"/>
+  <rect x="18" y="18" width="264" height="264" fill="none" stroke="#0f4a75" stroke-width="6"/>
+  <g><rect x="112" y="112" width="76" height="76" fill="#f4f8fb" transform="rotate(45 150 150)"/>
+  <rect x="122" y="122" width="56" height="56" fill="#d4762b" transform="rotate(45 150 150)"/>
+  <rect x="134" y="134" width="32" height="32" fill="#f4f8fb" transform="rotate(45 150 150)"/></g>
+  ${rotulo(["AZUL"],358,{tam:52,cor:"#0f4a75",esp:".3em",peso:700})}
+  ${rotulo(["Palácio de Évora"],384,{tam:12,cor:"#4a7fa5",esp:".26em"})}
+</svg>`,
+
+duel:`<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="400" fill="#4a3010"/>
+  <rect y="0" width="300" height="230" fill="#7d5a22"/>
+  <circle cx="150" cy="118" r="66" fill="#e8c069" opacity=".35"/>
+  <path d="M40 118 L150 44 L260 118 Z" fill="#f0dcb0"/>
+  <path d="M40 118 L150 44 L260 118 Z" fill="none" stroke="#4a3010" stroke-width="3"/>
+  <rect x="40" y="118" width="220" height="16" fill="#f0dcb0" stroke="#4a3010" stroke-width="3"/>
+  <g fill="#f0dcb0" stroke="#4a3010" stroke-width="2.5">
+    <rect x="62" y="140" width="26" height="118"/><rect x="106" y="140" width="26" height="118"/>
+    <rect x="168" y="140" width="26" height="118"/><rect x="212" y="140" width="26" height="118"/>
+  </g>
+  <g stroke="#c9a34a" stroke-width="1.5" opacity=".7" fill="none">
+    ${Array.from({length:5},(_,i)=>`<path d="M62 ${160+i*22} h26 M106 ${160+i*22} h26 M168 ${160+i*22} h26 M212 ${160+i*22} h26"/>`).join('')}
+  </g>
+  <rect x="40" y="258" width="220" height="18" fill="#f0dcb0" stroke="#4a3010" stroke-width="3"/>
+  <g stroke="#c9d9a0" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M138 300 q12 -14 24 0 q-12 14 -24 0"/><path d="M120 306 q12 -14 24 0 q-12 14 -24 0"/><path d="M156 306 q12 -14 24 0 q-12 14 -24 0"/>
+  </g>
+  ${rotulo(["7 WONDERS"],352,{tam:26,cor:"#f4e2b8",esp:".1em",peso:700})}
+  ${rotulo(["DUEL"],384,{tam:26,cor:"#e8c069",esp:".38em",peso:700})}
+</svg>`,
+
+ticket:`<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="400" fill="#e8d6ae"/>
+  <g opacity=".18" fill="#8a6a3c">
+    <path d="M20 60 q40 20 30 60 t-20 70 q-10 40 20 60 l-30 10 V60 z"/>
+    <path d="M280 90 q-40 10 -34 50 t14 66 q6 34 -20 54 l40 12 V90 z"/>
+  </g>
+  <g stroke="#8a6a3c" stroke-width=".8" opacity=".28">
+    ${Array.from({length:9},(_,i)=>`<path d="M0 ${i*44} H300"/>`).join('')}
+    ${Array.from({length:7},(_,i)=>`<path d="M${i*44} 0 V400"/>`).join('')}
+  </g>
+  <g stroke-linecap="round" stroke-width="9">
+    <path d="M56 96 L142 148" stroke="#c23a2e"/><path d="M142 148 L232 108" stroke="#2f6ea8"/>
+    <path d="M142 148 L124 246" stroke="#3f7d42"/><path d="M124 246 L228 216" stroke="#d8a32c"/>
+    <path d="M124 246 L64 300" stroke="#4a4a52"/><path d="M232 108 L246 214" stroke="#8e4aa0"/>
+  </g>
+  <g stroke="#e8d6ae" stroke-width="9" stroke-dasharray="2 15">
+    <path d="M56 96 L142 148"/><path d="M142 148 L232 108"/><path d="M142 148 L124 246"/>
+    <path d="M124 246 L228 216"/><path d="M124 246 L64 300"/><path d="M232 108 L246 214"/>
+  </g>
+  <g fill="#f7ecd4" stroke="#3b2510" stroke-width="2.5">
+    <circle cx="56" cy="96" r="8"/><circle cx="142" cy="148" r="10"/><circle cx="232" cy="108" r="8"/>
+    <circle cx="124" cy="246" r="10"/><circle cx="228" cy="216" r="8"/><circle cx="64" cy="300" r="8"/>
+  </g>
+  <g transform="translate(66,344)" opacity=".75">
+    <circle r="24" fill="none" stroke="#8a6a3c" stroke-width="1.5"/>
+    <path d="M0-24 L7-7 L24 0 L7 7 L0 24 L-7 7 L-24 0 L-7-7 Z" fill="#8a6a3c"/>
+  </g>
+  ${rotulo(["TICKET"],320,{tam:30,cor:"#3b2510",esp:".2em",peso:700})}
+  ${rotulo(["TO RIDE"],352,{tam:30,cor:"#c23a2e",esp:".2em",peso:700})}
+  ${rotulo(["EUROPA"],380,{tam:15,cor:"#6b4a1c",esp:".34em",peso:700})}
+</svg>`,
+
+wingspan:`<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ws-f" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6d98a"/><stop offset=".5" stop-color="#d9744a"/><stop offset="1" stop-color="#8e3a4e"/>
+    </linearGradient>
+    <clipPath id="ws-c"><path d="M150 44 C104 122 96 232 150 344 C204 232 196 122 150 44 Z"/></clipPath>
+  </defs>
+  <rect width="300" height="400" fill="#9ed2c4"/>
+  <rect y="0" width="300" height="150" fill="#ffe9c2"/>
+  <rect y="270" width="300" height="130" fill="#2c6a5c"/>
+  <circle cx="150" cy="150" r="104" fill="#fff6e2" opacity=".35"/>
+  <g stroke="#2c4f45" stroke-width="2.5" fill="none" opacity=".6" stroke-linecap="round">
+    <path d="M42 74 q9 -9 18 0 q9 -9 18 0"/><path d="M228 58 q7 -7 14 0 q7 -7 14 0"/><path d="M246 122 q6 -6 12 0 q6 -6 12 0"/>
+  </g>
+  <g clip-path="url(#ws-c)">
+    <rect x="80" y="30" width="140" height="330" fill="url(#ws-f)"/>
+    <g stroke="#fff" stroke-width="1.4" opacity=".5">
+      ${Array.from({length:26},(_,i)=>{const y=64+i*11;return `<path d="M150 ${y} L${104+i*.6} ${y+16}"/><path d="M150 ${y} L${196-i*.6} ${y+16}"/>`}).join('')}
+    </g>
+  </g>
+  <path d="M150 44 C104 122 96 232 150 344 C204 232 196 122 150 44 Z" fill="none" stroke="#2c4f45" stroke-width="2" opacity=".7"/>
+  <path d="M150 44 L150 344" stroke="#3b2a1c" stroke-width="3.5" stroke-linecap="round"/>
+  ${rotulo(["WINGSPAN"],380,{tam:32,cor:"#0f3a2e",esp:".14em",peso:700})}
+</svg>`,
+
+terranova:`<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="400" fill="#c8dcc0"/>
+  <rect y="0" width="300" height="140" fill="#a8c9d8"/>
+  <circle cx="228" cy="72" r="34" fill="#f4e8c0"/>
+  <path d="M0 140 L70 92 L134 140 Z" fill="#7d8f7a"/>
+  <path d="M96 140 L176 78 L256 140 Z" fill="#5e7060"/>
+  <path d="M0 140 H300 V180 H0 Z" fill="#5a8f4a"/>
+  <g stroke="#1f3d1c" stroke-width="2.5">
+    <polygon points="${hexa(94,214,38)}" fill="#5a8f4a"/>
+    <polygon points="${hexa(150,246,38)}" fill="#8a9e52"/>
+    <polygon points="${hexa(206,214,38)}" fill="#c8a44a"/>
+    <polygon points="${hexa(94,278,38)}" fill="#7d6a4a"/>
+    <polygon points="${hexa(206,278,38)}" fill="#4a7d8f"/>
+    <polygon points="${hexa(150,310,38)}" fill="#8f5a3a"/>
+  </g>
+  <g fill="#f2ecd8" stroke="#1f3d1c" stroke-width="2">
+    <path d="M82 224 l12-11 l12 11 v15 h-24 z"/><path d="M194 288 l12-11 l12 11 v15 h-24 z"/>
+  </g>
+  ${rotulo(["TERRA"],364,{tam:34,cor:"#1f3d1c",esp:".22em",peso:700})}
+  ${rotulo(["NOVA"],392,{tam:22,cor:"#4a6b3a",esp:".38em",peso:700})}
+</svg>`,
+
+orla:`<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <defs><radialGradient id="or-p" cx=".35" cy=".32"><stop offset="0" stop-color="#8a6a4a"/><stop offset="1" stop-color="#2e2118"/></radialGradient></defs>
+  <rect width="300" height="400" fill="#0d1018"/>
+  ${estrelas(90,29)}
+  <circle cx="150" cy="242" r="132" fill="url(#or-p)"/>
+  <g opacity=".4" fill="#5a4430">
+    <ellipse cx="118" cy="212" rx="42" ry="14"/><ellipse cx="186" cy="264" rx="52" ry="17"/><ellipse cx="132" cy="300" rx="36" ry="12"/>
+  </g>
+  <circle cx="150" cy="242" r="132" fill="none" stroke="#c9a878" stroke-width="1" opacity=".5"/>
+  <circle cx="212" cy="72" r="17" fill="#ffe9b0"/><circle cx="248" cy="88" r="11" fill="#ffd08a"/>
+  <g transform="translate(96,118) rotate(-14)">
+    <path d="M0 0 L54 -9 L74 0 L54 9 Z" fill="#b8bec9" stroke="#2e343f" stroke-width="2"/>
+    <path d="M12 -8 L34 -26 L48 -22 L40 -8 Z" fill="#8d95a3" stroke="#2e343f" stroke-width="2"/>
+    <path d="M12 8 L34 26 L48 22 L40 8 Z" fill="#8d95a3" stroke="#2e343f" stroke-width="2"/>
+    <circle cx="60" cy="0" r="5" fill="#4a9ed8"/>
+  </g>
+  <g stroke="#ff9a5a" stroke-width="2.5" opacity=".65" stroke-linecap="round">
+    <path d="M60 130 L18 146"/><path d="M64 142 L26 162"/>
+  </g>
+  ${rotulo(["STAR WARS"],348,{tam:21,cor:"#e8c069",esp:".22em",peso:700})}
+  ${rotulo(["ORLA EXTERIOR"],378,{tam:20,cor:"#eef2f8",esp:".14em",peso:700})}
+</svg>`,
+
+marte:`<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="tm-s" cx=".5" cy=".5"><stop offset="0" stop-color="#fff3d0"/><stop offset=".45" stop-color="#ffb457"/><stop offset="1" stop-color="#ff7a1a" stop-opacity="0"/></radialGradient>
+    <linearGradient id="tm-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0623a"/><stop offset="1" stop-color="#5e1608"/></linearGradient>
+  </defs>
+  <rect width="300" height="400" fill="#2a0d14"/>
+  <rect y="180" width="300" height="120" fill="#5a1a12"/>
+  ${estrelas(70,7)}
+  <circle cx="212" cy="96" r="86" fill="url(#tm-s)" opacity=".85"/>
+  <circle cx="212" cy="96" r="26" fill="#ffe6b0"/>
+  <path d="M0 268 Q150 214 300 268 L300 400 L0 400 Z" fill="url(#tm-g)"/>
+  <path d="M0 268 Q150 214 300 268" fill="none" stroke="#ffb98a" stroke-width="2" opacity=".55"/>
+  <g><path d="M96 268 a34 34 0 0 1 68 0 z" fill="#7fd7e8" opacity=".32"/>
+  <path d="M96 268 a34 34 0 0 1 68 0" fill="none" stroke="#bfeefb" stroke-width="2"/>
+  <rect x="118" y="256" width="24" height="12" fill="#2a0d07"/></g>
+  ${rotulo(["Terraforming"],352,{tam:26,cor:"#ffe3c4",esp:".02em"})}
+  ${rotulo(["MARS"],390,{tam:34,cor:"#ff8f52",esp:".28em",peso:700})}
+</svg>`
+};
+
+let contadorId=0;
+const unico=svg=>{const k=++contadorId;
+  return svg.replace(/id="([^"]+)"/g,(m,a)=>`id="${a}-${k}"`).replace(/url\(#([^)]+)\)/g,(m,a)=>`url(#${a}-${k})`);};
+
+/* A capa é a ilustração SVG com a foto por cima.
+   Se o arquivo em fotos/ não existir, o onerror remove a img e a ilustração reaparece.
+   Basta jogar os arquivos na pasta fotos/ — nada mais precisa ser mexido. */
+/* Tenta o .webp (leve), cai no .jpg, e se não houver nenhum a ilustração fica.
+   Não uso <picture> porque ele escolhe a fonte pelo tipo suportado: como o
+   navegador suporta webp, ele se compromete com o webp e NÃO volta pro jpg
+   quando o arquivo não existe. */
+const capaHTML=j=>`<div class="face capa">${unico(CAPAS[j.id])}`+
+  `<img class="foto" src="fotos/${j.id}.webp" data-jpg="fotos/${j.id}.jpg" alt="Caixa do jogo ${j.nome}" `+
+  `onerror="if(this.dataset.jpg){this.src=this.dataset.jpg;delete this.dataset.jpg}else{this.remove()}">`+
+  `</div>`;
+
+/* ============================================================
+   NAVEGAÇÃO
+   ============================================================ */
+const telas=["porta","perguntar","prateleira","jogo","pedidos","eventos","duvidas","quem"];
+function ir(nome){
+  telas.forEach(t=>document.getElementById("t-"+t).classList.toggle("ativa",t===nome));
+  document.querySelectorAll("[data-ir]").forEach(b=>b.classList.toggle("on",b.dataset.ir===nome));
+  window.scrollTo({top:0,behavior:"instant"});
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-ir]");
+  if(b) ir(b.dataset.ir);
+});
+
+/* ---- entalhe das portas: coroa, árvore e sol nascente ----
+   O mesmo traçado é desenhado três vezes: sombra deslocada para baixo,
+   luz deslocada para cima e o traço central. É o que dá o relevo. */
+const MOTIVOS=`
+  <rect x="7" y="10" width="86" height="86" rx="2"/><rect x="13" y="16" width="74" height="74" rx="1"/>
+  <path d="M28 72 L31 40 L40 53 L50 34 L60 53 L69 40 L72 72 Z"/>
+  <path d="M25 72 H75"/><path d="M28 63 H72"/>
+  <circle cx="31" cy="37" r="2.5"/><circle cx="50" cy="31" r="3"/><circle cx="69" cy="37" r="2.5"/>
+
+  <rect x="7" y="104" width="86" height="92" rx="2"/><rect x="13" y="110" width="74" height="80" rx="1"/>
+  <path d="M50 186 V152"/>
+  <path d="M50 152 C32 150 24 136 31 125 C26 114 37 105 46 110 C50 101 61 103 63 112 C74 111 79 122 72 129 C79 138 71 150 50 152 Z"/>
+  <path d="M50 186 q-9 1 -15 7"/><path d="M50 186 q9 1 15 7"/><path d="M28 193 H72"/>
+
+  <rect x="7" y="204" width="86" height="88" rx="2"/><rect x="13" y="210" width="74" height="76" rx="1"/>
+  <path d="M22 268 H78"/><path d="M32 268 A18 18 0 0 1 68 268"/>
+  <path d="M50 240 V233"/><path d="M36 246 L31 240"/><path d="M64 246 L69 240"/>
+  <path d="M29 258 L22 255"/><path d="M71 258 L78 255"/>
+  <path d="M14 282 Q29 268 43 282"/><path d="M53 282 Q69 266 86 282"/>`;
+/* viewBox 100x330 (e não 100x300) para bater com a proporção real da porta —
+   assim o preserveAspectRatio="none" não estica a coroa nem a árvore */
+const ENTALHE=`<svg class="entalhe" viewBox="0 -15 100 330" preserveAspectRatio="none"
+  xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <g transform="translate(1.1,1.1)" stroke="#1e0d03" stroke-width="2.2" opacity=".85">${MOTIVOS}</g>
+  <g transform="translate(-1,-1)" stroke="#c47a44" stroke-width="1.6" opacity=".45">${MOTIVOS}</g>
+  <g stroke="#7d3f1d" stroke-width="1.5" opacity=".9">${MOTIVOS}</g>
+</svg>`;
+document.querySelectorAll(".porta").forEach(p=>p.insertAdjacentHTML("afterbegin",ENTALHE));
+
+/* ---- abrir o armário ---- */
+document.querySelectorAll(".porta").forEach(p=>p.addEventListener("click",()=>{
+  if(document.body.classList.contains("aberto")) return;
+  document.body.classList.add("aberto");
+  setTimeout(()=>ir("perguntar"),1150);
+}));
+
+/* ============================================================
+   FILTRO E PRATELEIRA
+   ============================================================ */
+let filtro={grupo:null,tempo:null};
+
+document.querySelectorAll("#op-grupo .opcao").forEach(b=>b.addEventListener("click",()=>{
+  filtro.grupo = filtro.grupo===b.dataset.g ? null : b.dataset.g;
+  document.querySelectorAll("#op-grupo .opcao").forEach(o=>o.classList.toggle("on",o.dataset.g===filtro.grupo));
+  if(filtro.grupo && filtro.tempo) setTimeout(()=>{montarPrateleira();ir("prateleira")},260);
+}));
+document.querySelectorAll("#op-tempo .ficha").forEach(b=>b.addEventListener("click",()=>{
+  filtro.tempo = filtro.tempo===b.dataset.t ? null : b.dataset.t;
+  document.querySelectorAll("#op-tempo .ficha").forEach(o=>o.classList.toggle("on",o.dataset.t===filtro.tempo));
+  if(filtro.grupo && filtro.tempo) setTimeout(()=>{montarPrateleira();ir("prateleira")},260);
+}));
+
+const rotulosGrupo={dupla:"Só nós dois",trio:"3 ou 4 pessoas",turma:"5 ou mais"};
+const rotulosTempo={curto:"Meia hora",medio:"Umas duas horas",longo:"A noite toda"};
+
+function filtrar(){
+  return JOGOS.filter(j=>{
+    if(filtro.grupo && !j.serve.includes(filtro.grupo)) return false;
+    if(filtro.tempo && j.banda!==filtro.tempo) return false;
+    return true;
+  });
+}
+
+function caixaHTML(j,mini){
+  return `<div class="caixa" style="--c1:${j.c1};--c2:${j.c2}${mini?';--d:8px;--dh:4px':''}">
+    <div class="face lombada"></div>
+    ${capaHTML(j)}
+  </div>`;
+}
+
+function montarPrateleira(){
+  const lista=filtrar();
+  const porFileira = window.innerWidth>=900 ? 4 : 3;
+
+  /* fichas de filtro ativo */
+  const ft=document.getElementById("filtro-topo");
+  const partes=[];
+  if(filtro.grupo) partes.push(`<button class="ficha on" data-limpa="grupo">${rotulosGrupo[filtro.grupo]} &times;</button>`);
+  if(filtro.tempo) partes.push(`<button class="ficha on" data-limpa="tempo">${rotulosTempo[filtro.tempo]} &times;</button>`);
+  partes.push(`<button class="ficha" data-ir="perguntar">Mudar</button>`);
+  ft.innerHTML=partes.join("");
+  ft.querySelectorAll("[data-limpa]").forEach(b=>b.addEventListener("click",()=>{
+    filtro[b.dataset.limpa]=null;
+    document.querySelectorAll("#op-grupo .opcao,#op-tempo .ficha").forEach(o=>{
+      if(o.dataset.g && o.dataset.g!==filtro.grupo) o.classList.remove("on");
+      if(o.dataset.t && o.dataset.t!==filtro.tempo) o.classList.remove("on");
+    });
+    montarPrateleira();
+  }));
+
+  /* contagem */
+  const c=document.getElementById("contagem");
+  if(!filtro.grupo && !filtro.tempo) c.textContent=`Os ${JOGOS.length} jogos da estante`;
+  else if(lista.length===0) c.textContent="Nenhum jogo bate com isso — tenta afrouxar um filtro";
+  else if(lista.length===1) c.textContent="1 jogo serve vocês";
+  else c.textContent=`${lista.length} jogos servem vocês`;
+
+  /* estante */
+  const est=document.getElementById("estante");
+  est.innerHTML="";
+  for(let i=0;i<lista.length;i+=porFileira){
+    const grupo=lista.slice(i,i+porFileira);
+    const fileira=document.createElement("div");
+    fileira.className="fileira";
+    fileira.innerHTML=`
+      <div class="jogos">
+        ${grupo.map(j=>`
+          <button class="item ${j.livre?'':'fora'}" data-jogo="${j.id}">
+            ${caixaHTML(j)}
+          </button>`).join("")}
+        ${Array.from({length:porFileira-grupo.length},()=>'<span class="vaga"></span>').join("")}
+      </div>
+      <div class="tabua"></div>
+      <div class="jogos" style="align-items:flex-start;padding-top:10px">
+        ${grupo.map(j=>`
+          <div style="flex:1">
+            <p class="nome">${j.nome}</p>
+            <p class="estado"><span class="ponto"></span>${j.livre?"Disponível":"Volta "+j.volta.split(",")[0]}</p>
+          </div>`).join("")}
+        ${Array.from({length:porFileira-grupo.length},()=>'<span class="vaga"></span>').join("")}
+      </div>`;
+    est.appendChild(fileira);
+  }
+  est.querySelectorAll("[data-jogo]").forEach(b=>b.addEventListener("click",()=>abrirJogo(b.dataset.jogo)));
+
+  /* legenda */
+  const livres=lista.filter(j=>j.livre).length;
+  const presos=lista.filter(j=>!j.livre);
+  document.getElementById("legenda").innerHTML=
+    (livres?`<div><span class="ponto"></span>${livres} disponíve${livres>1?"is":"l"} agora</div>`:"")+
+    presos.map(j=>`<div><span class="ponto" style="background:var(--muted2)"></span>${j.nome} volta ${j.volta}</div>`).join("");
+}
+
+/* ============================================================
+   FICHA DO JOGO
+   ============================================================ */
+function abrirJogo(id){
+  const j=JOGOS.find(x=>x.id===id);
+  const outros=JOGOS.filter(x=>x.id!==id && x.banda===j.banda && x.livre).slice(0,2);
+
+  document.getElementById("ficha").innerHTML=`
+    <div class="visual">
+      <div class="caixa" style="--c1:${j.c1};--c2:${j.c2}">
+        <div class="face lombada"></div>
+        <div class="face verso">
+          <h4 style="font-family:var(--serif);font-size:17px;color:#fff">${j.nome}</h4>
+          <p>${j.fala}</p>
+        </div>
+        ${capaHTML(j)}
+      </div>
+    </div>
+    <div class="dados">
+      <p class="kicker ouro">${j.faixa.toUpperCase()}</p>
+      <h2 style="margin:10px 0 0">${j.nome}</h2>
+      <div class="meta">
+        <span>${j.min===j.max?j.min+" pessoas":j.min+" a "+j.max+" pessoas"}</span>
+        <span>${j.tempo}</span>
+      </div>
+      <div class="fala">
+        <p>${j.fala}</p>
+        <p class="assina">— Aguinaldo, dono do acervo</p>
+      </div>
+      ${j.livre
+        ? `<div class="aviso livre"><span style="font-size:17px">&#10003;</span>Disponível agora — leva hoje mesmo</div>`
+        : `<div class="aviso preso">
+             <span class="quando"><span style="color:var(--gold)">&#9200;</span>Volta ${j.volta}</span>
+             <small>Só tenho um exemplar. Te aviso no instante em que ele voltar pra prateleira.</small>
+           </div>`}
+      ${j.expansao?`<div class="extra"><span style="color:var(--gold)">+</span>${j.expansao}</div>`:""}
+      <div class="valor"><b>R$ ${j.preco}</b><small>por 7 dias</small></div>
+      <div class="acoes">
+        ${j.livre
+          ? `<button class="btn ouro" data-zap="Oi! Quero alugar ${j.nome}.">Quero alugar</button>
+             <button class="btn fant" data-zap="Oi! Tenho uma dúvida sobre ${j.nome}.">Tirar dúvida no WhatsApp</button>`
+          : `<button class="btn ouro" data-fila="${j.nome}">Me avisa quando voltar</button>
+             <button class="btn fant" data-zap="Oi! Quero reservar ${j.nome} pra quando voltar.">Reservar pra ${j.volta.split(",")[0]}</button>`}
+      </div>
+      ${outros.length?`
+        <div class="alternativas">
+          <p class="kicker">${j.livre?"TAMBÉM PEDEM A MESMA MESA":"ENQUANTO ISSO"}</p>
+          <div class="alt-lista">
+            ${outros.map(o=>`
+              <button class="alt" data-jogo="${o.id}">
+                <span class="mini-caixa">${caixaHTML(o,true)}</span>
+                <span>${o.nome}</span>
+              </button>`).join("")}
+          </div>
+        </div>`:""}
+    </div>`;
+
+  document.querySelectorAll("#ficha [data-jogo]").forEach(b=>b.addEventListener("click",()=>abrirJogo(b.dataset.jogo)));
+  document.querySelectorAll("#ficha [data-fila]").forEach(b=>b.addEventListener("click",()=>
+    avisar(`Beleza. Te aviso assim que ${b.dataset.fila} voltar.`)));
+  ir("jogo");
+}
+
+/* ---- WhatsApp (número de exemplo — troque antes de publicar) ---- */
+const ZAP="5532999999999";
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-zap]");
+  if(b) window.open(`https://wa.me/${ZAP}?text=${encodeURIComponent(b.dataset.zap)}`,"_blank","noopener");
+});
+
+/* ============================================================
+   MURAL DE PEDIDOS
+   ============================================================ */
+const PEDIDOS_BASE=[
+  {nome:"Catan",votos:23},{nome:"Pandemic",votos:16},
+  {nome:"Bang!",votos:10},{nome:"Everdell",votos:6}
+];
+let pedidos=JSON.parse(localStorage.getItem("gj-pedidos")||"null")||PEDIDOS_BASE;
+let votados=JSON.parse(localStorage.getItem("gj-votados")||"[]");
+
+function salvarPedidos(){
+  localStorage.setItem("gj-pedidos",JSON.stringify(pedidos));
+  localStorage.setItem("gj-votados",JSON.stringify(votados));
+}
+function montarRanking(){
+  pedidos.sort((a,b)=>b.votos-a.votos);
+  const teto=Math.max(...pedidos.map(p=>p.votos),1);
+  document.getElementById("ranking").innerHTML=pedidos.map((p,i)=>{
+    const jaVotou=votados.includes(p.nome);
+    return `<div class="linha ${i>2?'baixa':''}">
+      <span class="pos">${i+1}</span>
+      <div class="corpo-linha">
+        <p class="titulo">${p.nome}</p>
+        <div class="barra"><i style="width:${Math.round(p.votos/teto*100)}%"></i></div>
+      </div>
+      <span class="votos">${p.votos}</span>
+      <button class="votar ${jaVotou?'feito':''}" data-voto="${p.nome}">${jaVotou?"votado":"+1"}</button>
+    </div>`;
+  }).join("");
+  document.querySelectorAll("[data-voto]").forEach(b=>b.addEventListener("click",()=>{
+    const n=b.dataset.voto;
+    if(votados.includes(n)){avisar("Você já votou nesse.");return}
+    pedidos.find(p=>p.nome===n).votos++;
+    votados.push(n); salvarPedidos(); montarRanking();
+    avisar(`Voto contado. ${n} subiu na lista.`);
+  }));
+}
+document.getElementById("bt-pedir").addEventListener("click",()=>{
+  const inp=document.getElementById("in-pedido");
+  const nome=inp.value.trim();
+  if(!nome){avisar("Escreve o nome do jogo primeiro.");return}
+  const existe=pedidos.find(p=>p.nome.toLowerCase()===nome.toLowerCase());
+  if(existe){ existe.votos++; avisar(`${existe.nome} já estava na lista. Somei o seu voto.`); }
+  else { pedidos.push({nome,votos:1}); votados.push(nome); avisar(`Anotado. ${nome} entrou na lista.`); }
+  inp.value=""; salvarPedidos(); montarRanking();
+});
+document.getElementById("in-pedido").addEventListener("keydown",e=>{
+  if(e.key==="Enter") document.getElementById("bt-pedir").click();
+});
+
+/* ============================================================
+   DÚVIDAS
+   ============================================================ */
+const DUVIDAS=[
+  ["Onde eu retiro o jogo?","No centro de São João del-Rei. Mando a localização exata pelo WhatsApp assim que você fecha o pedido."],
+  ["Vocês entregam em casa?","Entrego em toda São João del-Rei. Até 3 km sai de graça; mais longe que isso, R$ 8 ida e volta."],
+  ["Quanto tempo fico com o jogo?","Sete dias corridos. Levando três ou mais de uma vez, são dez dias."],
+  ["Posso ficar mais tempo?","Se ninguém estiver na fila daquele jogo, pode. A renovação sai 30% mais barata."],
+  ["Precisa pagar caução?","Não. Pix na hora da entrega e pronto."],
+  ["E se eu perder uma peça?","Me avisa. Peça pequena eu reponho sem cobrar. Só peço cuidado com as caixas."],
+  ["Nunca joguei nada disso.","Melhor ainda. Eu ensino na hora da entrega, ou mando um vídeo de cinco minutos."],
+  ["Atende fora de São João del-Rei?","Tiradentes eu atendo. Outras cidades, só combinando retirada aqui."]
+];
+document.getElementById("duvidas").innerHTML=DUVIDAS.map(([q,a])=>`
+  <div class="duvida">
+    <button><span>${q}</span><span class="sinal">+</span></button>
+    <div class="resp"><p>${a}</p></div>
+  </div>`).join("");
+document.querySelectorAll(".duvida button").forEach(b=>b.addEventListener("click",()=>{
+  b.parentElement.classList.toggle("on");
+}));
+
+/* ============================================================
+   EVENTOS
+   ============================================================ */
+let tipoEvento="República";
+document.querySelectorAll("#op-evento .ficha").forEach(b=>b.addEventListener("click",()=>{
+  tipoEvento=b.dataset.e;
+  document.querySelectorAll("#op-evento .ficha").forEach(o=>o.classList.toggle("on",o===b));
+}));
+document.getElementById("bt-evento").addEventListener("click",()=>{
+  const d=document.getElementById("ev-data").value.trim();
+  const g=document.getElementById("ev-gente").value.trim();
+  const l=document.getElementById("ev-local").value.trim();
+  if(!d||!g||!l){avisar("Preenche data, quantidade e local.");return}
+  const msg=`Oi! Quero um orçamento de noite de jogos.\nTipo: ${tipoEvento}\nData: ${d}\nPessoas: ${g}\nLocal: ${l}`;
+  window.open(`https://wa.me/${ZAP}?text=${encodeURIComponent(msg)}`,"_blank","noopener");
+});
+
+/* ============================================================
+   AVISO FLUTUANTE
+   ============================================================ */
+let tempoAviso;
+function avisar(txt){
+  const t=document.getElementById("toast");
+  document.getElementById("toast-tx").textContent=txt;
+  t.classList.add("ver");
+  clearTimeout(tempoAviso);
+  tempoAviso=setTimeout(()=>t.classList.remove("ver"),3400);
+}
+
+/* ============================================================
+   INÍCIO
+   ============================================================ */
+montarPrateleira();
+montarRanking();
+let larguraAnterior=window.innerWidth;
+window.addEventListener("resize",()=>{
+  const cruzou=(larguraAnterior<900)!==(window.innerWidth<900);
+  larguraAnterior=window.innerWidth;
+  if(cruzou) montarPrateleira();
+});
+</script>
+</body>
+</html>
