@@ -437,8 +437,11 @@
     font-family:var(--serif);font-size:32px;color:var(--gold);
     position:relative;overflow:hidden;
   }
-  /* a foto cobre a inicial; se o arquivo não existir, a inicial fica */
-  .avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  /* a foto cobre a inicial; se o arquivo não existir, a inicial fica.
+     object-position puxa o recorte pra cima: foto de retrato tem o rosto
+     acima do meio, e o corte central deixaria ele baixo no círculo. */
+  .avatar img{position:absolute;inset:0;width:100%;height:100%;
+              object-fit:cover;object-position:50% 30%;display:block}
   @media(min-width:900px){.avatar{width:104px;height:104px;font-size:38px}}
   .provas{border-top:1px solid var(--line);margin-top:22px;padding-top:20px;
           display:flex;flex-direction:column;gap:14px}
