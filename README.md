@@ -21,6 +21,48 @@ estudio.html    ferramenta interna para montar e fotografar o guarda-roupa 3D
 fotos/          fotos das caixas dos jogos
 ```
 
+## Paleta
+
+Verde mata + mostarda. As variáveis ficam no `:root`, no início do `<style>`.
+
+| Papel | Variável | Hex |
+|---|---|---|
+| Identidade | `--verde` | `#1F3D2B` |
+| Verde fundo | `--verde-2` | `#16291C` |
+| Destaque / CTA | `--mostarda` | `#D9A441` |
+| Hover do CTA | `--mostarda-2` | `#B8842E` |
+| Fundo geral | `--creme` | `#F5EFE0` |
+| Creme rebaixado | `--creme-2` | `#EBE1CC` |
+| Superfície | `--branco` | `#FFFFFF` |
+| Texto | `--tinta` | `#14261A` |
+| Texto de apoio | `--tinta-2` | `#4F5F43` |
+| Legenda | `--tinta-3` | `#56634C` |
+| Texto sobre verde | `--sobre-verde` | `#EAD9A0` |
+| Texto no botão | `--sobre-mostarda` | `#3C2A0A` |
+
+### A regra da mostarda
+
+**Mostarda nunca como texto sobre o creme.** Medido: `--mostarda` sobre
+`--creme` dá **1,96:1** e `--mostarda-2` dá **2,87:1** — as duas reprovam até o
+mínimo de 3:1 para texto grande.
+
+Onde ela funciona:
+
+- **preenchendo** um elemento (fundo de botão, com `--sobre-mostarda` por cima): **6,11:1**
+- **sobre o verde mata** (título da abertura, aba ativa): **5,30:1**
+
+Como texto ou ícone sobre fundo claro, use `--verde`. Os tons de apoio
+(`--tinta-2` e `--tinta-3`) foram escurecidos em relação à paleta original por
+esse mesmo motivo — os valores propostos ficavam em 3,14 e 4,26:1.
+
+O site tem 132 elementos de texto verificados, todos acima do mínimo AA.
+
+### A abertura é escura de propósito
+
+A tela do guarda-roupa usa `--verde` e `--verde-2` como fundo, e é a única parte
+escura do site. Não é inconsistência: **a luz saindo do armário só existe contra
+o escuro.** O resto do site é creme, como a paleta pede.
+
 ## O acervo
 
 Doze jogos, em três faixas de preço por 7 dias:

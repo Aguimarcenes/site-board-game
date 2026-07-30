@@ -7,12 +7,23 @@
 <meta name="description" content="Alugue jogos de tabuleiro em São João del-Rei e região a partir de R$ 15. Retirada na Vila Belizário ou na Colônia, com entrega e busca.">
 <style>
   :root{
-    --bg:#14100c; --bg2:#1e1810; --bg3:#2b2318;
+    /* Verde mata + mostarda — natureza do interior de Minas */
+    --verde:#1F3D2B;        /* identidade: cabeçalho, rodapé, cena de abertura */
+    --verde-2:#16291C;      /* verde mais fundo, hover e sombra */
+    --mostarda:#D9A441;     /* destaque e CTA — nunca em área grande */
+    --mostarda-2:#B8842E;   /* hover do CTA */
+    --creme:#F5EFE0;        /* fundo geral das páginas */
+    --creme-2:#EBE1CC;      /* creme rebaixado, blocos dentro de card */
+    --branco:#FFFFFF;       /* superfície: cards, campos, modais */
+    --tinta:#14261A;        /* texto principal sobre claro */
+    --tinta-2:#4F5F43;      /* texto de apoio */
+    --tinta-3:#56634C;      /* legendas e dicas */
+    --sobre-verde:#EAD9A0;  /* texto sobre o verde mata */
+    --sobre-mostarda:#3C2A0A; /* texto dentro do botão mostarda */
+    /* hairlines derivadas do verde, para não sujar com cinza */
+    --line:rgba(31,61,43,.14); --line2:rgba(31,61,43,.26);
+    --ok:#1F3D2B; --okbg:#E4EDE2;
     --wood:#4a2f18; --wood2:#6b4526; --wood3:#8a5c33;
-    --gold:#e3bd6d; --gold2:#a3803a;
-    --cream:#f2e7d2; --muted:#9a8b74; --muted2:#7d7059;
-    --line:#2e2618; --line2:#3d3226;
-    --ok:#6bbf7e; --okbg:#1a2b1e;
     --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
     --sans:-apple-system,"Segoe UI",Roboto,system-ui,sans-serif;
     --navh:64px;
@@ -22,7 +33,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{
-    font-family:var(--sans); background:var(--bg); color:var(--cream);
+    font-family:var(--sans); background:var(--creme); color:var(--tinta);
     min-height:100vh; overflow-x:hidden; line-height:1.5;
   }
   button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
@@ -34,24 +45,24 @@
     .topo{
       display:flex; align-items:center; justify-content:space-between;
       padding:20px 40px; border-bottom:1px solid var(--line);
-      position:sticky; top:0; background:rgba(20,16,12,.94);
-      backdrop-filter:blur(10px); z-index:50;
+      position:sticky; top:0; background:var(--verde);
+      border-bottom:none; z-index:50;
     }
-    .topo .marca{font-family:var(--serif);font-size:22px;color:var(--gold);letter-spacing:.04em}
+    .topo .marca{font-family:var(--serif);font-size:22px;color:var(--mostarda);letter-spacing:.04em}
     .topo nav{display:flex;gap:30px}
-    .topo nav button{font-size:15px;color:var(--muted);padding:4px 0;border-bottom:2px solid transparent}
-    .topo nav button:hover{color:var(--cream)}
-    .topo nav button.on{color:var(--gold);border-bottom-color:var(--gold)}
+    .topo nav button{font-size:15px;color:var(--sobre-verde);opacity:.72;padding:4px 0;border-bottom:2px solid transparent}
+    .topo nav button:hover{opacity:1}
+    .topo nav button.on{color:var(--mostarda);opacity:1;border-bottom-color:var(--mostarda)}
   }
 
   .rodape{
     position:fixed; left:0; right:0; bottom:0; z-index:50;
-    display:flex; background:rgba(20,16,12,.97); backdrop-filter:blur(10px);
-    border-top:1px solid var(--line);
+    display:flex; background:var(--verde);
+    border-top:none;
     padding:8px 0 calc(8px + env(safe-area-inset-bottom));
   }
-  .rodape button{flex:1;text-align:center;color:var(--muted2);padding:2px 0}
-  .rodape button.on{color:var(--gold)}
+  .rodape button{flex:1;text-align:center;color:var(--sobre-verde);opacity:.6;padding:2px 0}
+  .rodape button.on{color:var(--mostarda);opacity:1}
   .rodape .ic{display:block;font-size:20px;line-height:1;margin-bottom:3px}
   .rodape .tx{font-size:11px}
   @media(min-width:900px){.rodape{display:none}}
@@ -67,13 +78,14 @@
   @media(min-width:900px){.wrap{padding:44px 40px}}
 
   /* ---------- TIPOGRAFIA ---------- */
-  .kicker{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted2)}
-  .kicker.ouro{color:var(--gold)}
+  .kicker{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--tinta-2)}
+  /* mostarda em texto de 11px não passa contraste sobre creme; aqui usa verde */
+  .kicker.ouro{color:var(--verde)}
   h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.2}
-  h1{font-size:clamp(28px,7vw,52px);color:var(--gold);letter-spacing:.04em}
-  h2{font-size:clamp(22px,5vw,34px);color:var(--cream)}
-  h3{font-size:clamp(19px,4vw,24px);color:var(--cream)}
-  .lede{color:var(--muted);font-size:15px;line-height:1.65}
+  h1{font-size:clamp(28px,7vw,52px);color:var(--mostarda);letter-spacing:.04em}
+  h2{font-size:clamp(22px,5vw,34px);color:var(--tinta)}
+  h3{font-size:clamp(19px,4vw,24px);color:var(--tinta)}
+  .lede{color:var(--tinta-2);font-size:15px;line-height:1.65}
 
   /* ---------- BOTÕES ---------- */
   .btn{
@@ -82,10 +94,10 @@
     transition:transform .15s,filter .15s;
   }
   .btn:active{transform:scale(.985)}
-  .btn.ouro{background:var(--gold);color:#3a2408}
-  .btn.ouro:hover{filter:brightness(1.07)}
-  .btn.fant{border:1px solid var(--line2);color:var(--muted);font-weight:500}
-  .btn.fant:hover{color:var(--gold);border-color:var(--gold2)}
+  .btn.ouro{background:var(--mostarda);color:var(--sobre-mostarda)}
+  .btn.ouro:hover{background:var(--mostarda-2)}
+  .btn.fant{border:1px solid var(--line2);color:var(--verde);font-weight:500}
+  .btn.fant:hover{background:var(--creme-2);border-color:var(--verde)}
   .btn.mini{width:auto;padding:11px 20px;font-size:14px}
 
   /* ---------- TELA 1: A PORTA ---------- */
@@ -94,21 +106,29 @@
     min-height:calc(100vh - var(--navh) - 20px); display:flex; flex-direction:column;
     align-items:center; justify-content:center; padding:30px 18px 50px;
     perspective:1800px; position:relative; overflow:hidden;
+    /* A cena de abertura é a única parte escura do site, e de propósito: a luz
+       saindo do armário só existe contra o escuro. Verde mata em vez do preto
+       de antes, para ficar dentro da paleta. */
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, #24462F 0%, transparent 70%),
+      linear-gradient(180deg, var(--verde) 0%, var(--verde-2) 100%);
   }
   /* desconta o cabeçalho fixo (82) e o padding do main (60) */
   @media(min-width:900px){#t-porta .cena{min-height:calc(100vh - 142px)}}
   .feixe{
     position:absolute;left:50%;top:52%;width:150vw;height:70vh;translate:-50% 0;
     clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);
-    background:linear-gradient(180deg,rgba(255,196,110,.26),transparent 80%);
+    background:linear-gradient(180deg,rgba(217,164,65,.34),transparent 80%);
     filter:blur(24px);opacity:0;transition:opacity 1.4s .4s;pointer-events:none;
   }
   body.aberto .feixe{opacity:1}
 
   .cabecalho{text-align:center;margin-bottom:26px;position:relative;z-index:3;transition:.7s}
   body.aberto .cabecalho{opacity:.4}
-  .cabecalho .local{font-size:11px;letter-spacing:.28em;color:var(--muted);margin-bottom:8px}
-  .cabecalho .sub{font-size:14px;color:var(--muted);margin-top:8px}
+  .cabecalho .local{font-size:11px;letter-spacing:.28em;color:var(--sobre-verde);opacity:.75;margin-bottom:8px}
+  .cabecalho .sub{font-size:14px;color:var(--sobre-verde);opacity:.75;margin-top:8px}
+  .dica{color:var(--sobre-verde)!important;opacity:.8}
+  .rodape-porta{color:var(--sobre-verde)!important;opacity:.6}
 
   .armario{
     --k:1;                            /* fator de escala de todo o entalhe */
@@ -255,31 +275,31 @@
   .porta.esq .macaneta{right:calc(4px * var(--k))}
   .porta.dir .macaneta{left:calc(4px * var(--k))}
 
-  .dica{margin-top:34px;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);
+  .dica{margin-top:34px;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--tinta-2);
         position:relative;z-index:3;animation:pulsa 2.6s infinite;transition:.4s}
   @keyframes pulsa{50%{opacity:.3}}
   body.aberto .dica{opacity:0}
-  .rodape-porta{margin-top:16px;font-size:13px;color:var(--muted2);position:relative;z-index:3}
+  .rodape-porta{margin-top:16px;font-size:13px;color:var(--tinta-3);position:relative;z-index:3}
 
   /* ---------- TELA 2: A PERGUNTA ---------- */
   .opcoes{display:flex;flex-direction:column;gap:11px;margin:18px 0 30px}
   @media(min-width:700px){.opcoes{flex-direction:row}}
   .opcao{
     flex:1;display:flex;align-items:center;gap:12px;text-align:left;
-    background:var(--bg2);border:1px solid var(--line2);border-radius:8px;padding:16px;
-    font-size:15px;color:var(--cream);transition:.18s;
+    background:var(--branco);border:1px solid var(--line2);border-radius:8px;padding:16px;
+    font-size:15px;color:var(--tinta);transition:.18s;
   }
-  .opcao:hover{border-color:var(--gold2)}
-  .opcao.on{background:var(--gold);border-color:var(--gold);color:#3a2408;font-weight:600}
-  .opcao small{display:block;font-size:12px;color:var(--muted);font-weight:400;margin-top:2px}
-  .opcao.on small{color:#6b4a15}
+  .opcao:hover{border-color:var(--mostarda-2)}
+  .opcao.on{background:var(--mostarda);border-color:var(--mostarda);color:var(--sobre-mostarda);font-weight:600}
+  .opcao small{display:block;font-size:12px;color:var(--tinta-2);font-weight:400;margin-top:2px}
+  .opcao.on small{color:var(--sobre-mostarda);opacity:.72}
   .fichas{display:flex;gap:9px;flex-wrap:wrap}
   .ficha{
-    border:1px solid var(--line2);color:var(--muted);border-radius:22px;padding:10px 17px;font-size:14px;transition:.18s;
+    border:1px solid var(--line2);color:var(--tinta-2);border-radius:22px;padding:10px 17px;font-size:14px;transition:.18s;
   }
-  .ficha:hover{border-color:var(--gold2);color:var(--cream)}
-  .ficha.on{background:var(--gold);border-color:var(--gold);color:#3a2408;font-weight:600}
-  .pular{margin-top:30px;font-size:14px;color:var(--muted2);text-decoration:underline}
+  .ficha:hover{border-color:var(--mostarda-2);color:var(--tinta)}
+  .ficha.on{background:var(--mostarda);border-color:var(--mostarda);color:var(--sobre-mostarda);font-weight:600}
+  .pular{margin-top:30px;font-size:14px;color:var(--tinta-3);text-decoration:underline}
 
   /* ---------- CAIXA 3D ---------- */
   .caixa{
@@ -294,7 +314,7 @@
     left:0;width:100%;height:100%;transform:translateZ(var(--dh));border-radius:2px;
     /* a ilustração 3:4 sobra nas laterais dentro do quadrado; a cor do jogo preenche a folga */
     background:var(--c2);
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 10px 20px rgba(0,0,0,.5);
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.22),0 8px 16px rgba(31,61,43,.28);
     display:flex;align-items:center;justify-content:center;
   }
   .caixa .capa svg{display:block;width:100%;height:100%}
@@ -314,7 +334,7 @@
   /* ---------- PRATELEIRA ---------- */
   .filtro-topo{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
   .filtro-topo .ficha{padding:7px 14px;font-size:13px}
-  .contagem{font-family:var(--serif);font-size:clamp(20px,4.4vw,26px);color:var(--cream);margin:14px 0 22px}
+  .contagem{font-family:var(--serif);font-size:clamp(20px,4.4vw,26px);color:var(--tinta);margin:14px 0 22px}
 
   .fileira{margin-bottom:30px}
   .jogos{display:flex;gap:12px;align-items:flex-end;padding:0 4px}
@@ -322,29 +342,29 @@
   .tabua{
     height:11px;border-radius:2px;margin:0 -4px;
     background:linear-gradient(180deg,var(--wood3) 0%,var(--wood2) 35%,#241405 100%);
-    box-shadow:0 8px 16px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,215,160,.28);
+    box-shadow:0 8px 16px rgba(31,61,43,.35),inset 0 1px 0 rgba(255,215,160,.28);
   }
   /* flex:1 1 0 mantém a mesma largura em todas as fileiras, inclusive na última incompleta */
   .item{flex:1 1 0;min-width:0;text-align:left;perspective:700px}
   .item .caixa{transform:rotateY(-18deg)}
   .item:hover .caixa{transform:rotateY(0) translateY(-10px) scale(1.04)}
   .item.fora .caixa{opacity:.34}
-  .item .nome{font-size:12px;color:var(--cream);margin-top:10px;line-height:1.3}
-  .item.fora .nome{color:var(--muted2)}
-  .item .estado{font-size:11px;margin-top:3px;display:flex;align-items:center;gap:5px;color:var(--muted)}
+  .item .nome{font-size:12px;color:var(--tinta);margin-top:10px;line-height:1.3}
+  .item.fora .nome{color:var(--tinta-3)}
+  .item .estado{font-size:11px;margin-top:3px;display:flex;align-items:center;gap:5px;color:var(--tinta-2)}
   .ponto{width:6px;height:6px;border-radius:50%;background:var(--ok);flex:none}
-  .item.fora .ponto{background:var(--muted2)}
+  .item.fora .ponto{background:var(--tinta-3)}
   @media(min-width:900px){
     .item .nome{font-size:14px}
     .item .estado{font-size:12px}
   }
 
   .legenda{display:flex;flex-direction:column;gap:9px;margin-top:6px}
-  .legenda div{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted)}
+  .legenda div{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--tinta-2)}
 
   /* ---------- FICHA DO JOGO ---------- */
-  .voltar{display:flex;align-items:center;gap:7px;font-size:14px;color:var(--muted);margin-bottom:22px}
-  .voltar:hover{color:var(--gold)}
+  .voltar{display:flex;align-items:center;gap:7px;font-size:14px;color:var(--tinta-2);margin-bottom:22px}
+  .voltar:hover{color:var(--mostarda)}
   .ficha-grid{display:flex;flex-direction:column;gap:26px}
   @media(min-width:900px){
     .ficha-grid{flex-direction:row;gap:56px;align-items:flex-start}
@@ -369,72 +389,75 @@
   @media(min-width:900px){.visual .caixa{width:300px}}
 
   .meta{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 20px}
-  .meta span{font-size:12px;color:#e6d3ac;border:1px solid rgba(227,189,109,.3);
-             border-radius:20px;padding:6px 13px;background:rgba(227,189,109,.06)}
+  .meta span{font-size:12px;color:var(--verde);border:1px solid var(--line2);
+             border-radius:20px;padding:6px 13px;background:var(--creme-2)}
   .fala{
-    background:var(--bg2);border-left:2px solid var(--gold);padding:16px 17px;margin-bottom:18px;
+    background:var(--creme-2);border-left:3px solid var(--mostarda);padding:16px 17px;margin-bottom:18px;
   }
-  .fala p{font-family:var(--serif);font-size:15px;line-height:1.65;color:#c9b99f}
-  .fala .assina{font-size:12px;color:var(--muted2);margin-top:10px;font-family:var(--sans)}
+  .fala p{font-family:var(--serif);font-size:15px;line-height:1.65;color:var(--tinta)}
+  .fala .assina{font-size:12px;color:var(--tinta-2);margin-top:10px;font-family:var(--sans)}
   .aviso{display:flex;align-items:center;gap:10px;border-radius:7px;padding:13px 15px;margin-bottom:12px;font-size:14px}
-  .aviso.livre{background:var(--okbg);color:#a8d9b4}
-  .aviso.preso{background:var(--bg3);color:var(--cream);flex-direction:column;align-items:flex-start;gap:6px}
+  .aviso.livre{background:var(--okbg);color:var(--verde);font-weight:500}
+  .aviso.preso{background:var(--creme-2);color:var(--tinta);flex-direction:column;align-items:flex-start;gap:6px}
   .aviso.preso .quando{display:flex;align-items:center;gap:9px;font-weight:600}
-  .aviso.preso small{color:var(--muted);font-size:12px;line-height:1.5;font-weight:400}
-  .extra{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);margin-bottom:22px}
+  .aviso.preso small{color:var(--tinta-2);font-size:12px;line-height:1.5;font-weight:400}
+  .extra{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--tinta-2);margin-bottom:22px}
   .valor{display:flex;align-items:baseline;gap:10px;margin-bottom:16px}
-  .valor b{font-family:var(--serif);font-size:36px;font-weight:400;color:var(--gold)}
-  .valor small{font-size:13px;color:var(--muted2)}
+  /* Mostarda sobre creme dá 1,96:1 e a escura 2,87:1 — as duas reprovam.
+     Regra: mostarda só em elemento preenchido (botão) ou sobre o verde.
+     Como texto sobre claro, verde mata. */
+  .valor b{font-family:var(--serif);font-size:36px;font-weight:400;color:var(--verde)}
+  .valor small{font-size:13px;color:var(--tinta-3)}
   .acoes{display:flex;flex-direction:column;gap:10px}
   .alternativas{margin-top:30px;border-top:1px solid var(--line);padding-top:22px}
   .alt-lista{display:flex;gap:16px;margin-top:14px}
   .alt{flex:1;display:flex;gap:11px;align-items:center;text-align:left}
   .alt .mini-caixa{width:40px;flex:none;perspective:400px}
-  .alt span{font-size:13px;color:var(--muted)}
+  .alt span{font-size:13px;color:var(--tinta-2)}
 
   /* ---------- MURAL DE PEDIDOS ---------- */
   .campo{display:flex;gap:9px;margin:18px 0 32px}
   .campo input{
-    flex:1;background:var(--bg2);border:1px solid var(--line2);border-radius:7px;
-    padding:14px 15px;color:var(--cream);
+    flex:1;background:var(--branco);border:1px solid var(--line2);border-radius:7px;
+    padding:14px 15px;color:var(--tinta);
   }
-  .campo input::placeholder{color:var(--muted2)}
-  .campo input:focus{outline:none;border-color:var(--gold2)}
+  .campo input::placeholder{color:var(--tinta-3)}
+  .campo input:focus{outline:none;border-color:var(--mostarda-2)}
   .ranking{display:flex;flex-direction:column;gap:16px}
   .linha{display:flex;align-items:center;gap:13px}
-  .linha .pos{font-family:var(--serif);font-size:19px;color:var(--gold);width:24px;flex:none}
-  .linha.baixa .pos{color:var(--muted2)}
+  .linha .pos{font-family:var(--serif);font-size:19px;color:var(--verde);width:24px;flex:none}
+  .linha.baixa .pos{color:var(--tinta-3)}
   .linha .corpo-linha{flex:1;min-width:0}
-  .linha .titulo{font-size:15px;color:var(--cream);margin-bottom:6px}
-  .linha.baixa .titulo{color:var(--muted)}
+  .linha .titulo{font-size:15px;color:var(--tinta);margin-bottom:6px}
+  .linha.baixa .titulo{color:var(--tinta-2)}
   .barra{height:5px;background:var(--line);border-radius:3px;overflow:hidden}
-  .barra i{display:block;height:100%;background:var(--gold);border-radius:3px;transition:width .4s}
-  .linha.baixa .barra i{background:var(--muted2)}
-  .linha .votos{font-size:13px;color:var(--muted);width:52px;text-align:right;flex:none}
-  .linha .votar{font-size:12px;color:var(--gold);border:1px solid var(--line2);border-radius:20px;padding:5px 11px;flex:none}
-  .linha .votar:hover{border-color:var(--gold)}
-  .linha .votar.feito{color:var(--muted2);border-color:var(--line)}
+  .barra i{display:block;height:100%;background:var(--mostarda);border-radius:3px;transition:width .4s}
+  .linha.baixa .barra i{background:var(--tinta-3)}
+  .linha .votos{font-size:13px;color:var(--tinta-2);width:52px;text-align:right;flex:none}
+  .linha .votar{font-size:12px;color:var(--verde);border:1px solid var(--line2);border-radius:20px;padding:5px 11px;flex:none}
+  .linha .votar:hover{border-color:var(--verde);background:var(--creme-2)}
+  .linha .votar.feito{color:var(--tinta-3);border-color:var(--line)}
   .prova{display:flex;gap:11px;align-items:center;background:var(--okbg);border-radius:7px;padding:14px 15px;margin-top:28px}
-  .prova p{font-size:13px;color:#a8d9b4;line-height:1.5}
+  .prova p{font-size:13px;color:var(--verde);line-height:1.5}
 
   /* ---------- DÚVIDAS ---------- */
   .duvida{border-bottom:1px solid var(--line)}
   .duvida button{
     width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;
-    text-align:left;padding:18px 0;font-size:16px;color:var(--cream);font-weight:500;
+    text-align:left;padding:18px 0;font-size:16px;color:var(--tinta);font-weight:500;
   }
-  .duvida .sinal{color:var(--gold);font-size:20px;flex:none;transition:transform .25s}
+  .duvida .sinal{color:var(--verde);font-size:20px;flex:none;transition:transform .25s}
   .duvida.on .sinal{transform:rotate(45deg)}
   .duvida .resp{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
   .duvida.on .resp{max-height:280px;padding-bottom:18px}
-  .duvida .resp p{font-size:14px;color:var(--muted);line-height:1.7}
+  .duvida .resp p{font-size:14px;color:var(--tinta-2);line-height:1.7}
 
   /* ---------- QUEM SOU ---------- */
   .perfil{display:flex;align-items:center;gap:15px;margin-bottom:22px}
   .avatar{
-    width:86px;height:86px;border-radius:50%;flex:none;background:var(--wood);
-    border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;
-    font-family:var(--serif);font-size:32px;color:var(--gold);
+    width:86px;height:86px;border-radius:50%;flex:none;background:var(--verde);
+    border:2px solid var(--mostarda);display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-size:32px;color:var(--sobre-verde);
     position:relative;overflow:hidden;
   }
   /* a foto cobre a inicial; se o arquivo não existir, a inicial fica.
@@ -445,32 +468,32 @@
   @media(min-width:900px){.avatar{width:104px;height:104px;font-size:38px}}
   .provas{border-top:1px solid var(--line);margin-top:22px;padding-top:20px;
           display:flex;flex-direction:column;gap:14px}
-  .provas div{display:flex;gap:12px;align-items:center;font-size:14px;color:var(--muted)}
-  .provas .ic{color:var(--gold);font-size:17px;width:20px;flex:none;text-align:center}
-  .caixinha{background:var(--bg2);border-radius:8px;padding:16px 17px;margin-top:22px}
-  .caixinha h4{font-size:15px;color:var(--cream);margin-bottom:7px;font-weight:600}
-  .caixinha p{font-size:13px;color:var(--muted);line-height:1.6}
+  .provas div{display:flex;gap:12px;align-items:center;font-size:14px;color:var(--tinta-2)}
+  .provas .ic{color:var(--verde);font-size:17px;width:20px;flex:none;text-align:center}
+  .caixinha{background:var(--creme-2);border-radius:8px;padding:16px 17px;margin-top:22px}
+  .caixinha h4{font-size:15px;color:var(--tinta);margin-bottom:7px;font-weight:600}
+  .caixinha p{font-size:13px;color:var(--tinta-2);line-height:1.6}
 
   /* ---------- EVENTOS ---------- */
   .pacotes{display:flex;flex-direction:column;gap:11px;margin:22px 0 30px}
   @media(min-width:700px){.pacotes{flex-direction:row}}
-  .pacote{flex:1;background:var(--bg2);border:1px solid var(--line2);border-radius:8px;padding:17px}
-  .pacote h4{font-size:16px;color:var(--cream);margin-bottom:5px;font-weight:600}
-  .pacote p{font-size:13px;color:var(--muted);line-height:1.5}
+  .pacote{flex:1;background:var(--branco);border:1px solid var(--line2);border-radius:8px;padding:17px}
+  .pacote h4{font-size:16px;color:var(--tinta);margin-bottom:5px;font-weight:600}
+  .pacote p{font-size:13px;color:var(--tinta-2);line-height:1.5}
   .form-linha{display:flex;gap:10px;margin-bottom:11px}
   .form-linha input{
-    flex:1;min-width:0;background:var(--bg2);border:1px solid var(--line2);border-radius:7px;
-    padding:14px 15px;color:var(--cream);
+    flex:1;min-width:0;background:var(--branco);border:1px solid var(--line2);border-radius:7px;
+    padding:14px 15px;color:var(--tinta);
   }
-  .form-linha input::placeholder{color:var(--muted2)}
-  .form-linha input:focus{outline:none;border-color:var(--gold2)}
+  .form-linha input::placeholder{color:var(--tinta-3)}
+  .form-linha input:focus{outline:none;border-color:var(--mostarda-2)}
 
   /* ---------- AVISO FLUTUANTE ---------- */
   .toast{
     position:fixed;left:50%;bottom:calc(var(--navh) + 18px);translate:-50% 12px;z-index:200;
     display:flex;align-items:center;gap:11px;max-width:calc(100vw - 36px);
-    background:var(--bg3);border:1px solid var(--gold2);border-radius:8px;
-    padding:15px 20px;font-size:14px;box-shadow:0 20px 40px rgba(0,0,0,.6);
+    background:var(--verde);color:var(--sobre-verde);border:1px solid var(--verde-2);border-radius:8px;
+    padding:15px 20px;font-size:14px;box-shadow:0 16px 32px rgba(31,61,43,.35);
     opacity:0;pointer-events:none;transition:opacity .3s,translate .3s;
   }
   .toast.ver{opacity:1;translate:-50% 0}
@@ -603,7 +626,7 @@
       </div>
       <div class="form-linha"><input id="ev-local" placeholder="Bairro ou cidade" aria-label="Bairro ou cidade"></div>
       <button class="btn ouro" id="bt-evento" style="max-width:420px;margin-top:8px">Pedir orçamento</button>
-      <p style="font-size:13px;color:var(--muted2);margin-top:14px">Respondo no mesmo dia.</p>
+      <p style="font-size:13px;color:var(--tinta-3);margin-top:14px">Respondo no mesmo dia.</p>
     </div>
   </section>
 
@@ -613,8 +636,8 @@
       <h2>Dúvidas frequentes</h2>
       <div id="duvidas" style="margin-top:22px"></div>
       <div class="caixinha" style="display:flex;gap:12px;align-items:center">
-        <span style="color:var(--gold);font-size:18px">&#9990;</span>
-        <p style="font-size:14px;color:var(--muted)">Ficou outra dúvida? Me chama no WhatsApp.</p>
+        <span style="color:var(--verde);font-size:18px">&#9990;</span>
+        <p style="font-size:14px;color:var(--tinta-2)">Ficou outra dúvida? Me chama no WhatsApp.</p>
       </div>
     </div>
   </section>
@@ -627,7 +650,7 @@
           onerror="if(this.dataset.jpg){this.src=this.dataset.jpg;delete this.dataset.jpg}else{this.remove()}"></div>
         <div>
           <h3 style="margin-bottom:3px">Aguinaldo</h3>
-          <p style="font-size:13px;color:var(--muted)">São João del-Rei e região · desde 2026</p>
+          <p style="font-size:13px;color:var(--tinta-2)">São João del-Rei e região · desde 2026</p>
         </div>
       </div>
       <p class="lede" style="margin-bottom:14px">
@@ -1201,7 +1224,7 @@ function montarPrateleira(){
   const presos=lista.filter(j=>!j.livre);
   document.getElementById("legenda").innerHTML=
     (livres?`<div><span class="ponto"></span>${livres} disponíve${livres>1?"is":"l"} agora</div>`:"")+
-    presos.map(j=>`<div><span class="ponto" style="background:var(--muted2)"></span>${j.nome} volta ${j.volta}</div>`).join("");
+    presos.map(j=>`<div><span class="ponto" style="background:var(--tinta-3)"></span>${j.nome} volta ${j.volta}</div>`).join("");
 }
 
 /* ============================================================
@@ -1236,10 +1259,10 @@ function abrirJogo(id){
       ${j.livre
         ? `<div class="aviso livre"><span style="font-size:17px">&#10003;</span>Disponível agora — leva hoje mesmo</div>`
         : `<div class="aviso preso">
-             <span class="quando"><span style="color:var(--gold)">&#9200;</span>Volta ${j.volta}</span>
+             <span class="quando"><span style="color:var(--verde)">&#9200;</span>Volta ${j.volta}</span>
              <small>Só tenho um exemplar. Te aviso no instante em que ele voltar pra prateleira.</small>
            </div>`}
-      ${j.expansao?`<div class="extra"><span style="color:var(--gold)">+</span>${j.expansao}</div>`:""}
+      ${j.expansao?`<div class="extra"><span style="color:var(--verde)">+</span>${j.expansao}</div>`:""}
       <div class="valor"><b>R$ ${j.preco}</b><small>por 7 dias</small></div>
       <div class="acoes">
         ${j.livre
