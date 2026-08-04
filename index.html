@@ -3,8 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Guarda-Jogos — Aluguel de jogos de tabuleiro em São João del-Rei</title>
-<meta name="description" content="Alugue jogos de tabuleiro em São João del-Rei e região a partir de R$ 15. Retirada na Vila Belizário ou na Colônia, com entrega e busca.">
+<title>Jojocas — jogos & café · aluguel de jogos de tabuleiro</title>
+<meta name="description" content="Jojocas — jogos & café. Alugue jogos de tabuleiro em São João del-Rei e região a partir de R$ 15. Retirada na Vila Belizário ou na Colônia, com entrega e busca.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Caveat:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- favicon: monograma J em mostarda sobre verde mata -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F3D2B'/%3E%3Ctext x='32' y='47' font-family='Georgia,serif' font-weight='bold' font-size='42' fill='%23D9A441' text-anchor='middle'%3EJ%3C/text%3E%3C/svg%3E">
 <style>
   :root{
     /* Verde mata + mostarda — natureza do interior de Minas */
@@ -23,12 +28,16 @@
     /* hairlines derivadas do verde, para não sujar com cinza */
     --line:rgba(31,61,43,.14); --line2:rgba(31,61,43,.26);
     --ok:#1F3D2B; --okbg:#E4EDE2;
-    --wood:#4a2f18; --wood2:#6b4526; --wood3:#8a5c33;
-    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
-    --sans:-apple-system,"Segoe UI",Roboto,system-ui,sans-serif;
+    /* Tipografia da marca Jojocas.
+       --marca  = Permanent Marker: SÓ o nome e chamadas curtíssimas, nunca frase inteira.
+       --acento = Caveat: toques manuscritos afetivos ("jogos & café", recados).
+       --sans   = Nunito: todo o texto de apoio — títulos, corpo, botões. */
+    --marca:"Permanent Marker","Bradley Hand","Comic Sans MS",cursive;
+    --acento:"Caveat","Segoe Script","Brush Script MT",cursive;
+    --sans:"Nunito",-apple-system,"Segoe UI",Roboto,system-ui,sans-serif;
     --navh:64px;
-    /* nogueira tingida — paleta tirada do guarda-roupa de referência */
-    --n0:#b06a38; --n1:#8a4a26; --n2:#6e3618; --n3:#52280f; --n4:#361805; --n5:#1e0d03;
+    /* madeira — só a tábua das prateleiras */
+    --wood2:#6b4526; --wood3:#8a5c33;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
@@ -48,7 +57,7 @@
       position:sticky; top:0; background:var(--verde);
       border-bottom:none; z-index:50;
     }
-    .topo .marca{font-family:var(--serif);font-size:22px;color:var(--mostarda);letter-spacing:.04em}
+    .topo .marca{font-family:var(--marca);font-size:26px;color:var(--mostarda);letter-spacing:.02em}
     .topo nav{display:flex;gap:30px}
     .topo nav button{font-size:15px;color:var(--sobre-verde);opacity:.72;padding:4px 0;border-bottom:2px solid transparent}
     .topo nav button:hover{opacity:1}
@@ -81,9 +90,10 @@
   .kicker{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--tinta-2)}
   /* mostarda em texto de 11px não passa contraste sobre creme; aqui usa verde */
   .kicker.ouro{color:var(--verde)}
-  h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.2}
-  h1{font-size:clamp(28px,7vw,52px);color:var(--mostarda);letter-spacing:.04em}
-  h2{font-size:clamp(22px,5vw,34px);color:var(--tinta)}
+  /* Títulos em Nunito peso 800 — o manual reserva o pincel só pro nome. */
+  h1,h2,h3{font-family:var(--sans);font-weight:800;line-height:1.2;letter-spacing:-.01em}
+  h1{font-size:clamp(28px,7vw,52px);color:var(--tinta)}
+  h2{font-size:clamp(22px,5vw,32px);color:var(--tinta)}
   h3{font-size:clamp(19px,4vw,24px);color:var(--tinta)}
   .lede{color:var(--tinta-2);font-size:15px;line-height:1.65}
 
@@ -100,186 +110,44 @@
   .btn.fant:hover{background:var(--creme-2);border-color:var(--verde)}
   .btn.mini{width:auto;padding:11px 20px;font-size:14px}
 
-  /* ---------- TELA 1: A PORTA ---------- */
+  /* ---------- TELA 1: CAPA DA MARCA ---------- */
   #t-porta .cena{
-    /* -20px porque o main já reserva navh+20 no rodapé; sem isso sobra rolagem */
     min-height:calc(100vh - var(--navh) - 20px); display:flex; flex-direction:column;
-    align-items:center; justify-content:center; padding:30px 18px 50px;
-    perspective:1800px; position:relative; overflow:hidden;
-    /* A cena de abertura é a única parte escura do site, e de propósito: a luz
-       saindo do armário só existe contra o escuro. Verde mata em vez do preto
-       de antes, para ficar dentro da paleta. */
+    align-items:center; justify-content:center; padding:40px 24px 60px;
+    position:relative; overflow:hidden; text-align:center;
+    /* A capa é a única parte escura do site, e de propósito: é a fachada da
+       Jojocas. Verde mata com um calor de luz quente no alto, como o manual
+       pede — "madeira, barro e luz quente". */
     background:
-      radial-gradient(ellipse 80% 60% at 50% 40%, #24462F 0%, transparent 70%),
+      radial-gradient(ellipse 70% 50% at 50% 32%, #2A4E35 0%, transparent 68%),
       linear-gradient(180deg, var(--verde) 0%, var(--verde-2) 100%);
   }
-  /* desconta o cabeçalho fixo (82) e o padding do main (60) */
   @media(min-width:900px){#t-porta .cena{min-height:calc(100vh - 142px)}}
-  .feixe{
-    position:absolute;left:50%;top:52%;width:150vw;height:70vh;translate:-50% 0;
-    clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);
-    background:linear-gradient(180deg,rgba(217,164,65,.34),transparent 80%);
-    filter:blur(24px);opacity:0;transition:opacity 1.4s .4s;pointer-events:none;
-  }
-  body.aberto .feixe{opacity:1}
 
-  .cabecalho{text-align:center;margin-bottom:26px;position:relative;z-index:3;transition:.7s}
-  body.aberto .cabecalho{opacity:.4}
-  .cabecalho .local{font-size:11px;letter-spacing:.28em;color:var(--sobre-verde);opacity:.75;margin-bottom:8px}
-  .cabecalho .sub{font-size:14px;color:var(--sobre-verde);opacity:.75;margin-top:8px}
-  .dica{color:var(--sobre-verde)!important;opacity:.8}
-  .rodape-porta{color:var(--sobre-verde)!important;opacity:.6}
-
-  .armario{
-    --k:1;                            /* fator de escala de todo o entalhe */
-    --col:calc(30px * var(--k));      /* largura da coluna lateral */
-    --gav:calc(24px * var(--k));      /* altura da gaveta */
-    position:relative;z-index:3;
-    /* a proporção 3:4 é travada: o vh entra limitando a LARGURA, nunca a altura,
-       senão o entalhe das portas estica */
-    width:min(300px,74vw,40vh); aspect-ratio:3/4;
-    transform-style:preserve-3d;
-  }
-  /* no desktop o armário é dimensionado pelo que sobra da altura depois do
-     cabeçalho fixo, do título e das legendas — daí o desconto de 470px */
-  @media(min-width:900px){.armario{--k:1.5;width:min(460px,calc((100vh - 452px) * .75))}}
-
-  /* ---- carcaça em nogueira ---- */
-  .corpo{
-    position:absolute;inset:0;border-radius:calc(3px * var(--k));
-    background:
-      repeating-linear-gradient(93deg,rgba(0,0,0,.22) 0 1px,rgba(255,190,120,.045) 1px 4px,rgba(0,0,0,.10) 4px 7px),
-      linear-gradient(100deg,var(--n1) 0%,var(--n2) 38%,var(--n3) 72%,var(--n4) 100%);
-    box-shadow:0 calc(30px * var(--k)) calc(60px * var(--k)) rgba(0,0,0,.75),
-               inset 0 0 0 1px rgba(0,0,0,.5);
-  }
-
-  /* ---- cornija: laje, fileira de dentículos, laje ---- */
-  .cornija{
-    position:absolute;top:calc(-20px * var(--k));left:calc(-11px * var(--k));right:calc(-11px * var(--k));
-    height:calc(28px * var(--k));z-index:8;
-    display:flex;flex-direction:column;
-    filter:drop-shadow(0 calc(6px * var(--k)) calc(10px * var(--k)) rgba(0,0,0,.6));
-  }
-  .cornija i{display:block;flex:none}
-  .cornija .laje{
-    height:calc(7px * var(--k));
-    background:linear-gradient(180deg,var(--n0),var(--n2) 60%,var(--n4));
-    border-radius:calc(3px * var(--k)) calc(3px * var(--k)) 0 0;
-    box-shadow:inset 0 1px 0 rgba(255,205,150,.4);
-  }
-  .cornija .denticulos{
-    flex:1;
-    background:repeating-linear-gradient(90deg,
-      var(--n4) 0 calc(2px * var(--k)),
-      var(--n1) calc(2px * var(--k)) calc(5px * var(--k)));
-    box-shadow:inset 0 calc(2px * var(--k)) calc(3px * var(--k)) rgba(0,0,0,.6),
-               inset 0 calc(-2px * var(--k)) calc(3px * var(--k)) rgba(0,0,0,.5);
-  }
-  .cornija .friso{
-    height:calc(5px * var(--k));
-    background:linear-gradient(180deg,var(--n1),var(--n4));
-  }
-
-  /* ---- colunas caneladas com capitel ---- */
-  .coluna{
-    position:absolute;top:calc(6px * var(--k));bottom:var(--gav);width:var(--col);z-index:6;
-    background:linear-gradient(90deg,var(--n4),var(--n1) 40%,var(--n0) 52%,var(--n2) 68%,var(--n4));
-  }
-  .coluna.esq{left:0}
-  .coluna.dir{right:0}
-  .coluna .capitel{
-    position:absolute;top:0;left:calc(-2px * var(--k));right:calc(-2px * var(--k));
-    height:calc(26px * var(--k));
-    background:linear-gradient(180deg,var(--n0),var(--n2) 55%,var(--n4));
-    box-shadow:0 calc(2px * var(--k)) calc(4px * var(--k)) rgba(0,0,0,.5);
-  }
-  .coluna .capitel::after{           /* voluta esculpida no capitel */
-    content:"";position:absolute;left:50%;top:50%;translate:-50% -50%;
-    width:calc(13px * var(--k));height:calc(13px * var(--k));border-radius:50%;
-    border:calc(2px * var(--k)) solid var(--n0);
-    border-right-color:transparent;border-bottom-color:transparent;
-    opacity:.75;
-  }
-  .coluna .caneluras{
-    position:absolute;left:calc(6px * var(--k));right:calc(6px * var(--k));
-    top:calc(30px * var(--k));bottom:calc(30px * var(--k));
-    background:repeating-linear-gradient(90deg,
-      var(--n4) 0 calc(1px * var(--k)),
-      var(--n1) calc(1px * var(--k)) calc(3px * var(--k)),
-      var(--n0) calc(3px * var(--k)) calc(4px * var(--k)));
-    box-shadow:inset 0 0 calc(5px * var(--k)) rgba(0,0,0,.5);
-  }
-  .coluna .plinto{
-    position:absolute;bottom:0;left:calc(-2px * var(--k));right:calc(-2px * var(--k));
-    height:calc(24px * var(--k));
-    background:linear-gradient(180deg,var(--n0),var(--n3));
-    box-shadow:0 calc(-2px * var(--k)) calc(4px * var(--k)) rgba(0,0,0,.4);
-  }
-
-  /* ---- interior iluminado ---- */
-  .interior{
-    position:absolute;left:var(--col);right:var(--col);
-    top:calc(8px * var(--k));bottom:var(--gav);
-    background:
-      radial-gradient(ellipse 90% 55% at 50% 2%,rgba(255,196,110,.55),transparent 68%),
-      linear-gradient(180deg,#5a3410,#2a1605 55%,#0e0702);
-    box-shadow:inset 0 0 calc(50px * var(--k)) rgba(0,0,0,.92),
-               inset 0 0 0 1px rgba(0,0,0,.7);
-  }
-
-  /* ---- gaveta da base ---- */
-  .gaveta{
-    position:absolute;left:calc(4px * var(--k));right:calc(4px * var(--k));
-    bottom:calc(3px * var(--k));height:calc(19px * var(--k));z-index:7;
-    background:linear-gradient(180deg,var(--n1),var(--n3) 70%,var(--n4));
-    box-shadow:inset 0 1px 0 rgba(255,200,140,.3),inset 0 0 0 1px rgba(0,0,0,.45);
-    display:flex;align-items:center;justify-content:space-around;
-  }
-  .gaveta span{
-    width:calc(7px * var(--k));height:calc(7px * var(--k));border-radius:50%;
-    background:radial-gradient(circle at 35% 30%,var(--n0),var(--n4));
-    box-shadow:0 1px 2px rgba(0,0,0,.6);
-  }
-
-  .base{
-    position:absolute;bottom:calc(-13px * var(--k));left:calc(-7px * var(--k));right:calc(-7px * var(--k));
-    height:calc(16px * var(--k));z-index:8;
-    background:linear-gradient(180deg,var(--n1),var(--n4));
-    clip-path:polygon(0 0,100% 0,100% 55%,88% 100%,72% 100%,64% 55%,36% 55%,28% 100%,12% 100%,0 55%);
-    filter:drop-shadow(0 calc(8px * var(--k)) calc(12px * var(--k)) rgba(0,0,0,.7));
-  }
-
-  /* ---- portas ---- */
-  .porta{
-    position:absolute;top:calc(8px * var(--k));bottom:var(--gav);
-    width:calc(50% - var(--col));z-index:9;cursor:pointer;padding:calc(5px * var(--k));
-    background:
-      repeating-linear-gradient(92deg,rgba(0,0,0,.2) 0 1px,rgba(255,190,120,.05) 1px 4px),
-      linear-gradient(112deg,var(--n1) 0%,var(--n2) 40%,var(--n3) 75%,var(--n4) 100%);
-    box-shadow:inset 0 0 0 1px rgba(0,0,0,.55),0 calc(8px * var(--k)) calc(18px * var(--k)) rgba(0,0,0,.55);
-    transition:transform 1.5s cubic-bezier(.55,.03,.15,1);
-  }
-  .porta.esq{left:var(--col);transform-origin:left center}
-  .porta.dir{right:var(--col);transform-origin:right center}
-  body.aberto .porta.esq{transform:rotateY(-118deg)}
-  body.aberto .porta.dir{transform:rotateY(118deg)}
-
-  .porta .entalhe{display:block;width:100%;height:100%}
-  .porta .macaneta{                  /* puxador de madeira torneado */
-    position:absolute;top:50%;translate:0 -50%;
-    width:calc(9px * var(--k));height:calc(9px * var(--k));border-radius:50%;
-    background:radial-gradient(circle at 34% 30%,var(--n0),var(--n2) 55%,var(--n5));
-    box-shadow:0 calc(2px * var(--k)) calc(4px * var(--k)) rgba(0,0,0,.7);
-  }
-  .porta.esq .macaneta{right:calc(4px * var(--k))}
-  .porta.dir .macaneta{left:calc(4px * var(--k))}
-
-  .dica{margin-top:34px;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--tinta-2);
-        position:relative;z-index:3;animation:pulsa 2.6s infinite;transition:.4s}
-  @keyframes pulsa{50%{opacity:.3}}
-  body.aberto .dica{opacity:0}
-  .rodape-porta{margin-top:16px;font-size:13px;color:var(--tinta-3);position:relative;z-index:3}
+  /* filete mostarda de um gesto, como no logotipo do manual */
+  .marca-capa{position:relative;z-index:3;opacity:0;transform:translateY(12px);
+              animation:surge 1s .1s cubic-bezier(.2,.8,.2,1) forwards}
+  @keyframes surge{to{opacity:1;transform:none}}
+  .marca-capa .local{font-family:var(--sans);font-size:12px;font-weight:600;
+    letter-spacing:.32em;text-transform:uppercase;color:var(--mostarda);margin-bottom:22px}
+  .marca-capa .nome{font-family:var(--marca);font-weight:400;
+    font-size:clamp(52px,15vw,120px);line-height:.9;color:var(--sobre-verde);
+    letter-spacing:.02em;text-shadow:0 2px 20px rgba(0,0,0,.25)}
+  .marca-capa .filete{width:min(280px,58vw);height:3px;margin:14px auto 12px;border:none;
+    background:var(--mostarda);border-radius:2px;
+    /* leve inclinação de gesto de pincel */
+    transform:rotate(-.5deg)}
+  .marca-capa .tagline{font-family:var(--acento);font-weight:600;
+    font-size:clamp(28px,7vw,46px);color:var(--mostarda);line-height:1}
+  .marca-capa .sub{font-family:var(--sans);font-size:15px;color:var(--sobre-verde);
+    opacity:.8;margin-top:22px;max-width:340px;margin-left:auto;margin-right:auto;line-height:1.6}
+  .entrar{margin-top:34px;display:inline-flex;align-items:center;gap:9px;
+    background:var(--mostarda);color:var(--sobre-mostarda);font-family:var(--sans);
+    font-weight:700;font-size:15px;padding:15px 30px;border-radius:8px;
+    transition:background .15s,transform .15s}
+  .entrar:hover{background:var(--mostarda-2);transform:translateY(-2px)}
+  .rodape-porta{position:relative;z-index:3;margin-top:26px;font-family:var(--sans);
+    font-size:13px;color:var(--sobre-verde);opacity:.6}
 
   /* ---------- TELA 2: A PERGUNTA ---------- */
   .opcoes{display:flex;flex-direction:column;gap:11px;margin:18px 0 30px}
@@ -334,7 +202,7 @@
   /* ---------- PRATELEIRA ---------- */
   .filtro-topo{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
   .filtro-topo .ficha{padding:7px 14px;font-size:13px}
-  .contagem{font-family:var(--serif);font-size:clamp(20px,4.4vw,26px);color:var(--tinta);margin:14px 0 22px}
+  .contagem{font-family:var(--sans);font-weight:800;font-size:clamp(20px,4.4vw,26px);color:var(--tinta);margin:14px 0 22px}
 
   .fileira{margin-bottom:30px}
   .jogos{display:flex;gap:12px;align-items:flex-end;padding:0 4px}
@@ -394,8 +262,8 @@
   .fala{
     background:var(--creme-2);border-left:3px solid var(--mostarda);padding:16px 17px;margin-bottom:18px;
   }
-  .fala p{font-family:var(--serif);font-size:15px;line-height:1.65;color:var(--tinta)}
-  .fala .assina{font-size:12px;color:var(--tinta-2);margin-top:10px;font-family:var(--sans)}
+  .fala p{font-family:var(--sans);font-size:15px;line-height:1.65;color:var(--tinta)}
+  .fala .assina{font-family:var(--acento);font-weight:600;font-size:17px;color:var(--mostarda-2);margin-top:8px}
   .aviso{display:flex;align-items:center;gap:10px;border-radius:7px;padding:13px 15px;margin-bottom:12px;font-size:14px}
   .aviso.livre{background:var(--okbg);color:var(--verde);font-weight:500}
   .aviso.preso{background:var(--creme-2);color:var(--tinta);flex-direction:column;align-items:flex-start;gap:6px}
@@ -406,7 +274,7 @@
   /* Mostarda sobre creme dá 1,96:1 e a escura 2,87:1 — as duas reprovam.
      Regra: mostarda só em elemento preenchido (botão) ou sobre o verde.
      Como texto sobre claro, verde mata. */
-  .valor b{font-family:var(--serif);font-size:36px;font-weight:400;color:var(--verde)}
+  .valor b{font-family:var(--sans);font-size:36px;font-weight:800;color:var(--verde)}
   .valor small{font-size:13px;color:var(--tinta-3)}
   .acoes{display:flex;flex-direction:column;gap:10px}
   .alternativas{margin-top:30px;border-top:1px solid var(--line);padding-top:22px}
@@ -425,7 +293,7 @@
   .campo input:focus{outline:none;border-color:var(--mostarda-2)}
   .ranking{display:flex;flex-direction:column;gap:16px}
   .linha{display:flex;align-items:center;gap:13px}
-  .linha .pos{font-family:var(--serif);font-size:19px;color:var(--verde);width:24px;flex:none}
+  .linha .pos{font-family:var(--sans);font-weight:800;font-size:19px;color:var(--verde);width:24px;flex:none}
   .linha.baixa .pos{color:var(--tinta-3)}
   .linha .corpo-linha{flex:1;min-width:0}
   .linha .titulo{font-size:15px;color:var(--tinta);margin-bottom:6px}
@@ -457,7 +325,7 @@
   .avatar{
     width:86px;height:86px;border-radius:50%;flex:none;background:var(--verde);
     border:2px solid var(--mostarda);display:flex;align-items:center;justify-content:center;
-    font-family:var(--serif);font-size:32px;color:var(--sobre-verde);
+    font-family:var(--marca);font-size:34px;color:var(--sobre-verde);
     position:relative;overflow:hidden;
   }
   /* a foto cobre a inicial; se o arquivo não existir, a inicial fica.
@@ -506,7 +374,7 @@
 <body>
 
 <header class="topo">
-  <div class="marca">Guarda-Jogos</div>
+  <div class="marca">Jojocas</div>
   <nav>
     <button data-ir="prateleira" class="on">Prateleira</button>
     <button data-ir="pedidos">Pedidos</button>
@@ -518,27 +386,17 @@
 
 <main>
 
-  <!-- 1 · A PORTA -->
+  <!-- 1 · CAPA DA MARCA -->
   <section class="tela ativa" id="t-porta">
     <div class="cena">
-      <div class="feixe"></div>
-      <div class="cabecalho">
-        <p class="local">SÃO JOÃO DEL-REI</p>
-        <h1>Guarda-Jogos</h1>
-        <p class="sub">13 jogos esperando a sua turma</p>
+      <div class="marca-capa">
+        <p class="local">São João del-Rei · MG</p>
+        <div class="nome">Jojocas</div>
+        <hr class="filete">
+        <div class="tagline">jogos &amp; café</div>
+        <p class="sub">Aluguel de jogos de tabuleiro. Escolha, a gente leva, você joga.</p>
+        <button class="entrar" id="bt-entrar">Ver os jogos</button>
       </div>
-      <div class="armario" id="armario">
-        <div class="corpo"></div>
-        <div class="interior"></div>
-        <div class="coluna esq"><i class="capitel"></i><i class="caneluras"></i><i class="plinto"></i></div>
-        <div class="coluna dir"><i class="capitel"></i><i class="caneluras"></i><i class="plinto"></i></div>
-        <button class="porta esq" aria-label="Abrir o armário"><span class="macaneta"></span></button>
-        <button class="porta dir" aria-label="Abrir o armário"><span class="macaneta"></span></button>
-        <div class="gaveta"><span></span><span></span></div>
-        <div class="cornija"><i class="laje"></i><i class="denticulos"></i><i class="friso"></i></div>
-        <div class="base"></div>
-      </div>
-      <p class="dica" id="dica">toque nas portas para abrir</p>
       <p class="rodape-porta">São João del-Rei e região · levo e busco na sua casa</p>
     </div>
   </section>
@@ -602,7 +460,7 @@
   <!-- 6 · EVENTOS -->
   <section class="tela" id="t-eventos">
     <div class="wrap">
-      <p class="kicker">LEVO O ARMÁRIO ATÉ VOCÊ</p>
+      <p class="kicker">LEVO A MESA ATÉ VOCÊ</p>
       <h2 style="margin-top:14px">Noite de jogos na sua casa</h2>
       <p class="lede" style="margin-top:10px;max-width:560px">
         Chego com os 13 jogos, monto a mesa, ensino as regras e fico até o fim. Você só chama a galera.
@@ -659,7 +517,7 @@
         de entrar aqui.
       </p>
       <p class="lede">
-        Abri o Guarda-Jogos por um motivo simples: jogo bom não é pra ficar guardado. Aqui um
+        Abri a Jojocas por um motivo simples: jogo bom não é pra ficar guardado. Aqui um
         jogo custa R$ 400, quase ninguém compra sem experimentar, e por isso quase ninguém
         conhece. Quero levar a palavra dos jogos de tabuleiro para o máximo de gente que eu
         conseguir em São João del-Rei e região.
@@ -1094,41 +952,8 @@ document.addEventListener("click",e=>{
   if(b) ir(b.dataset.ir);
 });
 
-/* ---- entalhe das portas: coroa, árvore e sol nascente ----
-   O mesmo traçado é desenhado três vezes: sombra deslocada para baixo,
-   luz deslocada para cima e o traço central. É o que dá o relevo. */
-const MOTIVOS=`
-  <rect x="7" y="10" width="86" height="86" rx="2"/><rect x="13" y="16" width="74" height="74" rx="1"/>
-  <path d="M28 72 L31 40 L40 53 L50 34 L60 53 L69 40 L72 72 Z"/>
-  <path d="M25 72 H75"/><path d="M28 63 H72"/>
-  <circle cx="31" cy="37" r="2.5"/><circle cx="50" cy="31" r="3"/><circle cx="69" cy="37" r="2.5"/>
-
-  <rect x="7" y="104" width="86" height="92" rx="2"/><rect x="13" y="110" width="74" height="80" rx="1"/>
-  <path d="M50 186 V152"/>
-  <path d="M50 152 C32 150 24 136 31 125 C26 114 37 105 46 110 C50 101 61 103 63 112 C74 111 79 122 72 129 C79 138 71 150 50 152 Z"/>
-  <path d="M50 186 q-9 1 -15 7"/><path d="M50 186 q9 1 15 7"/><path d="M28 193 H72"/>
-
-  <rect x="7" y="204" width="86" height="88" rx="2"/><rect x="13" y="210" width="74" height="76" rx="1"/>
-  <path d="M22 268 H78"/><path d="M32 268 A18 18 0 0 1 68 268"/>
-  <path d="M50 240 V233"/><path d="M36 246 L31 240"/><path d="M64 246 L69 240"/>
-  <path d="M29 258 L22 255"/><path d="M71 258 L78 255"/>
-  <path d="M14 282 Q29 268 43 282"/><path d="M53 282 Q69 266 86 282"/>`;
-/* viewBox 100x330 (e não 100x300) para bater com a proporção real da porta —
-   assim o preserveAspectRatio="none" não estica a coroa nem a árvore */
-const ENTALHE=`<svg class="entalhe" viewBox="0 -15 100 330" preserveAspectRatio="none"
-  xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <g transform="translate(1.1,1.1)" stroke="#1e0d03" stroke-width="2.2" opacity=".85">${MOTIVOS}</g>
-  <g transform="translate(-1,-1)" stroke="#c47a44" stroke-width="1.6" opacity=".45">${MOTIVOS}</g>
-  <g stroke="#7d3f1d" stroke-width="1.5" opacity=".9">${MOTIVOS}</g>
-</svg>`;
-document.querySelectorAll(".porta").forEach(p=>p.insertAdjacentHTML("afterbegin",ENTALHE));
-
-/* ---- abrir o armário ---- */
-document.querySelectorAll(".porta").forEach(p=>p.addEventListener("click",()=>{
-  if(document.body.classList.contains("aberto")) return;
-  document.body.classList.add("aberto");
-  setTimeout(()=>ir("perguntar"),1150);
-}));
+/* ---- entrar: da capa para a pergunta ---- */
+document.getElementById("bt-entrar").addEventListener("click",()=>ir("perguntar"));
 
 /* ============================================================
    FILTRO E PRATELEIRA
@@ -1239,7 +1064,7 @@ function abrirJogo(id){
       <div class="caixa" style="--c1:${j.c1};--c2:${j.c2}">
         <div class="face lombada"></div>
         <div class="face verso">
-          <h4 style="font-family:var(--serif);font-size:17px;color:#fff">${j.nome}</h4>
+          <h4 style="font-family:var(--sans);font-weight:800;font-size:17px;color:#fff">${j.nome}</h4>
           <p>${j.fala}</p>
         </div>
         ${capaHTML(j)}

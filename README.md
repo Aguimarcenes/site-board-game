@@ -1,14 +1,28 @@
-# Guarda-Jogos
+# Jojocas — jogos & café
 
-Site de aluguel de jogos de tabuleiro em **São João del-Rei, MG**.
+Site de aluguel de jogos de tabuleiro em **São João del-Rei e região, MG**.
 
-Protótipo funcional em arquivo único, sem dependências, sem build. Abre com dois
-cliques no navegador.
+Protótipo funcional em arquivo único. Abre com dois cliques no navegador. A única
+dependência externa são as fontes da marca, carregadas do Google Fonts — offline
+o site cai em fontes de reserva sem quebrar.
+
+## A marca
+
+Aplicada a partir do manual (`Jojocas, manual de marca.pdf`):
+
+- **Nome** em Permanent Marker — só o nome e chamadas curtíssimas, nunca frase inteira.
+- **Toques manuscritos** ("jogos & café", assinatura) em Caveat.
+- **Todo o resto** — títulos, corpo, botões — em Nunito.
+- Paleta verde mata + mostarda (ver seção Paleta).
+
+> **Localização a confirmar.** O manual assina a marca em **Tiradentes · MG**
+> (onde nasce o café futuro), mas a operação de aluguel atende **São João del-Rei
+> e região**. O site usa São João del-Rei por ser a praça do aluguel — trocar é
+> um campo só, na capa e no rodapé.
 
 ## Como abrir
 
-Dê dois cliques em `index.html`. É só isso — não precisa de servidor, Node nem
-instalação de nada.
+Dê dois cliques em `index.html`. Não precisa de servidor, Node nem instalação.
 
 Para ver a versão mobile no computador, abra o DevTools (F12) e ligue o modo
 responsivo.
@@ -104,8 +118,9 @@ Detalhes de formato e de como fotografar estão em [`fotos/LEIAME.md`](fotos/LEI
 - [ ] Confirmar o `@` do Instagram citado em "Quem sou"
 - [ ] Fotografar Decisões de Merda, Wingspan e Orla Exterior
 
-## O estúdio
+## O estúdio (legado)
 
-`estudio.html` é ferramenta interna, não faz parte do site. Ele carrega os `.glb`
-do guarda-roupa impresso, monta as peças, abre a porta e exporta o PNG que a tela
-inicial usa. Precisa de internet na primeira vez (carrega o three.js de CDN).
+`estudio.html` foi feito para montar e fotografar o guarda-roupa 3D da versão
+anterior. A entrada do site agora é a capa da marca Jojocas, sem guarda-roupa, e
+o estúdio não é mais usado pelo site — fica guardado caso o modelo 3D volte a ser
+útil em outra peça.
