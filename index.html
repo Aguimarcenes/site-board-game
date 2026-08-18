@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Jojocas — aluguel de jogos de tabuleiro</title>
-<meta name="description" content="Jojocas — aluguel de jogos de tabuleiro em São João del-Rei e região a partir de R$ 15. Retirada na Vila Belizário ou na Colônia, com entrega e busca.">
+<title>Jojocas · aluguel de jogos de tabuleiro</title>
+<meta name="description" content="Jojocas · aluguel de jogos de tabuleiro em São João del-Rei e região a partir de R$ 15. Retirada na Vila Belizário ou na Colônia, com entrega e busca.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Caveat:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -407,7 +407,8 @@
 <header class="topo">
   <div class="marca">Jojocas</div>
   <nav>
-    <button data-ir="prateleira" class="on">Prateleira</button>
+    <button data-ir="porta" class="on">Início</button>
+    <button data-ir="prateleira">Prateleira</button>
     <button data-ir="pedidos">Pedidos</button>
     <button data-ir="eventos">Eventos</button>
     <button data-ir="duvidas">Dúvidas</button>
@@ -430,7 +431,7 @@
         <div>
           <button class="entrar-zap" data-zap="Oi! Vim pelo site da Jojocas e quero alugar um jogo :)">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm4.52 11.99c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43-.14-.01-.31-.01-.48-.01-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
-            Quero alugar — chamar no WhatsApp
+            Quero alugar pelo WhatsApp
           </button>
         </div>
       </div>
@@ -438,30 +439,9 @@
     </div>
   </section>
 
-  <!-- 2 · A PERGUNTA -->
-  <section class="tela" id="t-perguntar">
-    <div class="wrap">
-      <p class="kicker">ANTES DE MOSTRAR OS JOGOS</p>
-      <h2 style="margin-top:14px">Vocês são quantos?</h2>
-      <div class="opcoes" id="op-grupo">
-        <button class="opcao" data-g="dupla">Duas pessoas<small>Um bom jogo pra dois</small></button>
-        <button class="opcao" data-g="trio">3 ou 4 pessoas<small>A mesa mais comum</small></button>
-        <button class="opcao" data-g="turma">5 ou mais<small>República, festa, turma grande</small></button>
-      </div>
-      <h2>Quanto tempo têm?</h2>
-      <div class="fichas" id="op-tempo" style="margin-top:16px">
-        <button class="ficha" data-t="curto">Meia hora</button>
-        <button class="ficha" data-t="medio">Umas duas horas</button>
-        <button class="ficha" data-t="longo">A noite toda</button>
-      </div>
-      <button class="pular" data-ir="prateleira">Ou me mostra tudo de uma vez</button>
-    </div>
-  </section>
-
-  <!-- 3 · A PRATELEIRA -->
+  <!-- 2 · A PRATELEIRA -->
   <section class="tela" id="t-prateleira">
     <div class="wrap">
-      <div class="filtro-topo" id="filtro-topo"></div>
       <p class="contagem" id="contagem"></p>
       <div id="estante"></div>
       <div class="legenda" id="legenda"></div>
@@ -480,17 +460,13 @@
   <section class="tela" id="t-pedidos">
     <div class="wrap">
       <h2>Faltou algum jogo?</h2>
-      <p class="lede" style="margin-top:10px">Escreve aqui. Os mais pedidos são os próximos que eu compro — sem chute.</p>
+      <p class="lede" style="margin-top:10px">Escreve aqui. Os mais pedidos são os próximos que eu compro.</p>
       <div class="campo">
         <input id="in-pedido" placeholder="Nome do jogo" aria-label="Nome do jogo que você quer">
         <button class="btn ouro mini" id="bt-pedir">Pedir</button>
       </div>
-      <p class="kicker">O QUE A CIDADE ESTÁ PEDINDO</p>
+      <p class="kicker">Jogos pedidos</p>
       <div class="ranking" id="ranking" style="margin-top:18px"></div>
-      <div class="prova">
-        <span style="color:var(--ok);font-size:19px">&#10003;</span>
-        <p>Dixit entrou na prateleira em julho porque 14 pessoas pediram.</p>
-      </div>
     </div>
   </section>
 
@@ -550,7 +526,7 @@
       </div>
       <p class="lede" style="margin-bottom:14px">
         Sou apaixonado por jogo de tabuleiro. Os 16 que estão nessa estante são meus há anos,
-        comprados um a um — cada um escolhido com calma, esperado, e jogado muitas vezes antes
+        comprados um a um, cada um escolhido com calma, esperado, e jogado muitas vezes antes
         de entrar aqui.
       </p>
       <p class="lede">
@@ -566,8 +542,8 @@
         <div><span class="ic">&#9990;</span>WhatsApp (11) 94593-2080</div>
       </div>
       <div class="caixinha">
-        <h4>E se estragar alguma coisa?</h4>
-        <p>A gente conversa. Peça pequena eu reponho sem cobrar. Desgaste de uso é por minha conta.</p>
+        <h4>Os jogos são pra usar</h4>
+        <p>Jogo bom é jogo jogado, sem neura. Qualquer custo por dano fica previsto no contrato de aluguel, tudo combinado antes de você levar.</p>
       </div>
     </div>
   </section>
@@ -575,7 +551,8 @@
 </main>
 
 <nav class="rodape" id="rodape">
-  <button data-ir="prateleira" class="on"><span class="ic">&#9776;</span><span class="tx">Prateleira</span></button>
+  <button data-ir="porta" class="on"><span class="ic">&#8962;</span><span class="tx">Início</span></button>
+  <button data-ir="prateleira"><span class="ic">&#9776;</span><span class="tx">Prateleira</span></button>
   <button data-ir="eventos"><span class="ic">&#9788;</span><span class="tx">Eventos</span></button>
   <button data-ir="duvidas"><span class="ic">?</span><span class="tx">Dúvidas</span></button>
   <button data-ir="quem"><span class="ic">&#9924;</span><span class="tx">Quem sou</span></button>
@@ -598,7 +575,7 @@ const JOGOS = [
     id:"saboteur", nome:"Saboteur", faixa:"Faixa leve", preco:15,
     min:3, max:12, tempo:"30 min", banda:"curto", serve:["trio","turma"],
     c1:"#a5762f", c2:"#5a3f14", livre:true, expansao:"Vai junto com a expansão Saboteur 2",
-    fala:"Anões cavando um túnel atrás de ouro, e alguns deles querendo sabotar tudo. Ninguém sabe quem. É o melhor que eu tenho pra república cheia — com a expansão aguenta 12 na mesa e ninguém fica de fora."
+    fala:"Anões cavando um túnel atrás de ouro, e alguns deles querendo sabotar tudo. Ninguém sabe quem. É o melhor que eu tenho pra república cheia. Com a expansão, aguenta 12 na mesa e ninguém fica de fora."
   },
   {
     id:"coup", nome:"Coup", faixa:"Faixa leve", preco:15,
@@ -616,19 +593,19 @@ const JOGOS = [
     id:"tgcqp", nome:"Taco Gato Cabra Queijo Pizza", faixa:"Faixa leve", preco:15,
     min:2, max:8, tempo:"15 min", banda:"curto", serve:["trio","turma"],
     c1:"#e0662e", c2:"#5e1e08", livre:true, expansao:null,
-    fala:"Todo mundo vira carta falando 'taco, gato, cabra, queijo, pizza' em ciclo, e quando a carta bate com a palavra, é tapa na mesa — o último a pôr a mão junta o monte. Pura bagunça e gargalhada, ensina em trinta segundos."
+    fala:"Todo mundo vira carta falando 'taco, gato, cabra, queijo, pizza' em ciclo, e quando a carta bate com a palavra, é tapa na mesa, e o último a pôr a mão junta o monte. Pura bagunça e gargalhada, ensina em trinta segundos."
   },
   {
     id:"resistence", nome:"The Resistance", faixa:"Faixa leve", preco:15,
     min:5, max:10, tempo:"30 min", banda:"curto", serve:["turma"],
     c1:"#b5342e", c2:"#3a0d0a", livre:true, expansao:null,
-    fala:"Uns são da resistência, outros são espiões infiltrados — e ninguém mostra a carta. A cada missão a mesa discute em quem confiar. Não tem eliminação, todo mundo joga até o fim discutindo e mentindo. Melhor com a mesa cheia."
+    fala:"Uns são da resistência, outros são espiões infiltrados, e ninguém mostra a carta. A cada missão a mesa discute em quem confiar. Não tem eliminação, todo mundo joga até o fim discutindo e mentindo. Melhor com a mesa cheia."
   },
   {
     id:"catan", nome:"Catan", faixa:"Faixa média", preco:25,
     min:3, max:4, tempo:"75 min", banda:"medio", serve:["trio"],
     c1:"#d8a33c", c2:"#5a3b10", livre:true, expansao:null,
-    fala:"O clássico que apresentou meia geração ao hobby. Você colhe recursos, ergue estradas e cidades e troca com os vizinhos — que precisam de você tanto quanto atrapalham. É o jogo que quem nunca jogou pede pelo nome."
+    fala:"O clássico que apresentou meia geração ao hobby. Você colhe recursos, ergue estradas e cidades e troca com os vizinhos, que precisam de você tanto quanto atrapalham. É o jogo que quem nunca jogou pede pelo nome."
   },
   {
     id:"dixit", nome:"Dixit", faixa:"Faixa média", preco:25,
@@ -640,7 +617,7 @@ const JOGOS = [
     id:"quartz", nome:"Quartz", faixa:"Faixa média", preco:25,
     min:2, max:5, tempo:"30 min", banda:"curto", serve:["trio","turma"],
     c1:"#7b4fa8", c2:"#2c1842", livre:true, expansao:null,
-    fala:"Todo mundo desce na mesma mina atrás de cristais. A cada rodada você decide se cava mais fundo ou sai com o que já juntou — e quem estica demais volta de mão vazia. Rápido, tenso e ensina em dois minutos."
+    fala:"Todo mundo desce na mesma mina atrás de cristais. A cada rodada você decide se cava mais fundo ou sai com o que já juntou. E quem estica demais volta de mão vazia. Rápido, tenso e ensina em dois minutos."
   },
   {
     id:"azul", nome:"Azul", faixa:"Faixa média", preco:25,
@@ -670,7 +647,7 @@ const JOGOS = [
     id:"oak", nome:"Oak", faixa:"Faixa premium", preco:35,
     min:1, max:4, tempo:"75 min", banda:"medio", serve:["dupla","trio"],
     c1:"#6b8f4a", c2:"#22321c", livre:true, expansao:null,
-    fala:"Druidas cuidando de um carvalho ancestral, colhendo ervas e conduzindo rituais. Cada ação que você faz libera a do próximo — tem que pensar na ordem, não só na jogada. Médio-pesado e muito bonito de ver na mesa."
+    fala:"Druidas cuidando de um carvalho ancestral, colhendo ervas e conduzindo rituais. Cada ação que você faz libera a do próximo, então tem que pensar na ordem, não só na jogada. Médio-pesado e muito bonito de ver na mesa."
   },
   {
     id:"terranova", nome:"Terra Nova", faixa:"Faixa premium", preco:35,
@@ -682,7 +659,7 @@ const JOGOS = [
     id:"orla", nome:"Star Wars: Orla Exterior", faixa:"Faixa premium", preco:35,
     min:1, max:4, tempo:"150 min", banda:"longo", serve:["dupla","trio"],
     c1:"#59606e", c2:"#161a24", livre:true, expansao:null,
-    fala:"Você é um contrabandista na borda da galáxia pegando serviço, fugindo do Império e melhorando a nave. Longo e temático — é aquele jogo de sábado à tarde que vira história pra contar depois."
+    fala:"Você é um contrabandista na borda da galáxia pegando serviço, fugindo do Império e melhorando a nave. Longo e temático. É aquele jogo de sábado à tarde que vira história pra contar depois."
   },
   {
     id:"marte", nome:"Terraforming Mars", faixa:"Faixa premium", preco:35,
@@ -1054,7 +1031,7 @@ const capaHTML=j=>`<div class="face capa">${unico(CAPAS[j.id])}`+
 /* ============================================================
    NAVEGAÇÃO
    ============================================================ */
-const telas=["porta","perguntar","prateleira","jogo","pedidos","eventos","duvidas","quem"];
+const telas=["porta","prateleira","jogo","pedidos","eventos","duvidas","quem"];
 function ir(nome){
   telas.forEach(t=>document.getElementById("t-"+t).classList.toggle("ativa",t===nome));
   document.querySelectorAll("[data-ir]").forEach(b=>b.classList.toggle("on",b.dataset.ir===nome));
@@ -1065,36 +1042,12 @@ document.addEventListener("click",e=>{
   if(b) ir(b.dataset.ir);
 });
 
-/* ---- entrar: da capa para a pergunta ---- */
-document.getElementById("bt-entrar").addEventListener("click",()=>ir("perguntar"));
+/* ---- entrar: da capa direto pra prateleira ---- */
+document.getElementById("bt-entrar").addEventListener("click",()=>ir("prateleira"));
 
 /* ============================================================
-   FILTRO E PRATELEIRA
+   PRATELEIRA
    ============================================================ */
-let filtro={grupo:null,tempo:null};
-
-document.querySelectorAll("#op-grupo .opcao").forEach(b=>b.addEventListener("click",()=>{
-  filtro.grupo = filtro.grupo===b.dataset.g ? null : b.dataset.g;
-  document.querySelectorAll("#op-grupo .opcao").forEach(o=>o.classList.toggle("on",o.dataset.g===filtro.grupo));
-  if(filtro.grupo && filtro.tempo) setTimeout(()=>{montarPrateleira();ir("prateleira")},260);
-}));
-document.querySelectorAll("#op-tempo .ficha").forEach(b=>b.addEventListener("click",()=>{
-  filtro.tempo = filtro.tempo===b.dataset.t ? null : b.dataset.t;
-  document.querySelectorAll("#op-tempo .ficha").forEach(o=>o.classList.toggle("on",o.dataset.t===filtro.tempo));
-  if(filtro.grupo && filtro.tempo) setTimeout(()=>{montarPrateleira();ir("prateleira")},260);
-}));
-
-const rotulosGrupo={dupla:"Duas pessoas",trio:"3 ou 4 pessoas",turma:"5 ou mais"};
-const rotulosTempo={curto:"Meia hora",medio:"Umas duas horas",longo:"A noite toda"};
-
-function filtrar(){
-  return JOGOS.filter(j=>{
-    if(filtro.grupo && !j.serve.includes(filtro.grupo)) return false;
-    if(filtro.tempo && j.banda!==filtro.tempo) return false;
-    return true;
-  });
-}
-
 function caixaHTML(j,mini){
   return `<div class="caixa" style="--c1:${j.c1};--c2:${j.c2}${mini?';--d:8px;--dh:4px':''}">
     <div class="face lombada"></div>
@@ -1103,33 +1056,11 @@ function caixaHTML(j,mini){
 }
 
 function montarPrateleira(){
-  const lista=filtrar();
+  const lista=JOGOS;
   const porFileira = window.innerWidth>=900 ? 4 : 3;
 
-  /* fichas de filtro ativo */
-  const ft=document.getElementById("filtro-topo");
-  const partes=[];
-  if(filtro.grupo) partes.push(`<button class="ficha on" data-limpa="grupo">${rotulosGrupo[filtro.grupo]} &times;</button>`);
-  if(filtro.tempo) partes.push(`<button class="ficha on" data-limpa="tempo">${rotulosTempo[filtro.tempo]} &times;</button>`);
-  partes.push(`<button class="ficha" data-ir="perguntar">Mudar</button>`);
-  ft.innerHTML=partes.join("");
-  ft.querySelectorAll("[data-limpa]").forEach(b=>b.addEventListener("click",()=>{
-    filtro[b.dataset.limpa]=null;
-    document.querySelectorAll("#op-grupo .opcao,#op-tempo .ficha").forEach(o=>{
-      if(o.dataset.g && o.dataset.g!==filtro.grupo) o.classList.remove("on");
-      if(o.dataset.t && o.dataset.t!==filtro.tempo) o.classList.remove("on");
-    });
-    montarPrateleira();
-  }));
+  document.getElementById("contagem").textContent=`Os ${JOGOS.length} jogos da estante`;
 
-  /* contagem */
-  const c=document.getElementById("contagem");
-  if(!filtro.grupo && !filtro.tempo) c.textContent=`Os ${JOGOS.length} jogos da estante`;
-  else if(lista.length===0) c.textContent="Nenhum jogo bate com isso — tenta afrouxar um filtro";
-  else if(lista.length===1) c.textContent="1 jogo serve vocês";
-  else c.textContent=`${lista.length} jogos servem vocês`;
-
-  /* estante */
   const est=document.getElementById("estante");
   est.innerHTML="";
   for(let i=0;i<lista.length;i+=porFileira){
@@ -1192,10 +1123,10 @@ function abrirJogo(id){
       </div>
       <div class="fala">
         <p>${j.fala}</p>
-        <p class="assina">— Aguinaldo, dono do acervo</p>
+        <p class="assina">Aguinaldo, dono do acervo</p>
       </div>
       ${j.livre
-        ? `<div class="aviso livre"><span style="font-size:17px">&#10003;</span>Disponível agora — leva hoje mesmo</div>`
+        ? `<div class="aviso livre"><span style="font-size:17px">&#10003;</span>Disponível agora, leva hoje mesmo</div>`
         : `<div class="aviso preso">
              <span class="quando"><span style="color:var(--verde)">&#9200;</span>Volta ${j.volta}</span>
              <small>Só tenho um exemplar. Te aviso no instante em que ele voltar pra prateleira.</small>
@@ -1228,7 +1159,7 @@ function abrirJogo(id){
   ir("jogo");
 }
 
-/* ---- WhatsApp (número de exemplo — troque antes de publicar) ---- */
+/* ---- WhatsApp do dono ---- */
 const ZAP="5511945932080";
 document.addEventListener("click",e=>{
   const b=e.target.closest("[data-zap]");
@@ -1238,10 +1169,7 @@ document.addEventListener("click",e=>{
 /* ============================================================
    MURAL DE PEDIDOS
    ============================================================ */
-const PEDIDOS_BASE=[
-  {nome:"Catan",votos:23},{nome:"Pandemic",votos:16},
-  {nome:"Bang!",votos:10},{nome:"Everdell",votos:6}
-];
+const PEDIDOS_BASE=[];
 let pedidos=JSON.parse(localStorage.getItem("gj-pedidos")||"null")||PEDIDOS_BASE;
 let votados=JSON.parse(localStorage.getItem("gj-votados")||"[]");
 
@@ -1250,6 +1178,11 @@ function salvarPedidos(){
   localStorage.setItem("gj-votados",JSON.stringify(votados));
 }
 function montarRanking(){
+  const alvo=document.getElementById("ranking");
+  if(!pedidos.length){
+    alvo.innerHTML=`<p style="font-size:14px;color:var(--tinta-2)">Ainda não pediram nenhum jogo. Seja o primeiro a sugerir.</p>`;
+    return;
+  }
   pedidos.sort((a,b)=>b.votos-a.votos);
   const teto=Math.max(...pedidos.map(p=>p.votos),1);
   document.getElementById("ranking").innerHTML=pedidos.map((p,i)=>{
@@ -1290,11 +1223,11 @@ document.getElementById("in-pedido").addEventListener("keydown",e=>{
    ============================================================ */
 const DUVIDAS=[
   ["Onde eu retiro o jogo?","Tenho dois pontos de coleta: <b>Vila Belizário</b> e <b>Colônia</b>. Você escolhe o mais perto e eu mando a localização exata pelo WhatsApp."],
-  ["Vocês entregam em casa?","Sim, e busco também. Atendo São João del-Rei e região — combinamos o valor pelo WhatsApp de acordo com a distância."],
+  ["Vocês entregam em casa?","Sim, e busco também. Atendo São João del-Rei e região, e combinamos o valor pelo WhatsApp conforme a distância."],
   ["Quanto tempo fico com o jogo?","Sete dias corridos. Levando três ou mais de uma vez, são dez dias."],
   ["Posso ficar mais tempo?","Se ninguém estiver na fila daquele jogo, pode. A renovação sai 30% mais barata."],
   ["Precisa pagar caução?","Não. Pix na hora da entrega e pronto."],
-  ["E se eu perder uma peça?","Me avisa. Peça pequena eu reponho sem cobrar. Só peço cuidado com as caixas."],
+  ["E se acontecer algo com o jogo?","Jogo é feito pra usar, pode jogar à vontade. Qualquer custo por dano já fica previsto no contrato de aluguel, tudo combinado antes de você levar."],
   ["Nunca joguei nada disso.","Melhor ainda. Eu ensino na hora da entrega, ou mando um vídeo de cinco minutos."],
   ["Atende fora de São João del-Rei?","Atendo a região toda. Me diz de onde você é e a gente combina: ou eu levo, ou você retira num dos dois pontos."]
 ];
