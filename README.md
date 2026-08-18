@@ -77,6 +77,14 @@ A tela do guarda-roupa usa `--verde` e `--verde-2` como fundo, e é a única par
 escura do site. Não é inconsistência: **a luz saindo do armário só existe contra
 o escuro.** O resto do site é creme, como a paleta pede.
 
+## Disponibilidade (quais jogos estão alugados)
+
+O que aparece como "disponível" ou "volta dia X" vem do arquivo
+[`disponibilidade.txt`](disponibilidade.txt), editável direto no GitHub sem mexer
+em código. O site lê esse arquivo ao carregar e aplica sobre o acervo; se o
+arquivo faltar ou tiver erro de digitação, tudo aparece como disponível e o site
+não quebra. O passo a passo está em [`DISPONIBILIDADE.md`](DISPONIBILIDADE.md).
+
 ## O acervo
 
 Doze jogos, em três faixas de preço por 7 dias:

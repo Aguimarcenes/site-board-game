@@ -687,7 +687,7 @@ const JOGOS = [
   {
     id:"marte", nome:"Terraforming Mars", faixa:"Faixa premium", preco:35,
     min:1, max:5, tempo:"120 min", banda:"longo", serve:["dupla","trio","turma"],
-    c1:"#c2452b", c2:"#5e1608", livre:false, volta:"quinta, 14 de agosto", expansao:null,
+    c1:"#c2452b", c2:"#5e1608", livre:true, expansao:null,
     fala:"Corporações brigando pra deixar Marte habitável. É o mais pesado que eu tenho: duas horas, muita carta e muita conta. Se o grupo curte estratégia de verdade, é esse."
   }
 ];
@@ -1337,10 +1337,51 @@ function avisar(txt){
 }
 
 /* ============================================================
+   DISPONIBILIDADE — lida do arquivo disponibilidade.txt
+   O dono edita esse arquivo no GitHub; o site aplica sobre o acervo.
+   ============================================================ */
+const MESES=["janeiro","fevereiro","março","abril","maio","junho","julho",
+             "agosto","setembro","outubro","novembro","dezembro"];
+const DIAS=["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
+function dataPorExtenso(iso){
+  // aceita "2026-08-21"; se vier outra coisa, devolve como está
+  const m=/^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec((iso||"").trim());
+  if(!m) return iso||"";
+  const d=new Date(+m[1],+m[2]-1,+m[3]);
+  if(isNaN(d)) return iso;
+  return `${DIAS[d.getDay()]}, ${+m[3]} de ${MESES[d.getMonth()]}`;
+}
+async function aplicarDisponibilidade(){
+  try{
+    const resp=await fetch("disponibilidade.txt?v="+Date.now());
+    if(!resp.ok) throw new Error("sem arquivo");
+    const txt=await resp.text();
+    const alugados={};
+    // uma linha por jogo alugado: "id data".  # começa comentário
+    txt.split(/\r?\n/).forEach(linha=>{
+      const l=linha.trim();
+      if(!l || l.startsWith("#")) return;
+      const partes=l.split(/\s+/);
+      alugados[partes[0].toLowerCase()]=partes[1]||"";
+    });
+    JOGOS.forEach(j=>{
+      if(Object.prototype.hasOwnProperty.call(alugados,j.id)){
+        j.livre=false;
+        j.volta=alugados[j.id] ? dataPorExtenso(alugados[j.id]) : "em breve";
+      }else{
+        j.livre=true; delete j.volta;
+      }
+    });
+  }catch(e){
+    // arquivo faltando ou com erro: mantém tudo disponível, o site nunca quebra
+    console.warn("disponibilidade não aplicada:",e.message);
+  }
+}
+
+/* ============================================================
    INÍCIO
    ============================================================ */
-montarPrateleira();
-montarRanking();
+aplicarDisponibilidade().finally(()=>{ montarPrateleira(); montarRanking(); });
 let larguraAnterior=window.innerWidth;
 window.addEventListener("resize",()=>{
   const cruzou=(larguraAnterior<900)!==(window.innerWidth<900);
