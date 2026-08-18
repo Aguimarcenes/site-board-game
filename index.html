@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Jojocas — jogos & café · aluguel de jogos de tabuleiro</title>
-<meta name="description" content="Jojocas — jogos & café. Alugue jogos de tabuleiro em São João del-Rei e região a partir de R$ 15. Retirada na Vila Belizário ou na Colônia, com entrega e busca.">
+<title>Jojocas — aluguel de jogos de tabuleiro</title>
+<meta name="description" content="Jojocas — aluguel de jogos de tabuleiro em São João del-Rei e região a partir de R$ 15. Retirada na Vila Belizário ou na Colônia, com entrega e busca.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Caveat:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
     --ok:#1F3D2B; --okbg:#E4EDE2;
     /* Tipografia da marca Jojocas.
        --marca  = Permanent Marker: SÓ o nome e chamadas curtíssimas, nunca frase inteira.
-       --acento = Caveat: toques manuscritos afetivos ("jogos & café", recados).
+       --acento = Caveat: toques manuscritos afetivos (tagline, assinatura, recados).
        --sans   = Nunito: todo o texto de apoio — títulos, corpo, botões. */
     --marca:"Permanent Marker","Bradley Hand","Comic Sans MS",cursive;
     --acento:"Caveat","Segoe Script","Brush Script MT",cursive;
@@ -424,7 +424,7 @@
         <p class="local">São João del-Rei · MG</p>
         <div class="nome">Jojocas</div>
         <hr class="filete">
-        <div class="tagline">jogos &amp; café</div>
+        <div class="tagline">jogos</div>
         <p class="sub">Aluguel de jogos de tabuleiro. Escolha, a gente leva, você joga.</p>
         <button class="entrar" id="bt-entrar">Ver os jogos</button>
         <div>
@@ -444,7 +444,7 @@
       <p class="kicker">ANTES DE MOSTRAR OS JOGOS</p>
       <h2 style="margin-top:14px">Vocês são quantos?</h2>
       <div class="opcoes" id="op-grupo">
-        <button class="opcao" data-g="dupla">Só nós dois<small>Jogo pra duas pessoas</small></button>
+        <button class="opcao" data-g="dupla">Duas pessoas<small>Um bom jogo pra dois</small></button>
         <button class="opcao" data-g="trio">3 ou 4 pessoas<small>A mesa mais comum</small></button>
         <button class="opcao" data-g="turma">5 ou mais<small>República, festa, turma grande</small></button>
       </div>
@@ -1084,7 +1084,7 @@ document.querySelectorAll("#op-tempo .ficha").forEach(b=>b.addEventListener("cli
   if(filtro.grupo && filtro.tempo) setTimeout(()=>{montarPrateleira();ir("prateleira")},260);
 }));
 
-const rotulosGrupo={dupla:"Só nós dois",trio:"3 ou 4 pessoas",turma:"5 ou mais"};
+const rotulosGrupo={dupla:"Duas pessoas",trio:"3 ou 4 pessoas",turma:"5 ou mais"};
 const rotulosTempo={curto:"Meia hora",medio:"Umas duas horas",longo:"A noite toda"};
 
 function filtrar(){
