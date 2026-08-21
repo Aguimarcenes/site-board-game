@@ -264,6 +264,10 @@
   .fala p{font-family:var(--sans);font-size:15px;line-height:1.65;color:var(--tinta)}
   .fala .assina{font-family:var(--acento);font-weight:600;font-size:17px;color:var(--mostarda-2);margin-top:8px}
   .creditos{font-size:12px;color:var(--tinta-3);margin:-6px 0 18px}
+  .sobre{margin-top:28px;border-top:1px solid var(--line);padding-top:20px}
+  .sobre .kicker{margin-bottom:12px}
+  .sobre p{font-size:14px;line-height:1.7;color:var(--tinta-2);margin-bottom:12px}
+  .sobre .fonte{font-size:12px;color:var(--tinta-3);margin-top:4px}
   .aviso{display:flex;align-items:center;gap:10px;border-radius:7px;padding:13px 15px;margin-bottom:12px;font-size:14px}
   .aviso.livre{background:var(--okbg);color:var(--verde);font-weight:500}
   .aviso.preso{background:var(--creme-2);color:var(--tinta);flex-direction:column;align-items:flex-start;gap:6px}
@@ -1167,6 +1171,12 @@ function abrirJogo(id){
           : `<button class="btn ouro" data-fila="${j.nome}">Me avisa quando voltar</button>
              <button class="btn fant" data-zap="Oi! Quero reservar ${j.nome} pra quando voltar.">Reservar pra ${j.volta.split(",")[0]}</button>`}
       </div>
+      ${DESCR[id]?`
+        <div class="sobre">
+          <p class="kicker">Sobre o jogo</p>
+          ${DESCR[id].split(/\n\n+/).map(p=>`<p>${p}</p>`).join("")}
+          <p class="fonte">Descrição da Ludopedia.</p>
+        </div>`:""}
       ${outros.length?`
         <div class="alternativas">
           <p class="kicker">${j.livre?"TAMBÉM PEDEM A MESMA MESA":"ENQUANTO ISSO"}</p>
@@ -1338,10 +1348,19 @@ async function aplicarDisponibilidade(){
   }
 }
 
+/* descrições detalhadas (texto da Ludopedia), carregadas de descricoes.json */
+let DESCR={};
+async function carregarDescricoes(){
+  try{
+    const r=await fetch("descricoes.json?v="+Date.now());
+    if(r.ok) DESCR=await r.json();
+  }catch(e){ console.warn("descrições não carregadas:",e.message); }
+}
+
 /* ============================================================
    INÍCIO
    ============================================================ */
-aplicarDisponibilidade().finally(()=>{ montarPrateleira(); montarRanking(); });
+Promise.all([aplicarDisponibilidade(),carregarDescricoes()]).finally(()=>{ montarPrateleira(); montarRanking(); });
 let larguraAnterior=window.innerWidth;
 window.addEventListener("resize",()=>{
   const cruzou=(larguraAnterior<900)!==(window.innerWidth<900);
