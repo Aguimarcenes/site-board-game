@@ -242,12 +242,9 @@
     .ficha-grid .dados{flex:1;max-width:520px}
   }
   .visual{perspective:1200px}
-  .visual .caixa{animation:gira 20s linear infinite;transform-origin:center}
-  .visual:hover .caixa{animation-play-state:paused}
-  @keyframes gira{
-    0%{transform:rotateX(4deg) rotateY(-16deg)}
-    100%{transform:rotateX(4deg) rotateY(344deg)}
-  }
+  /* estática e inclinada como na prateleira; só reage ao passar o mouse */
+  .visual .caixa{transform:rotateY(-18deg);transition:transform .55s cubic-bezier(.2,.9,.25,1.05)}
+  .visual:hover .caixa{transform:rotateY(-5deg) translateY(-8px) scale(1.03)}
   .visual .caixa{--d:34px;--dh:17px}
   .visual .verso{
     left:0;width:100%;height:100%;transform:rotateY(180deg) translateZ(var(--dh));
@@ -266,6 +263,7 @@
   }
   .fala p{font-family:var(--sans);font-size:15px;line-height:1.65;color:var(--tinta)}
   .fala .assina{font-family:var(--acento);font-weight:600;font-size:17px;color:var(--mostarda-2);margin-top:8px}
+  .creditos{font-size:12px;color:var(--tinta-3);margin:-6px 0 18px}
   .aviso{display:flex;align-items:center;gap:10px;border-radius:7px;padding:13px 15px;margin-bottom:12px;font-size:14px}
   .aviso.livre{background:var(--okbg);color:var(--verde);font-weight:500}
   .aviso.preso{background:var(--creme-2);color:var(--tinta);flex-direction:column;align-items:flex-start;gap:6px}
@@ -1097,11 +1095,38 @@ function montarPrateleira(){
 }
 
 /* ============================================================
+   FICHA TÉCNICA — dados oficiais puxados da Ludopedia (API deles).
+   Números autoritativos de jogadores, tempo, ano, idade e designer.
+   A fala de cada jogo continua sendo a do dono.
+   ============================================================ */
+const LUDO={
+  saboteur:{min:3,max:12,tempo:30,ano:2004,idade:8,designer:"Frederic Moyersoen"},
+  coup:{min:2,max:10,tempo:15,ano:2012,idade:14,designer:"Rikki Tahta"},
+  tgcqp:{min:2,max:8,tempo:10,ano:2018,idade:8,designer:"Dave Campbell"},
+  resistence:{min:5,max:10,tempo:30,ano:2009,idade:13,designer:"Don Eskridge"},
+  catan:{min:3,max:4,tempo:90,ano:1995,idade:10,designer:"Klaus Teuber"},
+  dixit:{min:3,max:6,tempo:30,ano:2008,idade:8,designer:"Jean-Louis Roubira"},
+  quartz:{min:3,max:5,tempo:45,ano:2015,idade:14,designer:"Sérgio Halaban e André Zatz"},
+  azul:{min:2,max:4,tempo:45,ano:2017,idade:8,designer:"Michael Kiesling"},
+  duel:{min:2,max:2,tempo:30,ano:2015,idade:10,designer:"Antoine Bauza e Bruno Cathala"},
+  ticket:{min:2,max:5,tempo:60,ano:2005,idade:8,designer:"Alan R. Moon"},
+  wingspan:{min:1,max:5,tempo:60,ano:2019,idade:14,designer:"Elizabeth Hargrave"},
+  oak:{min:1,max:4,tempo:90,ano:2022,idade:14,designer:"Wim Goossens"},
+  terranova:{min:2,max:4,tempo:90,ano:2022,idade:12,designer:"Andreas Faul"},
+  orla:{min:1,max:4,tempo:180,ano:2019,idade:14,designer:"Corey Konieczka e Tony Fanchi"},
+  marte:{min:1,max:5,tempo:120,ano:2016,idade:12,designer:"Jacob Fryxelius"}
+};
+const nJogadores=(mn,mx)=>mn===mx?`${mn} pessoas`:`${mn} a ${mx} pessoas`;
+
+/* ============================================================
    FICHA DO JOGO
    ============================================================ */
 function abrirJogo(id){
   const j=JOGOS.find(x=>x.id===id);
   const outros=JOGOS.filter(x=>x.id!==id && x.banda===j.banda && x.livre).slice(0,2);
+  const L=LUDO[id];
+  const jogadores = L ? nJogadores(L.min,L.max) : nJogadores(j.min,j.max);
+  const tempo = L ? `${L.tempo} min` : j.tempo;
 
   document.getElementById("ficha").innerHTML=`
     <div class="visual">
@@ -1118,13 +1143,15 @@ function abrirJogo(id){
       <p class="kicker ouro">${j.faixa.toUpperCase()}</p>
       <h2 style="margin:10px 0 0">${j.nome}</h2>
       <div class="meta">
-        <span>${j.min===j.max?j.min+" pessoas":j.min+" a "+j.max+" pessoas"}</span>
-        <span>${j.tempo}</span>
+        <span>${jogadores}</span>
+        <span>${tempo}</span>
+        ${L?`<span>${L.idade}+ anos</span>`:``}
       </div>
       <div class="fala">
         <p>${j.fala}</p>
         <p class="assina">Aguinaldo, dono do acervo</p>
       </div>
+      ${L?`<p class="creditos">${L.ano} · design de ${L.designer} · ficha da Ludopedia</p>`:``}
       ${j.livre
         ? `<div class="aviso livre"><span style="font-size:17px">&#10003;</span>Disponível agora, leva hoje mesmo</div>`
         : `<div class="aviso preso">
@@ -1132,7 +1159,7 @@ function abrirJogo(id){
              <small>Só tenho um exemplar. Te aviso no instante em que ele voltar pra prateleira.</small>
            </div>`}
       ${j.expansao?`<div class="extra"><span style="color:var(--verde)">+</span>${j.expansao}</div>`:""}
-      <div class="valor"><b>R$ ${j.preco}</b><small>por 7 dias</small></div>
+      <div class="valor"><b>R$ ${j.preco}</b><small>por dia</small></div>
       <div class="acoes">
         ${j.livre
           ? `<button class="btn ouro" data-zap="Oi! Quero alugar ${j.nome}.">Quero alugar</button>
@@ -1224,8 +1251,8 @@ document.getElementById("in-pedido").addEventListener("keydown",e=>{
 const DUVIDAS=[
   ["Onde eu retiro o jogo?","Tenho dois pontos de coleta: <b>Vila Belizário</b> e <b>Colônia</b>. Você escolhe o mais perto e eu mando a localização exata pelo WhatsApp."],
   ["Vocês entregam em casa?","Sim, e busco também. Atendo São João del-Rei e região, e combinamos o valor pelo WhatsApp conforme a distância."],
-  ["Quanto tempo fico com o jogo?","Sete dias corridos. Levando três ou mais de uma vez, são dez dias."],
-  ["Posso ficar mais tempo?","Se ninguém estiver na fila daquele jogo, pode. A renovação sai 30% mais barata."],
+  ["Quanto tempo fico com o jogo?","Você escolhe. O aluguel é por dia, então é só combinar quantos dias quer ficar com ele."],
+  ["Posso ficar mais tempo?","Pode. Se ninguém estiver na fila daquele jogo, é só me avisar e a gente estende os dias."],
   ["Precisa pagar caução?","Não. Pix na hora da entrega e pronto."],
   ["E se acontecer algo com o jogo?","Jogo é feito pra usar, pode jogar à vontade. Qualquer custo por dano já fica previsto no contrato de aluguel, tudo combinado antes de você levar."],
   ["Nunca joguei nada disso.","Melhor ainda. Eu ensino na hora da entrega, ou mando um vídeo de cinco minutos."],

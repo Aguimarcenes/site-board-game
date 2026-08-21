@@ -87,7 +87,7 @@ não quebra. O passo a passo está em [`DISPONIBILIDADE.md`](DISPONIBILIDADE.md)
 
 ## O acervo
 
-Doze jogos, em três faixas de preço por 7 dias:
+Dezesseis jogos, em três faixas de preço por dia:
 
 | Faixa | Preço | Jogos |
 |---|---|---|
