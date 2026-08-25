@@ -1,37 +1,44 @@
 # Controlar quais jogos estão alugados
 
-O site mostra, em cada jogo, se ele está **disponível** ou **alugado até tal dia**.
-Isso vem de um arquivo só: **`disponibilidade.txt`**. Você edita ele, e o site
-se atualiza sozinho em cerca de 1 minuto. Não precisa mexer em código.
+Na estante, o cliente escolhe uma **data** e vê a disponibilidade de cada jogo
+naquele dia. Isso vem de um arquivo só: **`disponibilidade.txt`**. Você edita ele,
+e o site se atualiza sozinho em cerca de 1 minuto. Não precisa mexer em código.
 
-## Como marcar um jogo como alugado
+## Como marcar um aluguel
 
 1. Abra o repositório no GitHub (dá pelo celular).
 2. Entre no arquivo **`disponibilidade.txt`** e toque no **lápis** (Edit).
-3. Lá no fim, escreva uma linha com o **id do jogo**, um espaço, e a **data que
-   ele volta** no formato ano-mes-dia. Exemplo:
+3. Lá no fim, escreva uma linha com o **id do jogo**, a **data que sai** e a **data
+   que volta**, no formato ano-mes-dia:
+
+   ```
+   catan 2026-08-22 2026-08-25
+   ```
+
+   Isso deixa o Catan ocupado nos dias 22, 23 e 24, e livre de novo no dia 25.
+
+   Se o aluguel começa hoje, pode escrever só a data de volta:
 
    ```
    marte 2026-08-25
    ```
 
 4. Toque em **Commit changes** (botão verde) para salvar.
-5. Em ~1 minuto o site mostra "Terraforming Mars — volta segunda, 25 de agosto".
+5. Em ~1 minuto o site já responde pela data que o cliente escolher.
 
-## Como liberar de novo
+## Como liberar
 
-Quando o jogo voltar, edite o arquivo e **apague a linha** dele. Salvar. Pronto:
-volta a aparecer como disponível.
+Quando o jogo voltar, edite o arquivo e **apague a linha** dele. Salvar. Pronto.
 
 ## Regras que evitam erro
 
-- **Um jogo por linha.** `id` espaço `data`. Só isso.
-- **O que não estiver escrito aparece como disponível.** Você só lista o que está
-  fora.
+- **Um aluguel por linha.** `id` `data-que-sai` `data-que-volta` (ou só `id` `data-que-volta`).
+- **Um jogo pode ter várias linhas** — vários aluguéis em datas diferentes.
+- **O que não estiver escrito aparece como disponível.** Você só lista o que está fora.
 - **Linhas com `#` são ignoradas** — são anotações, pode usar à vontade.
 - **Se você errar** (data estranha, id que não existe, linha bagunçada), o site
-  não quebra: aquele jogo simplesmente continua como disponível. Nada de tela de
-  erro para o cliente.
+  não quebra: aquele aluguel é ignorado e o jogo continua disponível. Nada de tela
+  de erro para o cliente.
 - A data é **ano-mes-dia**: 3 de setembro de 2026 = `2026-09-03`.
 
 ## Os ids dos jogos
@@ -59,11 +66,15 @@ A mesma lista está dentro do próprio `disponibilidade.txt`, para consultar na 
 
 ## Exemplo completo
 
-Se o Catan e o Terraforming Mars estão alugados, o arquivo fica assim no fim:
+O Catan está alugado de 22 a 24 de agosto, o Terraforming Mars sai hoje e volta
+dia 25, e o Azul tem dois aluguéis marcados:
 
 ```
-catan 2026-08-22
+catan 2026-08-22 2026-08-25
 marte 2026-08-25
+azul 2026-08-23 2026-08-24
+azul 2026-08-28 2026-08-30
 ```
 
-Todos os outros 14 jogos aparecem como disponíveis.
+Um cliente que escolher o dia 23 vê Catan, Marte e Azul ocupados, e os outros 13
+disponíveis. No dia 26, todos livres, menos o Azul a partir do dia 28.

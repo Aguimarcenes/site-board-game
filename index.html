@@ -204,7 +204,13 @@
   /* ---------- PRATELEIRA ---------- */
   .filtro-topo{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
   .filtro-topo .ficha{padding:7px 14px;font-size:13px}
-  .contagem{font-family:var(--sans);font-weight:800;font-size:clamp(20px,4.4vw,26px);color:var(--tinta);margin:14px 0 22px}
+  .data-sel{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:4px}
+  .data-sel label{font-size:14px;font-weight:600;color:var(--tinta-2)}
+  .data-sel input[type=date]{font-family:var(--sans);font-size:15px;color:var(--tinta);
+    background:var(--branco);border:1px solid var(--line2);border-radius:8px;padding:9px 12px}
+  .data-sel input[type=date]:focus{outline:none;border-color:var(--mostarda-2)}
+  .ponto.ocupado{background:var(--tinta-3)}
+  .contagem{font-family:var(--sans);font-weight:800;font-size:clamp(20px,4.4vw,26px);color:var(--tinta);margin:12px 0 22px}
 
   .fileira{margin-bottom:30px}
   .jogos{display:flex;gap:12px;align-items:flex-end;padding:0 4px}
@@ -443,6 +449,10 @@
   <!-- 2 · A PRATELEIRA -->
   <section class="tela" id="t-prateleira">
     <div class="wrap">
+      <div class="data-sel">
+        <label for="in-data">Disponibilidade no dia</label>
+        <input type="date" id="in-data" aria-label="Escolha a data">
+      </div>
       <p class="contagem" id="contagem"></p>
       <div id="estante"></div>
       <div class="legenda" id="legenda"></div>
@@ -1059,8 +1069,15 @@ function caixaHTML(j,mini){
 function montarPrateleira(){
   const lista=JOGOS;
   const porFileira = window.innerWidth>=900 ? 4 : 3;
+  const ehHoje = dataSel===hojeISO();
 
-  document.getElementById("contagem").textContent=`Os ${JOGOS.length} jogos da estante`;
+  // status de cada jogo NA DATA SELECIONADA
+  const st={};
+  lista.forEach(j=>{ const livre=livreEm(j.id,dataSel); st[j.id]={livre,volta:livre?null:dataPorExtenso(voltaEm(j.id,dataSel))}; });
+  const livresTot=lista.filter(j=>st[j.id].livre).length;
+
+  document.getElementById("contagem").textContent=
+    `${livresTot} de ${lista.length} livres ${ehHoje?"hoje":"em "+dataPorExtenso(dataSel)}`;
 
   const est=document.getElementById("estante");
   est.innerHTML="";
@@ -1071,7 +1088,7 @@ function montarPrateleira(){
     fileira.innerHTML=`
       <div class="jogos">
         ${grupo.map(j=>`
-          <button class="item ${j.livre?'':'fora'}" data-jogo="${j.id}">
+          <button class="item ${st[j.id].livre?'':'fora'}" data-jogo="${j.id}">
             ${caixaHTML(j)}
           </button>`).join("")}
         ${Array.from({length:porFileira-grupo.length},()=>'<span class="vaga"></span>').join("")}
@@ -1081,7 +1098,7 @@ function montarPrateleira(){
         ${grupo.map(j=>`
           <div style="flex:1">
             <p class="nome">${j.nome}</p>
-            <p class="estado"><span class="ponto"></span>${j.livre?"Disponível":"Volta "+j.volta.split(",")[0]}</p>
+            <p class="estado"><span class="ponto ${st[j.id].livre?'':'ocupado'}"></span>${st[j.id].livre?"Disponível":"Volta "+st[j.id].volta.split(",")[0]}</p>
           </div>`).join("")}
         ${Array.from({length:porFileira-grupo.length},()=>'<span class="vaga"></span>').join("")}
       </div>`;
@@ -1090,11 +1107,10 @@ function montarPrateleira(){
   est.querySelectorAll("[data-jogo]").forEach(b=>b.addEventListener("click",()=>abrirJogo(b.dataset.jogo)));
 
   /* legenda */
-  const livres=lista.filter(j=>j.livre).length;
-  const presos=lista.filter(j=>!j.livre);
+  const presos=lista.filter(j=>!st[j.id].livre);
   document.getElementById("legenda").innerHTML=
-    (livres?`<div><span class="ponto"></span>${livres} disponíve${livres>1?"is":"l"} agora</div>`:"")+
-    presos.map(j=>`<div><span class="ponto" style="background:var(--tinta-3)"></span>${j.nome} volta ${j.volta}</div>`).join("");
+    (livresTot?`<div><span class="ponto"></span>${livresTot} disponíve${livresTot>1?"is":"l"} ${ehHoje?"hoje":"nesse dia"}</div>`:"")+
+    presos.map(j=>`<div><span class="ponto ocupado"></span>${j.nome} volta ${st[j.id].volta}</div>`).join("");
 }
 
 /* ============================================================
@@ -1126,7 +1142,11 @@ const nJogadores=(mn,mx)=>mn===mx?`${mn} pessoas`:`${mn} a ${mx} pessoas`;
    ============================================================ */
 function abrirJogo(id){
   const j=JOGOS.find(x=>x.id===id);
-  const outros=JOGOS.filter(x=>x.id!==id && x.banda===j.banda && x.livre).slice(0,2);
+  const livre=livreEm(id,dataSel);
+  const ehHoje=dataSel===hojeISO();
+  const dataExt=dataPorExtenso(dataSel);
+  const voltaData=livre?null:dataPorExtenso(voltaEm(id,dataSel));
+  const outros=JOGOS.filter(x=>x.id!==id && x.banda===j.banda && livreEm(x.id,dataSel)).slice(0,2);
   const L=LUDO[id];
   const jogadores = L ? nJogadores(L.min,L.max) : nJogadores(j.min,j.max);
   const tempo = L ? `${L.tempo} min` : j.tempo;
@@ -1152,20 +1172,20 @@ function abrirJogo(id){
           : `<p>${j.fala}</p>`}
       </div>
       ${L?`<p class="creditos">${L.ano} · design de ${L.designer} · ficha da Ludopedia</p>`:``}
-      ${j.livre
-        ? `<div class="aviso livre"><span style="font-size:17px">&#10003;</span>Disponível agora, leva hoje mesmo</div>`
+      ${livre
+        ? `<div class="aviso livre"><span style="font-size:17px">&#10003;</span>${ehHoje?"Disponível hoje, leva agora mesmo":"Livre em "+dataExt}</div>`
         : `<div class="aviso preso">
-             <span class="quando"><span style="color:var(--verde)">&#9200;</span>Volta ${j.volta}</span>
-             <small>Só tenho um exemplar. Te aviso no instante em que ele voltar pra prateleira.</small>
+             <span class="quando"><span style="color:var(--verde)">&#9200;</span>Ocupado em ${dataExt}, volta ${voltaData}</span>
+             <small>Só tenho um exemplar. Escolha outra data na prateleira, ou peça pra avisar quando voltar.</small>
            </div>`}
       ${j.expansao?`<div class="extra"><span style="color:var(--verde)">+</span>${j.expansao}</div>`:""}
       <div class="valor"><b>R$ ${j.preco}</b><small>por dia</small></div>
       <div class="acoes">
-        ${j.livre
-          ? `<button class="btn ouro" data-zap="Oi! Quero alugar ${j.nome}.">Quero alugar</button>
+        ${livre
+          ? `<button class="btn ouro" data-zap="Oi! Quero alugar ${j.nome}${ehHoje?"":" para "+dataExt}.">Quero alugar</button>
              <button class="btn fant" data-zap="Oi! Tenho uma dúvida sobre ${j.nome}.">Tirar dúvida no WhatsApp</button>`
           : `<button class="btn ouro" data-fila="${j.nome}">Me avisa quando voltar</button>
-             <button class="btn fant" data-zap="Oi! Quero reservar ${j.nome} pra quando voltar.">Reservar pra ${j.volta.split(",")[0]}</button>`}
+             <button class="btn fant" data-zap="Oi! Quero reservar ${j.nome} pra ${voltaData}.">Reservar pra ${voltaData.split(",")[0]}</button>`}
       </div>
       ${outros.length?`
         <div class="alternativas">
@@ -1311,31 +1331,47 @@ function dataPorExtenso(iso){
   if(isNaN(d)) return iso;
   return `${DIAS[d.getDay()]}, ${+m[3]} de ${MESES[d.getMonth()]}`;
 }
+/* aluguéis por período: cada item {id, inicio, fim} = ocupado de inicio até fim
+   (volta livre no dia fim). Um jogo pode ter vários períodos. */
+let RENTALS=[];
+function hojeISO(){
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+const _iso=/^\d{4}-\d{2}-\d{2}$/;
 async function aplicarDisponibilidade(){
+  RENTALS=[];
   try{
     const resp=await fetch("disponibilidade.txt?v="+Date.now());
     if(!resp.ok) throw new Error("sem arquivo");
     const txt=await resp.text();
-    const alugados={};
-    // uma linha por jogo alugado: "id data".  # começa comentário
+    // linha: "id inicio fim"  OU  "id fim" (início = hoje).  # começa comentário
     txt.split(/\r?\n/).forEach(linha=>{
       const l=linha.trim();
       if(!l || l.startsWith("#")) return;
-      const partes=l.split(/\s+/);
-      alugados[partes[0].toLowerCase()]=partes[1]||"";
-    });
-    JOGOS.forEach(j=>{
-      if(Object.prototype.hasOwnProperty.call(alugados,j.id)){
-        j.livre=false;
-        j.volta=alugados[j.id] ? dataPorExtenso(alugados[j.id]) : "em breve";
-      }else{
-        j.livre=true; delete j.volta;
-      }
+      const p=l.split(/\s+/);
+      const id=p[0].toLowerCase();
+      let inicio,fim;
+      if(p.length>=3 && _iso.test(p[1]) && _iso.test(p[2])){ inicio=p[1]; fim=p[2]; }
+      else if(p.length>=2 && _iso.test(p[1])){ inicio=hojeISO(); fim=p[1]; }
+      else return;
+      if(fim>inicio) RENTALS.push({id,inicio,fim});
     });
   }catch(e){
     // arquivo faltando ou com erro: mantém tudo disponível, o site nunca quebra
     console.warn("disponibilidade não aplicada:",e.message);
   }
+}
+// livre na data D ("YYYY-MM-DD")? ocupado se algum período tem inicio<=D<fim
+function livreEm(id,D){ return !RENTALS.some(r=>r.id===id && r.inicio<=D && D<r.fim); }
+// a partir de D, próxima data em que o jogo volta a ficar livre
+function voltaEm(id,D){
+  let d=D, guard=0;
+  while(!livreEm(id,d) && guard++<800){
+    const r=RENTALS.filter(x=>x.id===id && x.inicio<=d && d<x.fim).sort((a,b)=>a.fim<b.fim?1:-1)[0];
+    if(!r) break; d=r.fim;
+  }
+  return d;
 }
 
 /* descrições detalhadas (texto da Ludopedia), carregadas de descricoes.json */
@@ -1350,7 +1386,15 @@ async function carregarDescricoes(){
 /* ============================================================
    INÍCIO
    ============================================================ */
-Promise.all([aplicarDisponibilidade(),carregarDescricoes()]).finally(()=>{ montarPrateleira(); montarRanking(); });
+let dataSel=hojeISO();   // data escolhida na prateleira (padrão: hoje)
+Promise.all([aplicarDisponibilidade(),carregarDescricoes()]).finally(()=>{
+  const inp=document.getElementById("in-data");
+  if(inp){
+    inp.min=hojeISO(); inp.value=dataSel;
+    inp.addEventListener("change",()=>{ dataSel=inp.value||hojeISO(); montarPrateleira(); });
+  }
+  montarPrateleira(); montarRanking();
+});
 let larguraAnterior=window.innerWidth;
 window.addEventListener("resize",()=>{
   const cruzou=(larguraAnterior<900)!==(window.innerWidth<900);

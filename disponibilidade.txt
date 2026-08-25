@@ -1,38 +1,30 @@
 # ============================================================
-#  JOGOS ALUGADOS  —  edite este arquivo quando alugar ou devolver
+#  AGENDA DE ALUGUEIS  —  edite quando alugar ou devolver
 # ============================================================
 #
-# COMO USAR:
-#   - Para marcar um jogo como ALUGADO, escreva uma linha com:
-#         o id do jogo   um espaço   a data que ele volta (ano-mes-dia)
-#     Exemplo:   marte 2026-08-25
+# Cada linha marca um periodo em que um jogo esta ALUGADO.
+# O site mostra a disponibilidade pela DATA que o cliente escolher na estante.
 #
-#   - Para LIBERAR um jogo de novo, apague a linha dele.
+# COMO ESCREVER (datas em ano-mes-dia):
 #
-#   - Tudo que NÃO estiver listado aqui aparece como disponível no site.
-#   - Linhas começando com # são ignoradas (são comentários, como esta).
-#   - A data é ano-mes-dia. 25 de agosto de 2026 = 2026-08-25.
+#   id  data-que-sai  data-que-volta
+#       Exemplo:   catan 2026-08-22 2026-08-25
+#       (Catan fica ocupado de 22 a 24, e volta livre no dia 25)
 #
-# Depois de salvar, o site atualiza em cerca de 1 minuto.
+#   Se preferir, pode escrever so a data de volta (comeca hoje):
+#       marte 2026-08-25
 #
-# ---- IDs dos jogos (o nome que vai na linha) ----
-#   saboteur     = Saboteur
-#   coup         = Coup
-#   decisoes     = Decisões de Merda
-#   tgcqp        = Taco Gato Cabra Queijo Pizza
-#   resistence   = The Resistance
-#   catan        = Catan
-#   dixit        = Dixit
-#   quartz       = Quartz
-#   azul         = Azul
-#   duel         = 7 Wonders Duel
-#   ticket       = Ticket to Ride: Europa
-#   wingspan     = Wingspan
-#   oak          = Oak
-#   terranova    = Terra Nova
-#   orla         = Star Wars: Orla Exterior
-#   marte        = Terraforming Mars
+# Um mesmo jogo pode ter VARIAS linhas (varios alugueis em datas diferentes).
+# Para liberar, apague a linha. O que nao estiver aqui aparece como disponivel.
+# Linhas com # sao ignoradas. Depois de salvar, o site atualiza em ~1 minuto.
+#
+# ---- IDs dos jogos ----
+#   saboteur  coup  decisoes  tgcqp  resistence  catan  dixit  quartz
+#   azul  duel  ticket  wingspan  oak  terranova  orla  marte
+#   (tgcqp = Taco Gato Cabra Queijo Pizza, duel = 7 Wonders Duel,
+#    orla = Star Wars Orla Exterior, marte = Terraforming Mars,
+#    terranova = Terra Nova, resistence = The Resistance)
 #
 # ============================================================
-#  Escreva os jogos alugados abaixo desta linha:
+#  Escreva os alugueis abaixo desta linha:
 # ============================================================
