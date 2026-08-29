@@ -487,7 +487,7 @@
       <p class="kicker">LEVO A MESA ATÉ VOCÊ</p>
       <h2 style="margin-top:14px">Noite de jogos na sua casa</h2>
       <p class="lede" style="margin-top:10px;max-width:560px">
-        Chego com os 16 jogos, monto a mesa, ensino as regras e fico até o fim. Você só chama a galera.
+        Chego com o acervo, monto a mesa, ensino as regras e fico até o fim. Você só chama a galera.
         Atendo São João del-Rei e região.
       </p>
       <div class="pacotes">
@@ -536,7 +536,7 @@
         </div>
       </div>
       <p class="lede" style="margin-bottom:14px">
-        Sou apaixonado por jogo de tabuleiro. Os 16 que estão nessa estante são meus há anos,
+        Sou apaixonado por jogo de tabuleiro. Os que estão nessa estante são meus mesmo,
         comprados um a um, cada um escolhido com calma, esperado, e jogado muitas vezes antes
         de entrar aqui.
       </p>
@@ -677,7 +677,21 @@ const JOGOS = [
     min:1, max:5, tempo:"120 min", banda:"longo", serve:["dupla","trio","turma"],
     c1:"#c2452b", c2:"#5e1608", livre:true, expansao:null,
     fala:"Corporações brigando pra deixar Marte habitável. É o mais pesado que eu tenho: duas horas, muita carta e muita conta. Se o grupo curte estratégia de verdade, é esse."
-  }
+  },
+  { id:"dune", nome:"Dune: Imperium", faixa:"Faixa premium", preco:35, min:1, max:4, tempo:"120 min", banda:"longo", serve:["trio","turma"], c1:"#c98a3c", c2:"#5a3410", expansao:null, fala:"Colocação de trabalhadores e cartas no universo de Duna. Peso médio-alto e muita tensão." },
+  { id:"marvel", nome:"Marvel United", faixa:"Faixa média", preco:25, min:1, max:4, tempo:"90 min", banda:"medio", serve:["trio","turma"], c1:"#c2352e", c2:"#4a0f0c", expansao:null, fala:"Cooperativo dos heróis da Marvel contra um vilão. Leve, rápido e bonito na mesa." },
+  { id:"everdell", nome:"Everdell", faixa:"Faixa premium", preco:35, min:1, max:4, tempo:"80 min", banda:"medio", serve:["dupla","trio"], c1:"#4a8a5a", c2:"#1e3a24", expansao:null, fala:"Bichinhos construindo uma cidade na floresta. Um dos jogos mais bonitos que existem." },
+  { id:"munchkin", nome:"Munchkin", faixa:"Faixa leve", preco:15, min:3, max:6, tempo:"90 min", banda:"medio", serve:["trio","turma"], c1:"#7a4a9a", c2:"#2e1740", expansao:null, fala:"Zoeira, cartas e traição numa masmorra de humor. Party clássico pra rir alto." },
+  { id:"sagrada", nome:"Sagrada", faixa:"Faixa média", preco:25, min:1, max:4, tempo:"40 min", banda:"medio", serve:["dupla","trio"], c1:"#6a5ac2", c2:"#241d52", expansao:null, fala:"Monte um vitral com dados coloridos. Bonito de doer e mais cerebral do que parece." },
+  { id:"harmonies", nome:"Harmonies", faixa:"Faixa média", preco:25, min:1, max:4, tempo:"30 min", banda:"curto", serve:["dupla","trio"], c1:"#4aa0a0", c2:"#1c4444", expansao:null, fala:"Componha habitats com peças coloridas. Calmo, elegante e premiado." },
+  { id:"tortuga", nome:"Tortuga 2199", faixa:"Faixa premium", preco:35, min:2, max:4, tempo:"90 min", banda:"medio", serve:["trio"], c1:"#2a8a9a", c2:"#10323a", expansao:null, fala:"Piratas espaciais roubando cargas uns dos outros. Temático e cheio de blefe." },
+  { id:"cores", nome:"Cores com Dicas", faixa:"Faixa leve", preco:15, min:3, max:10, tempo:"30 min", banda:"curto", serve:["turma"], c1:"#d98a3c", c2:"#5a3410", expansao:null, fala:"Party de adivinhar cores por dicas. Rende demais com a mesa cheia." },
+  { id:"mistureba", nome:"Mistureba Mágica", faixa:"Faixa leve", preco:15, min:2, max:4, tempo:"20 min", banda:"curto", serve:["trio"], c1:"#b04a9a", c2:"#40163a", expansao:null, fala:"Misture poções e teste a memória. Rápido e colorido, ótimo pra criançada." },
+  { id:"exploding", nome:"Exploding Kittens", faixa:"Faixa leve", preco:15, min:2, max:5, tempo:"20 min", banda:"curto", serve:["trio","turma"], c1:"#d8452e", c2:"#5e1608", expansao:null, fala:"Não puxe o gatinho que explode. Card game rápido, maldoso e viciante." },
+  { id:"explodingparty", nome:"Exploding Kittens: Para a Galera", faixa:"Faixa leve", preco:15, min:2, max:10, tempo:"20 min", banda:"curto", serve:["turma"], c1:"#e0662e", c2:"#5e1e08", expansao:null, fala:"A versão do Exploding Kittens para até 10 pessoas na mesa." },
+  { id:"alcatraz", nome:"Alcatraz", faixa:"Faixa leve", preco:15, min:2, max:5, tempo:"30 min", banda:"curto", serve:["trio","turma"], c1:"#3a6a9a", c2:"#14283a", expansao:null, fala:"Gatos presidiários tramando a fuga. Party nacional, divertido e traiçoeiro." },
+  { id:"segue", nome:"Segue o Fluxo", faixa:"Faixa leve", preco:15, min:4, max:8, tempo:"30 min", banda:"curto", serve:["turma"], c1:"#2a9db5", c2:"#0e3a45", expansao:null, fala:"Party de completar as frases sem travar. Melhor com a turma grande. É pra maiores." },
+  { id:"nao", nome:"Não Pode", faixa:"Faixa leve", preco:15, min:3, max:8, tempo:"20 min", banda:"curto", serve:["turma"], c1:"#c2352e", c2:"#4a0f0c", expansao:null, fala:"Jogo de festa em que quase tudo é proibido e alguém sempre escorrega. Rende risada." }
 ];
 
 /* ============================================================
@@ -1033,7 +1047,22 @@ const unico=svg=>{const k=++contadorId;
    Não uso <picture> porque ele escolhe a fonte pelo tipo suportado: como o
    navegador suporta webp, ele se compromete com o webp e NÃO volta pro jpg
    quando o arquivo não existe. */
-const capaHTML=j=>`<div class="face capa">${unico(CAPAS[j.id])}`+
+/* capa de reserva genérica: fundo na cor do jogo + nome, para quem não tem
+   ilustração desenhada. Só aparece se a foto faltar. */
+function capaGenerica(j){
+  const palavras=j.nome.replace(/[:]/g,"").split(/\s+/);
+  const linhas=[]; let cur="";
+  palavras.forEach(w=>{ if((cur+" "+w).trim().length>11){linhas.push(cur.trim());cur=w;} else cur=(cur+" "+w).trim(); });
+  if(cur) linhas.push(cur);
+  const y=205-(linhas.length-1)*20;
+  return `<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${j.c1}"/><stop offset="1" stop-color="${j.c2}"/></linearGradient></defs>
+    <rect width="300" height="400" fill="url(#gg)"/>
+    <rect x="16" y="16" width="268" height="368" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="2"/>
+    ${linhas.map((l,i)=>`<text x="150" y="${y+i*40}" text-anchor="middle" font-family="Georgia,serif" font-size="30" font-weight="700" letter-spacing=".04em" fill="#fff">${l.toUpperCase()}</text>`).join("")}
+  </svg>`;
+}
+const capaHTML=j=>`<div class="face capa">${unico(CAPAS[j.id]||capaGenerica(j))}`+
   `<img class="foto" src="fotos/${j.id}.webp" data-jpg="fotos/${j.id}.jpg" alt="Caixa do jogo ${j.nome}" `+
   `onload="this.parentElement.classList.add('com-foto')" `+
   `onerror="if(this.dataset.jpg){this.src=this.dataset.jpg;delete this.dataset.jpg}else{this.remove()}">`+
@@ -1133,7 +1162,20 @@ const LUDO={
   oak:{min:1,max:4,tempo:90,ano:2022,idade:14,designer:"Wim Goossens"},
   terranova:{min:2,max:4,tempo:90,ano:2022,idade:12,designer:"Andreas Faul"},
   orla:{min:1,max:4,tempo:180,ano:2019,idade:14,designer:"Corey Konieczka e Tony Fanchi"},
-  marte:{min:1,max:5,tempo:120,ano:2016,idade:12,designer:"Jacob Fryxelius"}
+  marte:{min:1,max:5,tempo:120,ano:2016,idade:12,designer:"Jacob Fryxelius"},
+  dune:{min:1,max:4,tempo:120,ano:2020,idade:14,designer:"Paul Dennen"},
+  marvel:{min:1,max:4,tempo:90,ano:2020,idade:12,designer:"Andrea Chiarvesio e Eric M. Lang"},
+  everdell:{min:1,max:4,tempo:80,ano:2018,idade:13,designer:"James A. Wilson"},
+  munchkin:{min:3,max:6,tempo:90,ano:2001,idade:10,designer:"Steve Jackson"},
+  sagrada:{min:1,max:4,tempo:40,ano:2017,idade:14,designer:"Adrian Adamescu e Daryl Andrews"},
+  harmonies:{min:1,max:4,tempo:30,ano:2024,idade:10,designer:"Johan Benvenuto"},
+  tortuga:{min:2,max:4,tempo:90,ano:2020,idade:12,designer:"Michael Loyko e Denis Plastinin"},
+  cores:{min:3,max:10,tempo:30,ano:2020,idade:14,designer:"Scott Brady"},
+  mistureba:{min:2,max:4,tempo:20,ano:2025,idade:6,designer:"Thiago Queiroz"},
+  exploding:{min:2,max:5,tempo:20,ano:2015,idade:7,designer:"Elan Lee e Shane Small"},
+  explodingparty:{min:2,max:10,tempo:20,ano:2017,idade:7,designer:"Elan Lee e Shane Small"},
+  alcatraz:{min:2,max:5,tempo:30,ano:2025,idade:14,designer:"Laila Terra"},
+  segue:{min:4,max:8,tempo:30,ano:2024,idade:18,designer:""}
 };
 const nJogadores=(mn,mx)=>mn===mx?`${mn} pessoas`:`${mn} a ${mx} pessoas`;
 
@@ -1171,7 +1213,7 @@ function abrirJogo(id){
           ? DESCR[id].split(/\n\n+/).map(p=>`<p>${p}</p>`).join("")+`<p class="fonte">Descrição da Ludopedia.</p>`
           : `<p>${j.fala}</p>`}
       </div>
-      ${L?`<p class="creditos">${L.ano} · design de ${L.designer} · ficha da Ludopedia</p>`:``}
+      ${L?`<p class="creditos">${L.ano}${L.designer?` · design de ${L.designer}`:``} · ficha da Ludopedia</p>`:``}
       ${livre
         ? `<div class="aviso livre"><span style="font-size:17px">&#10003;</span>${ehHoje?"Disponível hoje, leva agora mesmo":"Livre em "+dataExt}</div>`
         : `<div class="aviso preso">

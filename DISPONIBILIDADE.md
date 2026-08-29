@@ -60,6 +60,20 @@ Quando o jogo voltar, edite o arquivo e **apague a linha** dele. Salvar. Pronto.
 | `oak` | Oak |
 | `terranova` | Terra Nova |
 | `orla` | Star Wars: Orla Exterior |
+| `dune` | Dune: Imperium |
+| `marvel` | Marvel United |
+| `everdell` | Everdell |
+| `munchkin` | Munchkin |
+| `sagrada` | Sagrada |
+| `harmonies` | Harmonies |
+| `tortuga` | Tortuga 2199 |
+| `cores` | Cores com Dicas |
+| `mistureba` | Mistureba Mágica |
+| `exploding` | Exploding Kittens |
+| `explodingparty` | Exploding Kittens: Para a Galera |
+| `alcatraz` | Alcatraz |
+| `segue` | Segue o Fluxo |
+| `nao` | Não Pode |
 | `marte` | Terraforming Mars |
 
 A mesma lista está dentro do próprio `disponibilidade.txt`, para consultar na hora.
