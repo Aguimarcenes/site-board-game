@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Jojocas · aluguel de jogos de tabuleiro</title>
 <meta name="description" content="Jojocas · aluguel de jogos de tabuleiro em São João del-Rei e região a partir de R$ 15. Retirada na Vila Belizário ou na Colônia, com entrega e busca.">
+<link rel="canonical" href="https://jojocas.com.br/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Caveat:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -578,6 +579,20 @@
 <div class="toast" id="toast"><span id="toast-tx"></span></div>
 
 <script>
+/* Limpa da barra de endereço os parâmetros de rastreio que o Instagram/Facebook
+   grudam no link (utm_*, fbclid, igshid...). Assim, quem chega pela bio e copia
+   o endereço leva só "jojocas.com.br", sem a sujeira. Não afeta o site. */
+(function(){
+  try{
+    const u=new URL(location.href);
+    const sujos=["utm_source","utm_medium","utm_campaign","utm_content","utm_term",
+                 "fbclid","gclid","igshid","mc_cid","mc_eid","_aem"];
+    let mudou=false;
+    sujos.forEach(k=>{ if(u.searchParams.has(k)){ u.searchParams.delete(k); mudou=true; } });
+    if(mudou) history.replaceState(null,"",u.pathname+(u.search||"")+u.hash);
+  }catch(e){}
+})();
+
 /* ============================================================
    ACERVO REAL — 11 unidades de aluguel
    ============================================================ */
