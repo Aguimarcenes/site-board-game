@@ -49,7 +49,7 @@ Quando o jogo voltar, edite o arquivo e **apague a linha** dele. Salvar. Pronto.
 | `coup` | Coup |
 | `decisoes` | Decisões de Merda |
 | `tgcqp` | Taco Gato Cabra Queijo Pizza |
-| `resistence` | The Resistance |
+| `resistance` | The Resistance |
 | `catan` | Catan |
 | `dixit` | Dixit |
 | `quartz` | Quartz |

@@ -19,13 +19,13 @@
 # Linhas com # sao ignoradas. Depois de salvar, o site atualiza em ~1 minuto.
 #
 # ---- IDs dos jogos ----
-#   saboteur  coup  decisoes  tgcqp  resistence  catan  dixit  quartz
+#   saboteur  coup  decisoes  tgcqp  resistance  catan  dixit  quartz
 #   azul  duel  ticket  wingspan  oak  terranova  orla  marte
 #   dune  marvel  everdell  munchkin  sagrada  harmonies  tortuga  cores
 #   mistureba  exploding  explodingparty  alcatraz  segue  nao
 #   (tgcqp = Taco Gato Cabra Queijo Pizza, duel = 7 Wonders Duel,
 #    orla = Star Wars Orla Exterior, marte = Terraforming Mars,
-#    terranova = Terra Nova, resistence = The Resistance, dune = Dune Imperium,
+#    terranova = Terra Nova, resistance = The Resistance, dune = Dune Imperium,
 #    marvel = Marvel United, cores = Cores com Dicas, mistureba = Mistureba Magica,
 #    exploding = Exploding Kittens, explodingparty = Exploding Kittens Para a Galera,
 #    segue = Segue o Fluxo, nao = Nao Pode)
