@@ -280,6 +280,20 @@
   .aviso.preso .quando{display:flex;align-items:center;gap:9px;font-weight:600}
   .aviso.preso small{color:var(--tinta-2);font-size:12px;line-height:1.5;font-weight:400}
   .extra{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--tinta-2);margin-bottom:22px}
+  /* expansão inclusa, em destaque verde */
+  .expansao{display:flex;align-items:center;gap:10px;margin:8px 0 20px;
+    background:var(--okbg);border:1px solid var(--border-verde,rgba(31,61,43,.2));border-radius:8px;
+    padding:12px 15px;font-size:15px;line-height:1.4;color:var(--verde);font-weight:500}
+  .expansao .ic{font-size:18px;flex:none;color:var(--verde)}
+  .expansao b{font-weight:800}
+  /* promoção nos jogos de R$ 15 sem expansão */
+  .promo{background:rgba(217,164,65,.14);border:1px solid var(--mostarda);border-radius:8px;
+    padding:13px 15px;margin-bottom:14px}
+  .promo .promo-tit{font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--mostarda-2);margin-bottom:7px}
+  .promo p{font-size:14px;color:var(--tinta);line-height:1.55;margin:0 0 4px}
+  .promo p:last-child{margin:0}
+  .promo b{font-weight:800;color:var(--verde)}
   .valor{display:flex;align-items:baseline;gap:10px;margin-bottom:16px}
   /* Mostarda sobre creme dá 1,96:1 e a escura 2,87:1 — as duas reprovam.
      Regra: mostarda só em elemento preenchido (botão) ou sobre o verde.
@@ -600,7 +614,7 @@ const JOGOS = [
   {
     id:"saboteur", nome:"Saboteur", faixa:"Faixa leve", preco:15,
     min:3, max:12, tempo:"30 min", banda:"curto", serve:["trio","turma"],
-    c1:"#a5762f", c2:"#5a3f14", livre:true, expansao:"Vai junto com a expansão Saboteur 2",
+    c1:"#a5762f", c2:"#5a3f14", livre:true, expansao:"Saboteur 2",
     fala:"Anões cavando um túnel atrás de ouro, e alguns deles querendo sabotar tudo. Ninguém sabe quem. É o melhor que eu tenho pra república cheia. Com a expansão, aguenta 12 na mesa e ninguém fica de fora."
   },
   {
@@ -654,7 +668,7 @@ const JOGOS = [
   {
     id:"duel", nome:"7 Wonders Duel", faixa:"Faixa média", preco:25,
     min:2, max:2, tempo:"30 min", banda:"curto", serve:["dupla"],
-    c1:"#b58a3a", c2:"#4a3010", livre:true, expansao:"Vai junto com a expansão Pantheon",
+    c1:"#b58a3a", c2:"#4a3010", livre:true, expansao:"Pantheon",
     fala:"Feito só pra dois, e é o melhor jogo pra dois que eu conheço. Trinta minutos e decisão difícil em toda jogada. Se você joga sempre com a mesma pessoa, leva esse."
   },
   {
@@ -1235,8 +1249,14 @@ function abrirJogo(id){
              <span class="quando"><span style="color:var(--verde)">&#9200;</span>Ocupado em ${dataExt}, volta ${voltaData}</span>
              <small>Só tenho um exemplar. Escolha outra data na prateleira, ou peça pra avisar quando voltar.</small>
            </div>`}
-      ${j.expansao?`<div class="extra"><span style="color:var(--verde)">+</span>${j.expansao}</div>`:""}
+      ${j.expansao?`<div class="expansao"><span class="ic">&#10003;</span><span>Acompanha a expansão <b>${j.expansao}</b>, já incluída no preço</span></div>`:""}
       <div class="valor"><b>R$ ${j.preco}</b><small>por dia</small></div>
+      ${(j.preco===15 && !j.expansao)?`
+        <div class="promo">
+          <p class="promo-tit">&#9733; Promoção</p>
+          <p>Levando junto <b>1 jogo acima de R$ 15</b>, este sai por <b>R$ 10</b>.</p>
+          <p>Levando junto <b>2 jogos acima de R$ 15</b>, este é <b>grátis</b>.</p>
+        </div>`:""}
       <div class="acoes">
         ${livre
           ? `<button class="btn ouro" data-zap="Oi! Quero alugar ${j.nome}${ehHoje?"":" para "+dataExt}.">Quero alugar</button>
