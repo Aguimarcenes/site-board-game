@@ -1211,6 +1211,11 @@ const nJogadores=(mn,mx)=>mn===mx?`${mn} pessoas`:`${mn} a ${mx} pessoas`;
 /* ============================================================
    FICHA DO JOGO
    ============================================================ */
+/* PROMOÇÃO dos jogos de R$ 15: interruptor liga/desliga.
+   Está DESLIGADA por enquanto. Para religar (ex.: na quinta), troque
+   false por true nesta linha. O bloco continua pronto na ficha. */
+const PROMO_ATIVA=false;
+
 function abrirJogo(id){
   const j=JOGOS.find(x=>x.id===id);
   const livre=livreEm(id,dataSel);
@@ -1251,7 +1256,7 @@ function abrirJogo(id){
            </div>`}
       ${j.expansao?`<div class="expansao"><span class="ic">&#10003;</span><span>Acompanha a expansão <b>${j.expansao}</b>, já incluída no preço</span></div>`:""}
       <div class="valor"><b>R$ ${j.preco}</b><small>por dia</small></div>
-      ${(j.preco===15 && !j.expansao)?`
+      ${(PROMO_ATIVA && j.preco===15 && !j.expansao)?`
         <div class="promo">
           <p class="promo-tit">&#9733; Promoção</p>
           <p>Levando junto <b>1 jogo acima de R$ 15</b>, este sai por <b>R$ 10</b>.</p>
