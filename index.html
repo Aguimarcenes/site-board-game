@@ -1209,6 +1209,12 @@ const LUDO={
 };
 const nJogadores=(mn,mx)=>mn===mx?`${mn} pessoas`:`${mn} a ${mx} pessoas`;
 
+/* Categorias por preço (tema xadrez). O "+" marca jogo que acompanha expansão.
+   Rei fica reservado pros jogos pesados/caros que vierem (qualquer preço acima
+   de R$ 35 já cai em Rei automaticamente). */
+const CATEGORIAS={15:"Peão",25:"Torre",35:"Dama"};
+function categoria(j){ return (CATEGORIAS[j.preco]||"Rei")+(j.expansao?"+":""); }
+
 /* ============================================================
    FICHA DO JOGO
    ============================================================ */
@@ -1236,7 +1242,7 @@ function abrirJogo(id){
       </div>
     </div>
     <div class="dados">
-      <p class="kicker ouro">${j.faixa.toUpperCase()}</p>
+      <p class="kicker ouro">Categoria ${categoria(j)}</p>
       <h2 style="margin:10px 0 0">${j.nome}</h2>
       <div class="meta">
         <span>${jogadores}</span>
