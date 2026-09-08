@@ -206,6 +206,10 @@
   /* ---------- PRATELEIRA ---------- */
   .filtro-topo{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
   .filtro-topo .ficha{padding:7px 14px;font-size:13px}
+  .filtro-cat{margin:14px 0 6px}
+  .filtro-cat .ficha{padding:7px 15px;font-size:14px}
+  .legenda-cat{font-size:12.5px;color:var(--tinta-2);line-height:1.5;margin:0 0 2px}
+  .legenda-cat b{color:var(--verde);font-weight:800}
   .data-sel{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:4px}
   .data-sel label{font-size:14px;font-weight:600;color:var(--tinta-2)}
   .data-sel input[type=date]{font-family:var(--sans);font-size:15px;color:var(--tinta);
@@ -469,6 +473,8 @@
         <label for="in-data">Disponibilidade no dia</label>
         <input type="date" id="in-data" aria-label="Escolha a data">
       </div>
+      <div class="fichas filtro-cat" id="filtro-cat"></div>
+      <p class="legenda-cat">Peão R$ 15 · Torre R$ 25 · Dama R$ 35 · Rei jogos especiais · <b>+</b> acompanha expansão</p>
       <p class="contagem" id="contagem"></p>
       <div id="estante"></div>
       <div class="legenda" id="legenda"></div>
@@ -1125,8 +1131,22 @@ function caixaHTML(j,mini){
   </div>`;
 }
 
+/* filtro por categoria na prateleira */
+let catSel=null;
+const ordemCat=["Peão","Torre","Dama","Rei"];
+function categoriaBase(j){ return CATEGORIAS[j.preco]||"Rei"; }
+function montarFiltroCat(){
+  const presentes=ordemCat.filter(c=>JOGOS.some(j=>categoriaBase(j)===c));
+  const el=document.getElementById("filtro-cat");
+  el.innerHTML=`<button class="ficha ${catSel===null?'on':''}" data-cat="">Todos</button>`+
+    presentes.map(c=>`<button class="ficha ${catSel===c?'on':''}" data-cat="${c}">${c}</button>`).join("");
+  el.querySelectorAll("[data-cat]").forEach(b=>b.addEventListener("click",()=>{
+    catSel=b.dataset.cat||null; montarFiltroCat(); montarPrateleira();
+  }));
+}
+
 function montarPrateleira(){
-  const lista=JOGOS;
+  const lista = catSel ? JOGOS.filter(j=>categoriaBase(j)===catSel) : JOGOS;
   const porFileira = window.innerWidth>=900 ? 4 : 3;
   const ehHoje = dataSel===hojeISO();
 
@@ -1482,7 +1502,7 @@ Promise.all([aplicarDisponibilidade(),carregarDescricoes()]).finally(()=>{
     inp.min=hojeISO(); inp.value=dataSel;
     inp.addEventListener("change",()=>{ dataSel=inp.value||hojeISO(); montarPrateleira(); });
   }
-  montarPrateleira(); montarRanking();
+  montarFiltroCat(); montarPrateleira(); montarRanking();
 });
 let larguraAnterior=window.innerWidth;
 window.addEventListener("resize",()=>{
