@@ -291,7 +291,7 @@
     padding:12px 15px;font-size:15px;line-height:1.4;color:var(--verde);font-weight:500}
   .expansao .ic{font-size:18px;flex:none;color:var(--verde)}
   .expansao b{font-weight:800}
-  /* promoção nos jogos de R$ 15 sem expansão */
+  /* combo nos jogos de R$ 15 sem expansão */
   .promo{background:rgba(217,164,65,.14);border:1px solid var(--mostarda);border-radius:8px;
     padding:13px 15px;margin-bottom:14px}
   .promo .promo-tit{font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
@@ -453,7 +453,7 @@
         <div class="nome">Jojocas</div>
         <hr class="filete">
         <div class="tagline">jogos</div>
-        <p class="sub">Aluguel de jogos de tabuleiro. Escolha, a gente leva, você joga.</p>
+        <p class="sub">Aluguel de jogos de tabuleiro. Escolha e jogue.</p>
         <button class="entrar" id="bt-entrar">Ver os jogos</button>
         <div>
           <button class="entrar-zap" data-zap="Oi! Vim pelo site da Jojocas e quero alugar um jogo :)">
@@ -462,7 +462,7 @@
           </button>
         </div>
       </div>
-      <p class="rodape-porta">São João del-Rei e região · levo e busco na sua casa</p>
+      <p class="rodape-porta">São João del-Rei e região</p>
     </div>
   </section>
 
@@ -1238,10 +1238,10 @@ function categoria(j){ return (CATEGORIAS[j.preco]||"Rei")+(j.expansao?"+":""); 
 /* ============================================================
    FICHA DO JOGO
    ============================================================ */
-/* PROMOÇÃO dos jogos de R$ 15: interruptor liga/desliga.
-   Está DESLIGADA por enquanto. Para religar (ex.: na quinta), troque
-   false por true nesta linha. O bloco continua pronto na ficha. */
-const PROMO_ATIVA=false;
+/* COMBO dos jogos de R$ 15: interruptor liga/desliga.
+   Está LIGADA. Para desligar, troque true por false nesta linha.
+   O bloco continua pronto na ficha. */
+const PROMO_ATIVA=true;
 
 function abrirJogo(id){
   const j=JOGOS.find(x=>x.id===id);
@@ -1285,7 +1285,7 @@ function abrirJogo(id){
       <div class="valor"><b>R$ ${j.preco}</b><small>por dia</small></div>
       ${(PROMO_ATIVA && j.preco===15 && !j.expansao)?`
         <div class="promo">
-          <p class="promo-tit">&#9733; Promoção</p>
+          <p class="promo-tit">&#9733; Combo</p>
           <p>Levando junto <b>1 jogo acima de R$ 15</b>, este sai por <b>R$ 10</b>.</p>
           <p>Levando junto <b>2 jogos acima de R$ 15</b>, este é <b>grátis</b>.</p>
         </div>`:""}
