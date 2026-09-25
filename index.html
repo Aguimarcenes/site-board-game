@@ -1334,9 +1334,14 @@ function abrirJogo(id){
 
 /* ---- WhatsApp do dono ---- */
 const ZAP="5511945932080";
+/* Todo clique de WhatsApp passa pela pagina /obrigado (mostra "Abrindo..." e
+   redireciona pro WhatsApp). E la que o Google Ads conta a conversao de lead. */
+function irZap(msg){
+  window.open(`/obrigado.html?text=${encodeURIComponent(msg)}`,"_blank","noopener");
+}
 document.addEventListener("click",e=>{
   const b=e.target.closest("[data-zap]");
-  if(b) window.open(`https://wa.me/${ZAP}?text=${encodeURIComponent(b.dataset.zap)}`,"_blank","noopener");
+  if(b) irZap(b.dataset.zap);
 });
 
 /* ============================================================
@@ -1427,7 +1432,7 @@ document.getElementById("bt-evento").addEventListener("click",()=>{
   const l=document.getElementById("ev-local").value.trim();
   if(!d||!g||!l){avisar("Preenche data, quantidade e local.");return}
   const msg=`Oi! Quero um orçamento de noite de jogos.\nTipo: ${tipoEvento}\nData: ${d}\nPessoas: ${g}\nLocal: ${l}`;
-  window.open(`https://wa.me/${ZAP}?text=${encodeURIComponent(msg)}`,"_blank","noopener");
+  irZap(msg);
 });
 
 /* ============================================================
