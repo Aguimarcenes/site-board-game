@@ -75,6 +75,7 @@ Quando o jogo voltar, edite o arquivo e **apague a linha** dele. Salvar. Pronto.
 | `segue` | Segue o Fluxo |
 | `nao` | Não Pode |
 | `marte` | Terraforming Mars |
+| `open` | Open Cases |
 
 A mesma lista está dentro do próprio `disponibilidade.txt`, para consultar na hora.
 
